@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>앱 마켓 거버넌스와 인앱결제 강제 금지법: 세계 최초 한국 입법 사례 | net.or.kr</title>
+<meta name="description" content="2021년 한국이 세계 최초로 입법한 인앱결제 강제 금지법 — 게이트키퍼 구조, 법적 조항, 사업자 우회 대응, EU DMA·일본·영국으로의 국제 파급, 사적 검열과 표현의 자유 함의를 분석한다.">
+<meta property="og:title" content="앱 마켓 거버넌스와 인앱결제 강제 금지법: 세계 최초 한국 입법 사례">
+<meta property="og:description" content="Apple·Google의 30% 수수료 게이트키퍼 구조에 세계 최초로 법률로 제동을 건 2021년 한국 전기통신사업법 개정 — 4%p 우회 대응부터 680억 과징금, EU DMA 마중물까지.">
+<meta property="og:type" content="article">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --amber: #f59e0b;
+    --amber-light: #fcd34d;
+    --amber-dark: #d97706;
+    --cyan: #06b6d4;
+    --cyan-light: #67e8f9;
+    --cyan-dark: #0891b2;
+    --red: #ef4444;
+    --red-light: #fca5a5;
+    --green: #22c55e;
+    --green-light: #86efac;
+    --purple: #8b5cf6;
+    --purple-light: #c4b5fd;
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #334155;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber-dark); }
+
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--bg3);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .site-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 20px;
+    transition: color 0.2s;
+  }
+
+  .site-nav a:hover { color: var(--text); }
+
+  .article-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .article-header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .article-series {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .article-title {
+    font-size: clamp(26px, 4.5vw, 42px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, var(--amber-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .article-subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+    font-weight: 400;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    align-items: center;
+  }
+
+  .article-meta .tag {
+    background: var(--bg3);
+    color: var(--text-muted);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  .section { margin-bottom: 64px; }
+
+  .section-title {
+    font-size: 22px;
+    color: var(--amber);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--amber-dark), transparent);
+  }
+
+  .intro-text {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #cbd5e1;
+    margin-bottom: 32px;
+  }
+
+  .intro-questions {
+    background: var(--bg2);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .intro-questions h4 {
+    color: var(--amber);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  .intro-questions ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .intro-questions ol li { margin-bottom: 6px; }
+  .intro-questions ol li strong { color: var(--text); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .stat-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-box:hover {
+    border-color: var(--amber-dark);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .prose {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #cbd5e1;
+  }
+
+  .prose p { margin-bottom: 16px; }
+  .prose strong { color: var(--text); }
+
+  .prose a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose h3 {
+    font-size: 19px;
+    color: var(--text);
+    margin: 36px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .prose blockquote {
+    border-left: 3px solid var(--bg3);
+    margin: 20px 0;
+    padding: 12px 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+    background: var(--bg2);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .prose blockquote strong { color: var(--text); }
+
+  .issue-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .issue-box.danger { border-left: 3px solid var(--red); }
+  .issue-box.info { border-left: 3px solid var(--cyan); }
+  .issue-box.neutral { border-left: 3px solid var(--amber); }
+  .issue-box.purple { border-left: 3px solid var(--purple); }
+  .issue-box.warn { border-left: 3px solid #f97316; }
+
+  .issue-box-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .issue-box-title.danger { color: var(--red-light); }
+  .issue-box-title.info { color: var(--cyan-light); }
+  .issue-box-title.neutral { color: var(--amber-light); }
+  .issue-box-title.purple { color: var(--purple-light); }
+  .issue-box-title.warn { color: #fdba74; }
+
+  .issue-box ul, .issue-box ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .issue-box ul li, .issue-box ol li { margin-bottom: 4px; }
+  .issue-box ul li strong, .issue-box ol li strong { color: var(--text); }
+
+  .issue-box p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .issue-box p strong { color: var(--text); }
+
+  .law-block {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .law-block .law-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .law-block table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .law-block th {
+    text-align: left;
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .law-block td {
+    padding: 10px 12px;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(51,65,85,0.5);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .law-block td:first-child {
+    color: var(--amber-light);
+    font-weight: 700;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .law-block td strong { color: var(--text); }
+
+  .law-block ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .law-block ul li { margin-bottom: 6px; }
+  .law-block ul li strong { color: var(--text); }
+
+  .debate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 640px) {
+    .debate-grid { grid-template-columns: 1fr; }
+  }
+
+  .debate-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .debate-card.pro { border-top: 2px solid var(--red); }
+  .debate-card.con { border-top: 2px solid var(--cyan); }
+  .debate-card.neutral-top { border-top: 2px solid var(--amber); }
+  .debate-card.green-top { border-top: 2px solid var(--green); }
+
+  .debate-card-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .debate-card.pro .debate-card-title { color: var(--red-light); }
+  .debate-card.con .debate-card-title { color: var(--cyan-light); }
+  .debate-card.neutral-top .debate-card-title { color: var(--amber-light); }
+  .debate-card.green-top .debate-card-title { color: var(--green-light); }
+
+  .debate-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .debate-card ul li { margin-bottom: 6px; }
+  .debate-card ul li strong { color: var(--text); }
+
+  .chron-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+
+  .chron-table thead tr {
+    border-bottom: 2px solid var(--amber-dark);
+  }
+
+  .chron-table th {
+    padding: 10px 14px;
+    text-align: left;
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .chron-table td {
+    padding: 12px 14px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--bg3);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .chron-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .chron-table td:first-child {
+    color: var(--amber);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .chron-table td strong { color: var(--text); }
+
+  .chron-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .badge-law { background: rgba(245,158,11,0.15); color: var(--amber-light); }
+  .badge-case { background: rgba(6,182,212,0.15); color: var(--cyan-light); }
+  .badge-platform { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+  .badge-intl { background: rgba(34,197,94,0.15); color: var(--green-light); }
+  .badge-decision { background: rgba(239,68,68,0.15); color: var(--red-light); }
+  .badge-regul { background: rgba(249,115,22,0.15); color: #fdba74; }
+
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 48px;
+  }
+
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px;
+  }
+
+  .toc li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .toc li a:hover {
+    color: var(--amber);
+    background: rgba(245,158,11,0.05);
+  }
+
+  .toc li a span { font-size: 12px; color: var(--amber); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(6,182,212,0.06) 100%);
+    border: 1px solid rgba(245,158,11,0.18);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+  }
+
+  .highlight-box strong { color: var(--text); }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .compare-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .compare-card .compare-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .compare-card.kr .compare-title { color: var(--amber-light); }
+  .compare-card.eu .compare-title { color: var(--green-light); }
+  .compare-card.us .compare-title { color: var(--cyan-light); }
+  .compare-card.jp .compare-title { color: #fb7185; }
+  .compare-card.uk .compare-title { color: var(--purple-light); }
+
+  .compare-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .compare-card ul li { margin-bottom: 6px; }
+  .compare-card ul li strong { color: var(--text); }
+
+  .conclusion-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(6,182,212,0.08) 100%);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 32px;
+  }
+
+  .conclusion-box h3 {
+    color: var(--amber);
+    font-size: 18px;
+    margin: 0 0 16px;
+  }
+
+  .conclusion-box p {
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .conclusion-box p:last-child { margin-bottom: 0; }
+
+  .crosslink {
+    display: inline-block;
+    background: rgba(6,182,212,0.1);
+    border: 1px solid rgba(6,182,212,0.3);
+    color: var(--cyan-light);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+
+  .crosslink:hover { background: rgba(6,182,212,0.2); }
+
+  .ref-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ref-list li {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .ref-list li:last-child { border-bottom: none; }
+
+  .ref-num {
+    color: var(--amber);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 13px;
+    min-width: 32px;
+  }
+
+  .ref-list a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+  }
+
+  .site-footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--bg3);
+    padding: 32px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .footer-brand .logo { color: var(--amber); font-weight: 800; font-size: 15px; }
+  .footer-brand p { margin: 6px 0 0; line-height: 1.5; }
+
+  .footer-right { text-align: right; }
+  .footer-right p { margin: 0 0 4px; }
+
+  .license-badge {
+    display: inline-block;
+    background: var(--bg3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  .series-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+
+  .series-nav a {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: border-color 0.2s, color 0.2s;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .series-nav a:hover { border-color: var(--amber-dark); color: var(--text); }
+  .series-nav a .nav-label {
+    font-size: 11px;
+    color: var(--amber);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .intl-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .intl-timeline::before {
+    content: '';
+    position: absolute;
+    left: 110px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--amber-dark), transparent);
+  }
+
+  .intl-item {
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+    padding: 12px 0;
+  }
+
+  .intl-date {
+    width: 110px;
+    flex-shrink: 0;
+    color: var(--amber);
+    font-size: 13px;
+    font-weight: 700;
+    padding-right: 24px;
+    text-align: right;
+    padding-top: 2px;
+  }
+
+  .intl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+    margin-left: -4px;
+    margin-right: 14px;
+  }
+
+  .intl-content {
+    flex: 1;
+  }
+
+  .intl-content strong {
+    color: var(--text);
+    font-size: 15px;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .intl-content p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    .article-container { padding: 24px 16px 60px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .chron-table { font-size: 13px; }
+    .chron-table th, .chron-table td { padding: 8px 10px; }
+    .footer-right { text-align: left; }
+    .intl-timeline::before { left: 80px; }
+    .intl-date { width: 80px; font-size: 12px; }
+    .site-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../">홈</a>
+    <a href="../01-spear-and-shield-history/">글 #01 창과 방패</a>
+    <a href="../02-wiretapping-and-privacy/">글 #02 패킷 감청</a>
+    <a href="../03-net-neutrality-korea/">글 #03 망 중립성</a>
+    <a href="../04-online-free-expression-korea/">글 #04 표현의 자유</a>
+  </nav>
+</header>
+
+<main class="article-container">
+
+  <!-- Article Header -->
+  <header class="article-header" id="top">
+    <div class="article-series">글 #05 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">앱 마켓 거버넌스와 인앱결제 강제 금지법</h1>
+    <p class="article-subtitle">세계 최초 한국 입법 사례: 게이트키퍼 규제의 마중물</p>
+    <div class="article-meta">
+      <span>2026년 6월 8일 발행</span>
+      <span>약 20분 읽기</span>
+      <span class="tag">앱마켓</span>
+      <span class="tag">인앱결제</span>
+      <span class="tag">구글갑질방지법</span>
+      <span class="tag">전기통신사업법</span>
+      <span class="tag">DMA</span>
+      <span class="tag">게이트키퍼</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#intro"><span>01</span> 들어가며</a></li>
+      <li><a href="#timeline"><span>02</span> 연대기 한눈에</a></li>
+      <li><a href="#gatekeeper"><span>03</span> 앱 마켓 게이트키퍼 구조</a></li>
+      <li><a href="#legislation"><span>04</span> 2021년 전기통신사업법 개정</a></li>
+      <li><a href="#response"><span>05</span> 사업자 대응 — 우회와 논란</a></li>
+      <li><a href="#international"><span>06</span> 국제 파급 — 마중물 효과</a></li>
+      <li><a href="#expression"><span>07</span> 사적 검열과 표현의 자유</a></li>
+      <li><a href="#agenda"><span>08</span> 남은 과제</a></li>
+      <li><a href="#conclusion"><span>09</span> 맺으며</a></li>
+      <li><a href="#references"><span>10</span> 참고 자료</a></li>
+    </ul>
+  </nav>
+
+  <!-- 01 들어가며 -->
+  <section class="section" id="intro">
+    <h2 class="section-title">들어가며</h2>
+    <div class="intro-text">
+      스마트폰 사용자가 새로운 앱을 설치하는 거의 모든 경로는 두 곳을 통과한다. Apple App Store와 Google Play Store다. 모바일 OS를 만든 회사가 유통·심사·결제까지 독점하는 이 구조에 2021년 한국 국회가 세계 최초로 법률로 제동을 걸었다.
+    </div>
+
+    <div class="intro-questions">
+      <h4>이 글이 다루는 세 가지 질문</h4>
+      <ol>
+        <li><strong>왜 한국이 최초인가?</strong> — 한국 콘텐츠 산업의 구조적 취약성과 Google 정책 변경이 만든 입법 압력</li>
+        <li><strong>법은 실제로 작동했는가?</strong> — 4%포인트 수수료 인하와 680억 과징금, 우회 논란의 전말</li>
+        <li><strong>그래서 전 세계는?</strong> — EU DMA·일본·영국으로 이어진 글로벌 게이트키퍼 규제 흐름</li>
+      </ol>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-number">세계<br>최초</div>
+        <div class="stat-label">인앱결제 강제 금지<br>국회 입법</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2021<br>.9.14</div>
+        <div class="stat-label">전기통신사업법<br>개정안 공포일</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">30%</div>
+        <div class="stat-label">앱스토어 기본<br>수수료율 (앱세)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">4%p</div>
+        <div class="stat-label">사업자 실제<br>수수료 인하폭</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">680억</div>
+        <div class="stat-label">방통위 과징금<br>절차 총액 (원)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">EU·<br>일·영</div>
+        <div class="stat-label">이후 유사 입법<br>주요 3개 지역</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 연대기 -->
+  <section class="section" id="timeline">
+    <h2 class="section-title">연대기 한눈에</h2>
+    <div style="overflow-x:auto;">
+      <table class="chron-table">
+        <thead>
+          <tr>
+            <th>시기</th>
+            <th>사건</th>
+            <th>쟁점 / 결과</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2020.9</td>
+            <td><strong>Google, 인앱결제 전면 의무화 발표</strong><span class="chron-badge badge-platform">플랫폼</span></td>
+            <td>모든 디지털 콘텐츠 앱에 Play 결제 강제 — 한국 콘텐츠 업계 부담 급증 우려</td>
+          </tr>
+          <tr>
+            <td>2020~2021</td>
+            <td><strong>국회 전기통신사업법 개정안 다수 발의</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>여러 의원 발의 후 과방위 안건소위 통합·조정</td>
+          </tr>
+          <tr>
+            <td>2021.8.31</td>
+            <td><strong>개정안 본회의 통과</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>인앱결제 강제 금지·심사 지연 금지·차별 금지 조항 신설</td>
+          </tr>
+          <tr>
+            <td>2021.9.14</td>
+            <td><strong>전기통신사업법 개정안 공포</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>법률 제18451호 — "세계 최초 인앱결제 강제 금지법" 해외 보도</td>
+          </tr>
+          <tr>
+            <td>2021.12</td>
+            <td><strong>네덜란드 ACM, Apple 데이팅앱 결정</strong><span class="chron-badge badge-decision">결정</span></td>
+            <td>경쟁법 위반 — 주당 최대 500만 유로 강제금</td>
+          </tr>
+          <tr>
+            <td>2022.3.15</td>
+            <td><strong>전기통신사업법 시행령 시행</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>대통령령 제32449호 — 금지행위 세부 기준·과징금 비율 확정</td>
+          </tr>
+          <tr>
+            <td>2022.4</td>
+            <td><strong>Google, 한국 한정 외부 결제 도입</strong><span class="chron-badge badge-platform">플랫폼</span></td>
+            <td>수수료 30%→26%, 15%→11% (4%p 인하) — 우회 논란 시작</td>
+          </tr>
+          <tr>
+            <td>2022.5</td>
+            <td><strong>방통위, 사실조사 착수</strong><span class="chron-badge badge-regul">규제</span></td>
+            <td>양사 정책이 개정법 위반 여부 조사</td>
+          </tr>
+          <tr>
+            <td>2022.6.30</td>
+            <td><strong>Apple, 외부 결제 가이드라인 공개</strong><span class="chron-badge badge-platform">플랫폼</span></td>
+            <td>수수료 30%→26%, 15%→11% — 환불 등 책임 개발자 전가</td>
+          </tr>
+          <tr>
+            <td>2022.11.1</td>
+            <td><strong>EU Digital Markets Act 발효</strong><span class="chron-badge badge-intl">국제</span></td>
+            <td>Regulation (EU) 2022/1925 — Article 5(7) 결제 강제 금지</td>
+          </tr>
+          <tr>
+            <td>2023.10.6</td>
+            <td><strong>방통위 시정조치(안) 발표</strong><span class="chron-badge badge-regul">규제</span></td>
+            <td>Google 약 475억 원 + Apple 약 205억 원 = 총 약 680억 원 과징금 절차 착수</td>
+          </tr>
+          <tr>
+            <td>2024.3.7</td>
+            <td><strong>EU DMA 게이트키퍼 의무 본격 적용</strong><span class="chron-badge badge-intl">국제</span></td>
+            <td>지정 게이트키퍼에 DMA 전 의무 적용 시작</td>
+          </tr>
+          <tr>
+            <td>2024.5.24</td>
+            <td><strong>영국 DMCC 국왕 재가</strong><span class="chron-badge badge-intl">국제</span></td>
+            <td>Digital Markets, Competition and Consumers Act 2024</td>
+          </tr>
+          <tr>
+            <td>2024.6.12</td>
+            <td><strong>일본 스마트폰 소프트웨어 경쟁촉진법 가결</strong><span class="chron-badge badge-intl">국제</span></td>
+            <td>결제 강제 금지·사이드로딩 허용 의무 — 2025년 12월 이전 시행 예정</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 03 게이트키퍼 구조 -->
+  <section class="section" id="gatekeeper">
+    <h2 class="section-title">앱 마켓 게이트키퍼 구조</h2>
+
+    <div class="prose">
+      <h3>두 회사가 결정하는 모바일 경제</h3>
+      <p>
+        Apple App Store는 iOS·iPadOS의 유일한 공식 앱 유통 경로다. 사용자는 사이드로딩(공식 스토어 외부 앱 설치)이 사실상 불가능하며, 개발자는 App Store에 등록되지 않으면 iPhone 사용자에게 도달할 수 없다. Google Play는 사이드로딩이 기술적으로 가능하지만, 다수 제조사가 출고 단계에서 Play Store를 기본값으로 설정하여 사용자 대다수가 이를 통해서만 앱을 설치한다.
+      </p>
+    </div>
+
+    <div class="law-block">
+      <div class="law-title">게이트키퍼가 동시에 수행하는 4가지 역할</div>
+      <ul>
+        <li><strong>유통 통로(Distribution):</strong> 앱의 배포·업데이트·삭제를 관장</li>
+        <li><strong>심사 권한(Curation):</strong> 자체 정책에 따라 앱을 거절·삭제</li>
+        <li><strong>결제 시스템(Payment):</strong> 인앱 결제를 자체 시스템으로 강제</li>
+        <li><strong>수익 배분(Take Rate):</strong> 결제액의 일정 비율(기본 30%, 일부 조건 15%)을 수수료로 징수</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <h3>수수료 구조 — "앱세(App Tax)"</h3>
+      <p>
+        기본 수수료율 30%는 "앱세(App Tax)"로 불리며 오랜 비판의 표적이다. Apple은 2020년 11월 App Store Small Business Program을 도입해 연 매출 100만 달러 이하 개발자에게 15% 수수료를 적용했고, Google도 2021년 7월부터 첫 100만 달러까지 15%를 적용한다고 발표했다. 정기 구독은 1년 경과 후 15%로 인하된다. 그러나 결제액의 절대 다수를 차지하는 대형 개발자·게임사에게는 기본 30%가 그대로 적용된다.
+      </p>
+
+      <h3>한국 앱 생태계에서의 지위</h3>
+      <p>
+        한국에서 모바일 앱 매출의 대부분은 Google Play와 Apple App Store를 통해 발생한다. 방송통신위원회의 통신시장 경쟁상황 평가 보고서 및 관련 산업 통계에 따르면, 양사 점유율 합계는 매년 90%를 상회하는 수준으로 보고되어 왔다. 원스토어가 SK텔레콤·KT·LG U+ 합작으로 명맥을 유지하고는 있으나, 게임을 제외하면 영향력이 제한적이다.
+      </p>
+      <p>
+        이런 구조에서 앱 마켓 사업자가 자사 결제 시스템을 강제하면, 한국 콘텐츠 산업 매출의 30%가 자동으로 해외 사업자에게 흘러가는 결과가 된다. 이는 단순한 상거래 문제가 아니라 <strong>디지털 주권·경쟁 정책·표현의 자유가 교차하는 복합 쟁점</strong>으로 부상했다.
+      </p>
+    </div>
+
+    <div class="issue-box info">
+      <div class="issue-box-title info">한국 앱마켓 점유율에 관하여</div>
+      <p>방통위·KISDI 보고서 등에서 Google Play + Apple App Store 합계 점유율이 매출액 기준 90%를 상회한다는 평가가 반복 인용되어 왔다. 다만 조사 기준(다운로드 수 vs. 매출액)과 연도에 따라 수치가 달라지며, 게임 부문에서는 원스토어가 거래액 기준 애플 앱스토어와 비등하거나 앞서는 2위로 보고되는 등 최근 지형 변화도 관찰된다. 따라서 본문의 "90% 상회"는 추세적 평가로 이해하는 것이 적절하다.</p>
+    </div>
+  </section>
+
+  <!-- 04 전기통신사업법 개정 -->
+  <section class="section" id="legislation">
+    <h2 class="section-title">2021년 전기통신사업법 개정 — 세계 최초 입법</h2>
+
+    <div class="prose">
+      <h3>입법 배경 — Google의 정책 변경이 불붙인 입법</h3>
+      <p>
+        쟁점이 본격화된 계기는 2020년 9월 Google이 Play 결제 시스템을 모든 디지털 콘텐츠 앱에 의무화하겠다고 발표한 사건이었다. 그간 음악·웹툰·전자책 등 일부 카테고리에 적용되지 않았던 자사 결제 시스템 강제가 전면 확대되면 한국 콘텐츠 사업자 부담이 급증한다는 우려가 컸다. 같은 해 국회에는 여러 의원이 발의한 다수의 전기통신사업법 개정안이 제출되었고, 2021년 7월 과방위 안건소위에서 통합·조정 끝에 <strong>8월 31일 본회의에서 통과</strong>되었다.
+      </p>
+    </div>
+
+    <div class="law-block">
+      <div class="law-title">입법 경과 — 3대 날짜</div>
+      <table>
+        <thead>
+          <tr>
+            <th>단계</th>
+            <th>날짜</th>
+            <th>근거</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>본회의 통과</td>
+            <td>2021년 8월 31일</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>공포</td>
+            <td>2021년 9월 14일</td>
+            <td>법률 제18451호</td>
+          </tr>
+          <tr>
+            <td>시행령 시행</td>
+            <td>2022년 3월 15일</td>
+            <td>대통령령 제32449호</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <h3>핵심 조항 — 전기통신사업법 제50조 제1항 신설 호</h3>
+      <p>
+        개정의 핵심은 전기통신사업법 제50조 제1항(금지행위)에 새로 신설된 조항이다. 핵심 신설 내용을 정리하면 다음과 같다.
+      </p>
+    </div>
+
+    <div class="law-block">
+      <div class="law-title">전기통신사업법 제50조 제1항 — 핵심 신설 금지행위</div>
+      <table>
+        <thead>
+          <tr>
+            <th>호</th>
+            <th>금지행위 요지</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>신설 제9호</td>
+            <td>거래상의 지위를 부당하게 이용해 모바일콘텐츠 등의 제공사업자에게 <strong>특정한 결제방식을 강제하는 행위</strong></td>
+          </tr>
+          <tr>
+            <td>신설 제10호</td>
+            <td>모바일콘텐츠 등의 제공사업자에 대해 <strong>앱 마켓에서의 심사를 부당하게 지연하는 행위</strong></td>
+          </tr>
+          <tr>
+            <td>시행령 추가 신설 포함</td>
+            <td>다른 앱 마켓 등록을 이유로 한 <strong>삭제·차별 등 부당한 처우</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="issue-box info">
+      <div class="issue-box-title info">조항 번호 확인</div>
+      <p>국가법령정보센터(law.go.kr) 기준, 2021년 개정으로 전기통신사업법 제50조 제1항에는 결제방식 강제 금지(제9호), 심사 부당 지연 금지(제10호), 부당한 삭제 금지(제11호)가 신설되었다. 이후 추가 개정 가능성이 있으므로 인용 시 최신 본문을 함께 확인하는 것을 권장한다.</p>
+    </div>
+
+    <div class="prose">
+      <p>풀어 쓰면 세 가지가 명시적으로 금지된다.</p>
+    </div>
+
+    <div class="issue-box neutral">
+      <div class="issue-box-title neutral">세 가지 핵심 금지사항</div>
+      <ul>
+        <li><strong>결제방식 강제 금지:</strong> 앱 마켓 사업자가 특정 결제수단(자사 인앱결제)을 강제로 사용하게 할 수 없다.</li>
+        <li><strong>부당한 심사 지연 금지:</strong> 외부 결제 등을 이유로 한 보복성 심사 지연 금지.</li>
+        <li><strong>차별·삭제 위협 금지:</strong> 다른 마켓 등록·외부 결제 채택 등을 이유로 한 앱 삭제·차별 금지.</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <p>
+        위반 시 방송통신위원회는 시정명령과 함께 매출의 일정 비율(최대 2%, 시행령 기준)에 해당하는 과징금을 부과할 수 있다.
+      </p>
+
+      <h3>입법의 비교법적 의의</h3>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card neutral-top">
+        <div class="debate-card-title">세계 최초의 사전 행위규제</div>
+        <ul>
+          <li>사법 판결·경쟁당국 결정이 아닌 <strong>국회가 일반 법률로</strong> 인앱결제 강제를 금지한 첫 사례</li>
+          <li>공정거래법상 사후 시장지배력 남용 판단이 아닌 <strong>전기통신사업법상 사전 행위규범</strong> 설정</li>
+        </ul>
+      </div>
+      <div class="debate-card green-top">
+        <div class="debate-card-title">새로운 규율 범주 도입</div>
+        <ul>
+          <li>'앱 마켓 사업자'를 별도 규율 대상으로 도입 — <strong>게이트키퍼라는 새로운 범주를 법문에 도입</strong></li>
+          <li>EU DMA가 참조한 선례 — 한국 법이 국제 정책 문서에서 빈번히 인용됨</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 사업자 대응 -->
+  <section class="section" id="response">
+    <h2 class="section-title">사업자 대응 — 우회와 사실상의 무력화 논란</h2>
+
+    <div class="prose">
+      <h3>Google의 대응</h3>
+      <p>
+        Google은 2022년 4월 외부 결제(third-party billing) 옵션을 한국 한정으로 도입한다고 발표했다. 그러나 외부 결제 선택 시 수수료를 30%→26%, 15%→11%로 단 <strong>4%포인트만 인하</strong>하는 안이었다. 여기에 외부 결제처리에 따라 개발자가 별도로 부담하는 카드·PG 수수료(통상 3~5%)를 더하면, 사업자의 실질 비용은 자사 결제와 유사하거나 오히려 더 비싸지는 결과가 된다는 분석이 다수 제기됐다.
+      </p>
+      <p>
+        또한 Google은 외부 결제만 제공하고 인앱결제를 병행 제공하지 않는 앱은 2022년 6월 1일부로 업데이트 차단, 6월 30일부로 Play Store에서 삭제 가능성이 있다고 통보하여 논란이 되었다. 이는 사실상 인앱결제 병행을 강제하는 것으로, 개정법 취지에 어긋난다는 비판이 따랐다.
+      </p>
+
+      <h3>Apple의 대응</h3>
+      <p>
+        Apple은 2022년 6월 30일 한국 사용자에게 외부 결제 옵션을 제공하기 위한 가이드라인을 공개했다. 외부 결제 선택 시 수수료를 30%→26%로, 소상공인·구독 후 1년 기준 15%→11%로 인하하는 구조였다. Google과 유사한 수준이다. Apple은 또한 외부 결제 시 환불·청구 등 사용자 보호 책임을 개발자에게 전가하는 방식의 가이드라인을 함께 발표했다.
+      </p>
+    </div>
+
+    <div class="issue-box info">
+      <div class="issue-box-title info">수수료 인하 수치에 관하여</div>
+      <p>Google·Apple이 2022년 한국 한정으로 도입한 외부 결제 시 수수료 인하폭(30%→26%, 15%→11%, 즉 4%포인트)은 당시 양사 발표 내용으로 확인된다. 다만 이는 발표 시점 기준이며 이후 정책이 조정되었을 수 있으므로, 최신 수치는 양사 개발자 정책 문서에서 재확인하는 것이 좋다.</p>
+    </div>
+
+    <div class="prose">
+      <h3>방통위 시정조치</h3>
+      <p>
+        방송통신위원회는 2022년 5월 양사의 정책이 개정법에 위반된다는 사실조사에 착수했고, <strong>2023년 10월 6일 시정조치(안)를 발표</strong>하며 Google에 약 475억 원, Apple에 약 205억 원 — 총 약 680억 원 — 규모의 과징금 부과 절차에 들어간다고 밝혔다. 이후 시정명령·과징금 의결은 위원회 구성·소송 위험·국제 통상 마찰 등 복합 변수 속에서 절차가 장기화되었다.
+      </p>
+    </div>
+
+    <div class="issue-box info">
+      <div class="issue-box-title info">과징금 의결 현황에 관하여</div>
+      <p>방통위 2023.10.06 발표는 시정조치(안) 통보 단계로, 구글 약 475억 원·애플 약 205억 원(합계 약 680억 원) 규모였다. 이후 위원회 의결이 이뤄지지 않아 집행이 지연된 것으로 보고되며, 2025년에는 매출액 재산정을 거쳐 구글 약 420억 원·애플 약 210억 원 수준으로 조정된 심의변경안이 마련된 것으로 알려졌다. 최종 과징금 확정 여부와 행정소송 진행 상황은 방통위 최신 보도자료에서 추가 확인이 필요하다.</p>
+    </div>
+
+    <div class="highlight-box">
+      사업자 대응의 결과는 입법자들이 기대했던 것보다 제한적이었다는 평가가 일반적이다. <strong>외부 결제는 형식적으로 허용되었지만, 수수료 구조 조정만으로 결제 강제의 본질을 우회할 수 있었기 때문이다.</strong> 이 사례는 이후 EU DMA가 "동등한 조건(equivalent conditions)"을 명시적으로 요구하게 되는 정책적 교훈으로 자주 인용된다.
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card pro">
+        <div class="debate-card-title">우회 논란 — 비판 논거</div>
+        <ul>
+          <li>4%p 인하 + PG 수수료 3~5% = 실질 비용 차이 없음</li>
+          <li>인앱결제 병행 강제 → 외부 결제만 사용 불가</li>
+          <li>환불·책임 개발자 전가 → 사용자 불편 유발</li>
+          <li>개정법 취지(결제 선택 자유)의 형식적 우회</li>
+        </ul>
+      </div>
+      <div class="debate-card con">
+        <div class="debate-card-title">사업자 입장</div>
+        <ul>
+          <li>외부 결제 옵션 실제 제공으로 법령 준수</li>
+          <li>수수료 인하 시 서비스 품질·보안 비용 반영</li>
+          <li>개발자 선택권 형식적으로 보장</li>
+          <li>과징금 부과는 법적 다툼 여지 있음</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 국제 파급 -->
+  <section class="section" id="international">
+    <h2 class="section-title">국제 파급 — 한국 입법이 마중물이 된 흐름</h2>
+
+    <div class="intl-timeline">
+      <div class="intl-item">
+        <div class="intl-date">2021.9<br>한국</div>
+        <div class="intl-dot"></div>
+        <div class="intl-content">
+          <strong>전기통신사업법 개정 공포 (세계 최초)</strong>
+          <p>인앱결제 강제 금지를 국회 법률로 명시 — 사전 행위규제 방식 채택</p>
+        </div>
+      </div>
+      <div class="intl-item">
+        <div class="intl-date">2021.12<br>네덜란드</div>
+        <div class="intl-dot"></div>
+        <div class="intl-content">
+          <strong>ACM, Apple 데이팅앱 결정</strong>
+          <p>경쟁법 위반 — 주당 500만 유로, 최대 5,000만 유로 강제금. 한국 입법과 비슷한 시기의 글로벌 압박 사례</p>
+        </div>
+      </div>
+      <div class="intl-item">
+        <div class="intl-date">2021.9<br>미국</div>
+        <div class="intl-dot" style="background:var(--cyan);"></div>
+        <div class="intl-content">
+          <strong>Epic v. Apple 1심 판결 (N.D. Cal.)</strong>
+          <p>셔먼법 위반 부정. 그러나 캘리포니아 UCL상 <strong>앤티스티어링 조항 위반</strong> 인정 → 2024년 1월 연방대법원 상고심리 거부로 확정</p>
+        </div>
+      </div>
+      <div class="intl-item">
+        <div class="intl-date">2022.11<br>EU</div>
+        <div class="intl-dot" style="background:var(--green);"></div>
+        <div class="intl-content">
+          <strong>디지털시장법(DMA) 발효</strong>
+          <p>Regulation (EU) 2022/1925 — Article 5(7): 게이트키퍼는 비즈니스 이용자에게 자사 결제 서비스 사용을 요구하거나 다른 서비스를 통한 결제를 제한해서는 안 된다. 2024년 3월 7일 게이트키퍼 의무 본격 적용</p>
+        </div>
+      </div>
+      <div class="intl-item">
+        <div class="intl-date">2024.6<br>일본</div>
+        <div class="intl-dot" style="background:#fb7185;"></div>
+        <div class="intl-content">
+          <strong>스마트폰 소프트웨어 경쟁촉진법 가결 (2024.6.12)</strong>
+          <p>결제 시스템 강제 금지, 사이드로딩 허용 요구 — 2025년 12월 이전 시행 예정</p>
+        </div>
+      </div>
+      <div class="intl-item">
+        <div class="intl-date">2024.5<br>영국</div>
+        <div class="intl-dot" style="background:var(--purple);"></div>
+        <div class="intl-content">
+          <strong>디지털시장경쟁소비자법(DMCC) 국왕 재가 (2024.5.24)</strong>
+          <p>CMA에 "전략적 시장 지위(SMS)" 지정 권한 및 행위강제권 부여 — Apple·Google 모바일 생태계 우선 조사 대상</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      EU 집행위·미국 의회 청문회·OECD 보고서 등 국제 정책 문서에서 한국 개정법은 빈번하게 <strong>"the first national law to ban forced in-app billing"</strong>으로 인용된다. 입법 효과의 실증적 평가와는 별개로, 한국이 글로벌 규제 흐름의 정책적 모멘텀을 제공했다는 점은 폭넓게 인정된다.
+    </div>
+
+    <div class="prose">
+      <h3>EU DMA와의 비교: 무엇이 달라졌는가</h3>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card kr">
+        <div class="compare-title">한국 전기통신사업법 (2021)</div>
+        <ul>
+          <li>결제방식 강제·심사 지연·차별 금지</li>
+          <li>과징금 최대 매출의 2%</li>
+          <li><strong>"동등한 조건" 요건 불명확</strong> → 우회 허용</li>
+          <li>사이드로딩 의무 없음</li>
+        </ul>
+      </div>
+      <div class="compare-card eu">
+        <div class="compare-title">EU DMA Article 5(7) (2022)</div>
+        <ul>
+          <li>결제 강제 금지 + <strong>"equivalent conditions" 명시</strong></li>
+          <li>과징금 전세계 매출의 최대 10%</li>
+          <li>한국 사례의 우회 방식 명시적 차단</li>
+          <li>사이드로딩·대체 앱스토어 허용 의무 포함</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 사적 검열과 표현의 자유 -->
+  <section class="section" id="expression">
+    <h2 class="section-title">사적 검열과 표현의 자유 함의</h2>
+
+    <div class="prose">
+      <h3>게이트키퍼의 콘텐츠 심사 권한</h3>
+      <p>
+        앱 마켓 사업자는 자체 가이드라인(App Store Review Guidelines, Google Play Developer Program Policies)에 따라 앱을 거절·삭제할 수 있다. 이는 형식적으로는 사인(私人) 간 약관에 기반한 사적 결정이지만, 실질적으로는 거의 모든 사용자에게 도달할 유일한 통로를 차단하는 효과를 갖는다. 국가 검열이 아닌 형태로 표현이 차단되는 이른바 <strong>사적 검열(private censorship)</strong> 구조다.
+      </p>
+    </div>
+
+    <div class="issue-box info">
+      <div class="issue-box-title info">한국 사례 들여다보기</div>
+      <ul>
+        <li><strong>카카오톡 보이스톡 논란(2012):</strong> 통신사들이 mVoIP 트래픽을 차단·제한한 사건이지만, 앱 자체의 심사·승인 단계에서 통신사·OS 사업자 간 협상이 영향을 미친 사례로 분석된다.</li>
+        <li><strong>텔레그램 사이버 망명(2014):</strong> 검찰의 메신저 압수수색 논란 이후 사용자가 텔레그램으로 대규모 이동했는데, 당시 메신저 앱이 마켓에서 자유롭게 배포되었기 때문에 가능했던 일이라는 점이 사후적으로 조명되었다.</li>
+        <li><strong>LGBTQ 앱 정책:</strong> Hornet, Grindr 등 동성애 데이팅·커뮤니티 앱이 한국 또는 일부 국가별 정책에 따라 제거·차단된 사례가 보고된 바 있다. 정치적 보수성·종교적 항의·국가별 법령 충돌이 복합된 사안이다.</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <h3>정보매개자 책임론과 표현의 자유</h3>
+      <p>
+        앱 마켓 사업자는 정보매개자(intermediary)로서, 한편으로는 콘텐츠에 대한 책임을 회피하기 위해 "단순 통로"임을 주장하고, 다른 한편으로는 자체 가이드라인을 통해 광범위한 콘텐츠 통제권을 행사한다. 이 이중성은 학계의 오랜 논쟁 주제다.
+      </p>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card pro">
+        <div class="debate-card-title">책임 면제의 혜택</div>
+        <ul>
+          <li>통신비밀보호법·정보통신망법 관련 조항</li>
+          <li>DMCA §512 (미국)</li>
+          <li>EU DSA (디지털서비스법)</li>
+          <li>광범한 면책 → 매개자 부담 완화</li>
+        </ul>
+      </div>
+      <div class="debate-card con">
+        <div class="debate-card-title">사적 검열권의 사실상 무제한</div>
+        <ul>
+          <li>자체 가이드라인으로 무제한 심사·삭제</li>
+          <li>국가검열과 달리 헌법적 제약 없음</li>
+          <li>유일한 유통 통로 차단 = 표현 자체 차단</li>
+          <li>불투명한 심사 기준·이의신청 절차 부재</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      2021년 한국 개정법은 결제·심사 영역에서 게이트키퍼 권한을 제한했지만, <strong>콘텐츠 심사 자체에 대한 정면 규제는 포함하지 않았다.</strong> 따라서 표현의 자유 관점에서의 게이트키퍼 통제 문제는 여전히 큰 공백으로 남아 있다.
+    </div>
+  </section>
+
+  <!-- 08 남은 과제 -->
+  <section class="section" id="agenda">
+    <h2 class="section-title">남은 과제 — 수수료 우회를 넘어</h2>
+
+    <div class="prose">
+      <h3>수수료 우회의 한계</h3>
+      <p>
+        사업자들의 대응은 수수료 4%포인트 인하라는 명목상 조정에 그쳤다. 입법 취지를 실현하려면 "동등한 경제적 조건" 또는 "결제 시스템 선택의 실질적 자유"를 구체화하는 후속 규정·고시가 필요하다는 지적이 있다. EU DMA의 "equivalent conditions" 요구가 참고 모델로 자주 거론된다.
+      </p>
+
+      <h3>사이드로딩 의무화 논의</h3>
+      <p>
+        EU DMA는 게이트키퍼에게 사이드로딩·대체 앱 스토어 허용 의무를 부과했다. Apple도 이에 따라 2024년 3월 EU 내 iOS에 대체 앱 마켓을 허용했다. 한국도 사이드로딩 의무화를 도입할지 여부가 차기 입법 과제로 거론되지만, 보안·개인정보·미성년자 보호 등 반대 논거도 만만치 않다.
+      </p>
+
+      <h3>슈퍼앱·미니앱 규제 공백</h3>
+      <p>
+        카카오톡·네이버·토스 등 슈퍼앱이 내부에 미니앱·간편결제·쇼핑·콘텐츠를 통합 제공하는 구조가 확산되면서, <strong>앱 마켓 안의 또 다른 앱 마켓</strong>이 형성되고 있다. 현행 인앱결제 강제 금지법이 이러한 슈퍼앱 내부 생태계에는 적용되지 않는다는 점이 정책 공백으로 지적된다.
+      </p>
+
+      <h3>한국 토종 앱마켓의 위상</h3>
+      <p>
+        원스토어는 통신3사·네이버 등이 출자한 토종 앱 마켓으로 게임 카테고리에서 일정한 지분을 확보했으나, 전체 시장에서는 여전히 제한적이다. 토종 마켓 활성화를 위한 정책 지원이 필요한지, 아니면 시장 자율에 맡길지에 대한 논쟁이 이어진다.
+      </p>
+    </div>
+
+    <div class="law-block">
+      <div class="law-title">차기 입법 과제로 거론되는 항목</div>
+      <ul>
+        <li><strong>앱 마켓 사업자 지정제도</strong> — 한국형 DMA 게이트키퍼 지정</li>
+        <li><strong>사이드로딩 의무화 및 보안 가이드라인</strong> 동시 마련</li>
+        <li><strong>앱 심사 결정에 대한 이의제기·외부 분쟁조정 절차</strong> 제도화</li>
+        <li><strong>콘텐츠 심사 투명성 보고서</strong> 의무화</li>
+        <li><strong>슈퍼앱 내부 미니앱 결제·심사</strong>에 대한 별도 규율</li>
+      </ul>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card pro">
+        <div class="debate-card-title">사이드로딩 허용 찬성</div>
+        <ul>
+          <li>iOS 경쟁 유통 채널 진입 허용</li>
+          <li>EU DMA·Apple 대체 스토어 허용 선례</li>
+          <li>개발자·소비자 선택권 실질적 확대</li>
+          <li>플랫폼 경쟁 촉진 효과</li>
+        </ul>
+      </div>
+      <div class="debate-card con">
+        <div class="debate-card-title">사이드로딩 허용 반대</div>
+        <ul>
+          <li>비공식 앱 통한 악성코드·보안 위험</li>
+          <li>미성년자 유해물 유통 우려</li>
+          <li>개인정보 보호 취약성 증가</li>
+          <li>기술·법적 보완 없이 도입 시 부작용</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 맺으며 -->
+  <section class="section" id="conclusion">
+    <h2 class="section-title">맺으며 — 마중물이 된 작은 입법</h2>
+
+    <div class="conclusion-box">
+      <h3>마중물의 의의와 한계</h3>
+      <p>
+        2021년 한국의 인앱결제 강제 금지법은 입법자의 의도만큼 시장 변화를 가져왔는지 묻는다면, 답은 유보적이다. 사업자들의 형식적 대응으로 본래 취지가 상당 부분 우회되었고, 시정조치는 행정 절차상 장기화되었다.
+      </p>
+      <p>
+        그러나 글로벌 관점에서 이 법은 명백히 <strong>마중물</strong>이었다. EU DMA, 일본 스마트폰법, 영국 DMCC 같은 후속 입법이 한국의 선례를 직간접적으로 참조했고, 사인 권력으로 굳어가던 게이트키퍼 모델에 처음으로 법률적 제동을 걸었다는 점에서 디지털 권리의 지형을 바꾼 입법으로 평가될 만하다.
+      </p>
+      <p>
+        남은 과제는 결제 영역의 우회를 막는 후속 규정, 사이드로딩과 콘텐츠 심사로 영역을 확장하는 입법, 그리고 무엇보다 <strong>게이트키퍼의 사적 검열 권력 자체에 대한 헌법적 성찰</strong>이다. 모바일 인프라가 사실상 공공재 성격을 띠어가는 시대에, "누가 우리의 통로를 결정하는가"라는 질문은 통신비밀이나 망 중립성과 같은 무게로 다뤄져야 한다.
+      </p>
+    </div>
+
+    <div class="series-nav">
+      <a href="../04-online-free-expression-korea/">
+        <span class="nav-label">← 이전 글</span>
+        글 #04 — 한국의 온라인 표현의 자유
+      </a>
+      <a href="../../" style="text-align:right;">
+        <span class="nav-label">시리즈 홈 →</span>
+        net.or.kr 디지털 권리 포털
+      </a>
+    </div>
+  </section>
+
+  <!-- 10 참고 자료 -->
+  <section class="section" id="references">
+    <h2 class="section-title">참고 자료</h2>
+
+    <div class="prose" style="margin-bottom:16px;">
+      <p style="font-size:14px;color:var(--text-muted);">
+        ※ 모든 법령·판례 인용은 최신본을 국가법령정보센터(law.go.kr), EUR-Lex(eur-lex.europa.eu) 등에서 재확인할 것. 본문의 통계·금액은 발표 시점 자료를 기준으로 하며 후속 절차 결과에 따라 변동될 수 있다.
+      </p>
+    </div>
+
+    <ul class="ref-list">
+      <li>
+        <span class="ref-num">[법1]</span>
+        <span>「전기통신사업법」 제50조(금지행위) — 국가법령정보센터 <a href="https://www.law.go.kr">law.go.kr</a> ; 법률 제18451호(2021.09.14 공포) 개정이유 및 신구조문대비표</span>
+      </li>
+      <li>
+        <span class="ref-num">[법2]</span>
+        <span>「전기통신사업법 시행령」 제42조 별표 관련 조항 — 대통령령 제32449호(2022.03.15 시행) — 국가법령정보센터</span>
+      </li>
+      <li>
+        <span class="ref-num">[법3]</span>
+        <span>EU Regulation (EU) 2022/1925 (Digital Markets Act), 특히 Article 5(7) — EUR-Lex <a href="https://eur-lex.europa.eu">eur-lex.europa.eu</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[법4]</span>
+        <span>Digital Markets, Competition and Consumers Act 2024 (UK) — legislation.gov.uk</span>
+      </li>
+      <li>
+        <span class="ref-num">[법5]</span>
+        <span>特定ソフトウェアに係る競争の促進に関する法律 (일본 스마트폰 소프트웨어 경쟁촉진법, 2024.06.12 가결)</span>
+      </li>
+      <li>
+        <span class="ref-num">[규1]</span>
+        <span>방송통신위원회 보도자료 「앱 마켓사업자 인앱결제 강제 행위 등에 대한 사실조사 결과」(2023.10.06) — <a href="https://www.kcc.go.kr">kcc.go.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[규2]</span>
+        <span>방송통신위원회 「전기통신사업법상 금지행위 위반에 대한 사실조사」 관련 일련의 보도자료(2022~2024)</span>
+      </li>
+      <li>
+        <span class="ref-num">[규3]</span>
+        <span>ACM(네덜란드 소비자시장청) 결정 「Apple's conditions for app developers offering dating apps」(2021.12.24) — <a href="https://www.acm.nl">acm.nl</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[판1]</span>
+        <span><em>Epic Games, Inc. v. Apple Inc.</em>, No. 4:20-cv-05640 (N.D. Cal. 2021); 9th Cir. 2023; cert. denied (2024.01)</span>
+      </li>
+      <li>
+        <span class="ref-num">[학1]</span>
+        <span>OECD, "Competition in Mobile App Stores" (2024 연차 보고) — <a href="https://www.oecd.org">oecd.org</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[학2]</span>
+        <span>한국정보화진흥원(NIA)·정보통신정책연구원(KISDI) 「앱 마켓 경쟁 정책 연구」 시리즈</span>
+      </li>
+      <li>
+        <span class="ref-num">[학3]</span>
+        <span>UK CMA, "Mobile Ecosystems Market Study Final Report" (2022.06) — <a href="https://www.gov.uk/cma-cases">gov.uk/cma-cases</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[학4]</span>
+        <span>European Commission, "Designation decisions under the Digital Markets Act" (2023.09 등)</span>
+      </li>
+      <li>
+        <span class="ref-num">[학5]</span>
+        <span>Japan Fair Trade Commission, "Report on Smartphone OS and Distribution Markets" (2023)</span>
+      </li>
+    </ul>
+
+    <div class="issue-box info" style="margin-top:32px;">
+      <div class="issue-box-title info">추가 확인을 권장하는 항목</div>
+      <p style="margin-bottom:12px;">아래는 본문에서 인용한 사실 중 인용·재인용 과정에서 수치나 표기가 달라질 수 있어 1차 출처 재확인을 권장하는 항목이다. 전기통신사업법 제50조 신설 호 번호(제9호 결제방식 강제·제10호 심사 지연·제11호 부당 삭제), 2022년 양사 한국 한정 외부 결제 수수료 4%포인트 인하(30%→26%, 15%→11%), 방통위 2023.10.06 시정조치안 규모(구글 약 475억·애플 약 205억 원)는 공개 자료로 확인되었으나, 그 밖의 항목은 최신본 대조가 필요하다.</p>
+      <ul>
+        <li>방통위 과징금 최종 의결 여부·일자 및 2025년 조정안(구글 약 420억·애플 약 210억 원)의 확정 여부</li>
+        <li>전기통신사업법 제50조 호 번호의 후속 개정에 따른 재배열 여부 (law.go.kr 최신본)</li>
+        <li>EU DMA Article 5(7) 영문 원문 최신본 (EUR-Lex)</li>
+        <li>Epic v. Apple 9th Cir. 판결 일자 및 cert. denied 일자</li>
+        <li>ACM 결정문 사건번호 및 강제금 산정 기준</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>디지털 권리 포털 — 기술·정책 해설 시리즈 「창과 방패」<br>
+      사실 오류나 보완 의견은 포털 <a href="https://github.com/berryp23/net-or-kr/issues" target="_blank" rel="noopener">GitHub 이슈로 제보</a>해 주세요.</p>
+      <div class="license-badge">CC BY 4.0</div>
+    </div>
+    <div class="footer-right">
+      <p>글 #05 · 앱스토어 거버넌스 &amp; 인앱결제 규제</p>
+      <p>2026년 6월 8일 발행</p>
+      <p>
+        <a href="../01-spear-and-shield-history/" class="crosslink">글 #01 창과 방패</a>
+        <a href="../02-wiretapping-and-privacy/" class="crosslink" style="margin-left:6px;">글 #02 패킷 감청</a>
+        <a href="../03-net-neutrality-korea/" class="crosslink" style="margin-left:6px;">글 #03 망 중립성</a>
+        <a href="../04-online-free-expression-korea/" class="crosslink" style="margin-left:6px;">글 #04 표현의 자유</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

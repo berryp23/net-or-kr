@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>망 사용료 분쟁 — 'Sending-Party-Pays'와 망 중립성의 한국적 충돌 | net.or.kr</title>
+<meta name="description" content="Netflix vs SK브로드밴드 소송(2020~2023)으로 점화된 망 사용료 논쟁. 이중과금·망 중립성·신생 서비스 진입장벽의 삼각 충돌을 심층 분석한다.">
+<meta property="og:title" content="망 사용료 분쟁 — 'Sending-Party-Pays'와 망 중립성의 한국적 충돌">
+<meta property="og:description" content="Netflix vs SK브로드밴드 소송이 점화한 '콘텐츠 기업이 통신사에 망 사용료를 내야 하는가'의 논쟁 — 이중과금·망 중립성·진입장벽의 삼각 충돌">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .callout{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--amber);margin-bottom:8px;}
+  .callout p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .scenario-box{display:grid;gap:16px;margin:24px 0;}
+  .scenario{background:var(--bg2);border-radius:10px;padding:18px;border-left:3px solid var(--amber-dark);}
+  .scenario h4{font-size:15px;color:var(--amber-light);margin:0 0 10px;}
+  .scenario p{font-size:14px;color:#cbd5e1;margin:0;line-height:1.6;}
+
+  .verdict-box{background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .verdict-box .verdict-label{font-size:11px;font-weight:700;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--cyan-light);margin-bottom:8px;}
+  .verdict-box p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #28 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">망 사용료 분쟁 — 'Sending-Party-Pays'와 망 중립성의 한국적 충돌</h1>
+    <p class="article-subtitle">Netflix vs SK브로드밴드 소송이 점화한 '콘텐츠 기업이 통신사에 망 사용료를 내야 하는가'의 논쟁 — 이중과금·망 중립성·진입장벽의 삼각 충돌</p>
+    <div class="article-meta">
+      <span>2026년 6월 27일 발행</span>
+      <span>약 40분 읽기</span>
+      <span class="tag">망 사용료</span><span class="tag">Netflix vs SKB</span><span class="tag">망 중립성</span><span class="tag">이중과금</span><span class="tag">Sending-Party-Pays</span><span class="tag">전기통신사업법</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-0"><span>00</span> 인트로 — 트래픽에 청구서가 따라온다</a></li>
+      <li><a href="#sec-1"><span>01</span> 인터넷 상호접속의 경제학</a></li>
+      <li><a href="#sec-2"><span>02</span> 한국의 상호접속 고시</a></li>
+      <li><a href="#sec-3"><span>03</span> Netflix vs SKB 소송</a></li>
+      <li><a href="#sec-4"><span>04</span> 망 사용료법 입법 시도와 좌초</a></li>
+      <li><a href="#sec-5"><span>05</span> SPP 원칙의 역사와 한계</a></li>
+      <li><a href="#sec-6"><span>06</span> EU fair share 논쟁</a></li>
+      <li><a href="#sec-7"><span>07</span> 망 중립성과의 충돌</a></li>
+      <li><a href="#sec-8"><span>08</span> 디지털 권리 관점</a></li>
+      <li><a href="#sec-9"><span>09</span> 국제 비교</a></li>
+      <li><a href="#sec-10"><span>10</span> 한국의 현황</a></li>
+      <li><a href="#sec-11"><span>11</span> 결론</a></li>
+      <li><a href="#sec-12"><span>12</span> 참고 자료</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-0">
+  <h2 class="section-title">인트로 — 트래픽이 흐르는 곳에 청구서가 따라온다</h2>
+  <div class="prose">
+<p>2020년 넷플릭스(Netflix)는 SK브로드밴드를 상대로 서울중앙지법에 소장을 냈다. 내용은 뜻밖에도 <strong>"우리에게는 망 이용대가를 낼 의무가 없다"</strong>는 채무 부존재 확인 청구였다. 통상 청구인이 돈을 요구하는 소송과 반대로, 콘텐츠 사업자(CP)가 먼저 "당신이 요구하는 돈을 줄 이유가 없다"며 법원의 판단을 구한 것이다.</p>
+<p>이 소송은 '망 사용료(망 이용대가)' 논쟁의 상징이 됐다. ISP(인터넷서비스제공자)가 CP에게 망 트래픽 전송 비용을 청구하는 것이 정당한가, 아니면 이미 이용자가 접속료를 내고 CP도 자신의 업스트림 비용을 내는 상황에서 ISP에 또 내는 것은 <em>'이중과금'</em>인가.</p>
+<p>한국 법원은 1·2심 모두 SK브로드밴드 승소를 선고했으나, 소송은 2023년 당사자 합의로 종결됐다. 그러나 논쟁은 끝나지 않았다. 한국 국회에서는 CP의 망 이용대가 의무화를 위한 전기통신사업법 개정안('망 사용료법')이 반복 발의됐고, EU에서도 'fair share' 논쟁이 불붙었다가 가라앉았다.</p>
+<p>이 글은 망 사용료 분쟁의 기술적·경제적·법적 구조를 해부하고, <a href="../03-net-neutrality-korea/">글#04 망 중립성</a>과의 연결 속에서 디지털 권리 관점 — CP 비용 전가가 콘텐츠 다양성·이용자 후생·신생 서비스 진입에 미치는 영향 — 을 분석한다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">인터넷 상호접속의 경제학 — 피어링과 트랜짓</h2>
+  <div class="prose">
+
+<h3>인터넷은 망의 망이다</h3>
+<p>인터넷은 수천 개의 자율시스템(AS, Autonomous System)이 서로 연결된 '망의 망'이다. 각 AS는 ISP, 콘텐츠 기업, 대학, 기업 등이 운영하며, 이들이 서로 트래픽을 교환하는 방식이 <strong>상호접속(interconnection)</strong>이다.</p>
+<p>상호접속에는 크게 두 가지 방식이 있다.</p>
+<ul>
+  <li><strong>피어링(Peering):</strong> 유사한 규모의 두 망이 상호 무정산으로 트래픽을 교환한다. "내가 보내는 트래픽 양과 당신이 보내는 양이 비슷하니 돈 없이 연결하자"는 논리다.</li>
+  <li><strong>트랜짓(Transit):</strong> 작은 망이 큰 망에 비용을 내고 인터넷 전체 접근성을 구매한다. 소형 ISP가 백본 사업자에게 월정액을 내고 전 세계 인터넷 경로를 이용하는 방식이 전형적이다.</li>
+</ul>
+
+<h3>비용은 이미 양쪽이 낸다</h3>
+<p>이 구조에서 비용은 이미 양방향으로 흐른다.</p>
+<ul>
+  <li><strong>이용자 측:</strong> 가정·기업 이용자는 SK브로드밴드, KT, LGU+ 같은 접속 ISP에 월정 인터넷 요금을 낸다. 이 요금은 인터넷 접속 서비스 전체(콘텐츠 수신 포함)에 대한 대가다.</li>
+  <li><strong>CP 측:</strong> Netflix, YouTube, 카카오 같은 CP는 자체 데이터센터에서 CDN(콘텐츠전송네트워크)이나 업스트림 트랜짓 ISP에 비용을 내고 트래픽을 발송한다.</li>
+</ul>
+
+<div class="callout">
+  <div class="callout-label">이중과금의 구조</div>
+  <p>이 구조에서 이용자의 ISP(수신 ISP)가 CP에게 "당신이 보낸 트래픽을 전달해줬으니 추가로 내라"고 요구하면, CP는 이미 자신의 업스트림에 냈는데 또 내는 셈이 된다. 이것이 <strong>이중과금(double charging)</strong> 비판의 핵심이다 — 같은 데이터 전송에 두 곳에서 비용이 청구된다.</p>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>주체</th>
+      <th>누구에게 비용을 내는가</th>
+      <th>무엇에 대한 대가인가</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>이용자</td>
+      <td>SK브로드밴드 (수신 ISP)</td>
+      <td>인터넷 접속 서비스 (넷플릭스 포함)</td>
+    </tr>
+    <tr>
+      <td>Netflix</td>
+      <td>자체 CDN / 업스트림 ISP</td>
+      <td>트래픽 발신·전달 비용</td>
+    </tr>
+    <tr>
+      <td>Netflix (ISP 주장)</td>
+      <td>SK브로드밴드에도 추가 지급 주장</td>
+      <td>SKB 망 이용 대가 → 이중과금 비판</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-2">
+  <h2 class="section-title">한국의 상호접속 고시 — 국내 특수 구조</h2>
+  <div class="prose">
+
+<h3>과기정통부의 상호접속 고시</h3>
+<p>한국의 ISP 간 상호접속은 시장 협상이 아니라 정부 고시로 기본 틀이 잡혀 있다. 과학기술정보통신부의 <strong>'인터넷 상호접속 기준' 고시(2016년 개정 기준)</strong>가 대표적이다.</p>
+<p>이 고시는 국내 ISP 간 피어링·트랜짓 관계에서 동등한 규모의 ISP 간에는 상호 무정산(Settlement-Free Peering) 원칙을, 트래픽 비대칭이 심한 경우에는 트래픽을 더 많이 보내는 쪽이 비용을 분담하는 구조를 적용한다.</p>
+<p>이 구조 자체는 국내 ISP 간 정산을 위해 설계됐다. 문제는 이 원칙이 글로벌 CP에게 어떻게 적용되느냐다.</p>
+
+<h3>트래픽 비대칭의 현실</h3>
+<p>넷플릭스는 전 세계 인터넷 트래픽의 15~20%를 차지하는 최대 발신 트래픽 원천이다(Sandvine 보고서 기준). SK브로드밴드의 국내 인터넷 망에서도 넷플릭스 트래픽은 주요 비중을 차지한다.</p>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>SK브로드밴드 측 논리</h4>
+    <p>"넷플릭스 이용자가 넷플릭스 콘텐츠를 받기 위해 우리 망을 사용한다. 트래픽이 증가할수록 우리는 망 투자를 늘려야 한다. 그 비용을 트래픽을 발생시키는 넷플릭스가 분담해야 한다."</p>
+  </div>
+  <div class="scenario">
+    <h4>Netflix 측 논리</h4>
+    <p>"우리는 이미 자체 CDN(Open Connect)과 업스트림 인터넷 접속 비용을 내고 있다. SK브로드밴드 이용자가 넷플릭스를 보고 싶다면, 그 이용자가 SK브로드밴드에 접속료를 내는 것으로 충분하다. 수신 ISP에게 추가로 낼 의무는 없다."</p>
+  </div>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-3">
+  <h2 class="section-title">Netflix vs SK브로드밴드 소송 (2020~2023)</h2>
+  <div class="prose">
+
+<h3>소송의 발단</h3>
+<p>SK브로드밴드는 2019~2020년 넷플릭스에 망 이용대가 협의를 요청했다. 넷플릭스는 이를 거부했고, SK브로드밴드는 방송통신위원회에 재정 신청을 냈다(방통위는 결국 재정에 응하지 않았다).</p>
+<p>이에 넷플릭스가 선제적으로 <strong>채무 부존재 확인 소송</strong>(서울중앙지법 2020가합533534)을 제기했다 — "SK브로드밴드에게 망 이용대가를 낼 의무가 없다"는 법원 확인을 먼저 받겠다는 전략이었다.</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">1심 결과</div>
+  <p><strong>서울중앙지법 2021. 6. 25. 선고 2020가합533534</strong><br>
+  <strong>SK브로드밴드 승소 (Netflix 패소)</strong><br>
+  "넷플릭스가 SK브로드밴드 망을 통해 대규모 트래픽을 전송하고 있으며, 트래픽이 극도로 비대칭적인 경우 별도 정산이 발생할 수 있다"</p>
+</div>
+
+<h3>1심 법원의 핵심 논거</h3>
+<ul>
+  <li>넷플릭스가 SK브로드밴드 망을 통해 대규모 트래픽을 전송하고 있으며, 이는 망 인프라 이용의 실질적 이익을 넷플릭스가 누리는 것</li>
+  <li>인터넷 상호접속은 쌍방의 이익을 위한 관계이지만, 트래픽이 극도로 비대칭적인 경우 별도 정산이 발생할 수 있다</li>
+  <li>넷플릭스가 SK브로드밴드와 '망 이용 계약'을 체결하지 않았다고 해서 대가 지급 의무 자체가 없다고 볼 수 없다</li>
+</ul>
+
+<div class="verdict-box">
+  <div class="verdict-label">2심 결과 및 합의 종결</div>
+  <p><strong>서울고등법원 2023. 8. 31. 선고 2021나2045588</strong><br>
+  <strong>SK브로드밴드 승소 유지</strong><br>
+  2023년 10월 — Netflix와 SK브로드밴드, 구체적 조건 비공개로 합의 종결. 대법원 판단 없이 소송 종료.</p>
+</div>
+
+<h3>판결의 의의와 한계</h3>
+<p>1·2심 판결은 "CP도 ISP 망 이용에 대한 대가 의무가 있을 수 있다"는 원칙을 법원이 인정한 것으로 해석됐다. 그러나 판결이 구체적 금액이나 정산 기준을 정한 것이 아니고, 합의 종결로 대법원 판단은 나오지 않았다는 한계가 있다.</p>
+
+<div class="callout">
+  <div class="callout-label">핵심 미결 사항</div>
+  <p>법원은 "SKB 승소"를 선고했지만 구체적 금액 기준을 정하지 않았다. 이후 합의로 종결된 탓에 망 사용료 법리가 최종 확립됐다고 보기 어렵다 — 어떤 기준으로 얼마를 내야 하는가는 여전히 미결 상태다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-4">
+  <h2 class="section-title">'망 사용료법' 입법 시도와 좌초</h2>
+  <div class="prose">
+
+<h3>반복 발의된 전기통신사업법 개정안</h3>
+<p>소송과 별개로 국회에서는 CP의 망 이용대가 의무화를 위한 전기통신사업법 개정안들이 반복 발의됐다. 언론에서 <strong>'망 사용료법'</strong> 또는 <strong>'넷플릭스법'</strong>으로 불린 일련의 법안들이다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>발의자</th>
+      <th>국회</th>
+      <th>주요 내용</th>
+      <th>결과</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>박성중 의원</td>
+      <td>21대</td>
+      <td>CP가 ISP에 '합리적 망 이용대가' 지급 의무화, 협의 불성립 시 과기정통부 중재</td>
+      <td>임기 만료 폐기</td>
+    </tr>
+    <tr>
+      <td>김상희 의원</td>
+      <td>21대</td>
+      <td>일정 규모 이상 CP의 ISP와 망 이용대가 협약 체결 의무화</td>
+      <td>임기 만료 폐기</td>
+    </tr>
+    <tr>
+      <td>복수 의원</td>
+      <td>22대</td>
+      <td>유사 취지 재발의 — 대형 CP 지정·협약 의무·분쟁 중재 구조</td>
+      <td>계류 중 (2026년 현재)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>반대 논거 — 이중과금·망 중립성·진입장벽</h3>
+<p>시민사회·학계·글로벌 CP의 반대 논거는 크게 네 갈래였다.</p>
+
+<h4>① 이중과금 문제</h4>
+<p>이용자는 이미 ISP에 접속료를 내고, CP는 업스트림에 비용을 낸다. 수신 ISP가 CP에게 추가로 요구하면 트래픽에 두 번 요금이 붙는다. 이는 결국 CP가 이용자 요금 외에 별도 비용을 소비자에게 전가하게 만들어 이용자 후생을 감소시킨다.</p>
+
+<h4>② 망 중립성 침해</h4>
+<p>ISP가 CP로부터 돈을 받으면, 요금을 낸 CP의 트래픽을 우대하고 그렇지 않은 CP의 트래픽을 차별화할 유인이 생긴다. 망 중립성 원칙 — 모든 트래픽은 내용·출처·수신자에 무관하게 동등하게 처리된다 — 이 사실상 유명무실해진다.</p>
+
+<h4>③ 신생 서비스 진입장벽</h4>
+<p>Netflix나 YouTube는 비용을 부담할 여력이 있지만, 신생 스타트업·비영리 콘텐츠·소규모 서비스는 추가 비용을 감당하지 못할 수 있다. CP 과금 구조는 대형 CP에 유리하고 소형 CP를 시장에서 배제하는 반경쟁 효과가 있다.</p>
+
+<h4>④ 글로벌 규범과의 충돌</h4>
+<p>대부분의 선진국에서 CP는 ISP에 망 이용대가를 내지 않는다. 한국만 독자적 과금 구조를 만들면 글로벌 CP의 한국 시장 접근을 어렵게 만들고, 국내 이용자의 콘텐츠 선택권이 줄어든다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-5">
+  <h2 class="section-title">'Sending-Party-Pays' 원칙의 역사와 인터넷 부적합성</h2>
+  <div class="prose">
+
+<h3>SPP의 기원 — 전통 통신 정산</h3>
+<p>'Sending-Party-Pays'는 원래 전통적 전화망 정산 원리다. 국제전화에서 발신국 통신사가 수신국 통신사에 착신 요금(termination charge)을 내는 구조 — "전화를 거는 쪽이 받는 쪽 망 이용을 부담한다"는 논리다.</p>
+<p>ISP들은 이 원리를 인터넷에 적용하려 시도했다: <em>"트래픽을 대량으로 발송하는 CP(넷플릭스)가 트래픽을 수신하는 ISP(SKB)의 망 비용을 부담해야 한다."</em></p>
+
+<h3>인터넷에 SPP가 맞지 않는 이유</h3>
+<p>전통 전화망과 인터넷은 구조가 다르다.</p>
+<p>전화망에서는 발신-수신이 1:1 대칭 관계다. 발신자가 수신자에게 일방적으로 통화를 '보내는' 구조가 맞다.</p>
+<p>인터넷에서는 CP가 일방적으로 데이터를 '발신'하는 것이 아니라, <strong>이용자의 요청(HTTP GET)에 응답</strong>한다. 이용자가 넷플릭스 콘텐츠를 보기 위해 요청을 보내고, 넷플릭스가 응답한다. 트래픽의 발원지는 넷플릭스 서버지만, 요청의 주체는 이용자다.</p>
+<p>또한 이용자는 이미 ISP에 '원하는 콘텐츠를 수신하는 서비스'에 대한 대가로 접속료를 내고 있다. 이용자가 넷플릭스를 보고 싶어서 ISP에 돈을 냈는데, ISP가 넷플릭스에도 돈을 요구하면 같은 데이터 전송에 두 번 청구가 된다.</p>
+
+<h3>'Termination Monopoly' — 구조적 우위</h3>
+<p>경제학적으로 망 사용료 논쟁의 핵심은 <strong>종단 독점(termination monopoly)</strong>이다. CP는 특정 ISP 이용자에게 도달하려면 그 ISP를 통할 수밖에 없다. SK브로드밴드 이용자에게 콘텐츠를 제공하려면 SK브로드밴드 망을 통과해야 한다. ISP가 이 구조적 지위를 이용해 CP에게 비용을 요구하는 것이다.</p>
+
+<div class="callout">
+  <div class="callout-label">협상력의 비대칭</div>
+  <p>CP는 사실상 선택지가 없다 — 한국 시장에서 서비스하려면 한국 주요 ISP 모두와 계약해야 한다. 이는 ISP가 CP를 상대로 협상에서 구조적 우위를 가진다는 뜻이다. 대형 CP는 어느 정도 협상력이 있지만, 신생 서비스나 소규모 CP는 ISP의 요구를 그대로 수용하거나 한국 시장을 포기하거나 둘 중 하나다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-6">
+  <h2 class="section-title">EU의 'Fair Share' 논쟁 (2023)</h2>
+  <div class="prose">
+
+<h3>EU 공청회의 전개</h3>
+<p>2023년 유럽 집행위원회(DG-CONNECT)는 통신 인프라 투자와 관련해 <strong>'fair share'(공정 기여)</strong> 개념을 논의하는 공청회를 개최했다. 대형 트래픽 발생 CP가 유럽 통신사의 망 투자 비용에 기여해야 하는가라는 질문이었다.</p>
+<p>유럽 통신사(도이체 텔레콤, 오렌지, 텔레포니카 등)는 "넷플릭스·구글 같은 대형 CP가 유럽 통신망을 대규모로 이용하면서 투자 비용에 기여하지 않는다"고 주장했다.</p>
+
+<h3>반대 진영의 반발</h3>
+<p>BEREC(유럽 전자통신규제기관 연합), GÉANT(유럽 연구교육망 컨소시엄), Internet Society, 학계, 시민사회는 강하게 반발했다.</p>
+<ul>
+  <li>인터넷 경제는 이미 양방향 비용 지불 구조다 — CP도 업스트림에 비용을 낸다</li>
+  <li>Fair share 부과는 사실상 ISP에 추가 수입을 주는 것이지 망 투자 촉진과 직결되지 않는다</li>
+  <li>소규모 CP·신생 서비스·비영리에 불균형한 부담을 준다</li>
+  <li>망 중립성 원칙 및 인터넷의 종단간 원칙(end-to-end principle)을 훼손한다</li>
+</ul>
+
+<div class="verdict-box">
+  <div class="verdict-label">EU 논의 결과 (2024)</div>
+  <p>BEREC의 2023년 공식 의견서는 fair share 도입에 명확히 반대했다. 유럽 의회 역시 신중한 입장을 취했고, 결국 <strong>EU 차원의 fair share 의무화 입법은 보류</strong>됐다. 한국의 경험이 EU 논의에서 반면교사로 인용되기도 했다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-7">
+  <h2 class="section-title">망 중립성과의 충돌</h2>
+  <div class="prose">
+
+<h3>망 중립성 원칙</h3>
+<p>망 중립성(network neutrality)은 인터넷서비스제공자(ISP)가 트래픽을 내용·출처·수신자·사용 애플리케이션에 관계없이 <strong>동등하게 처리</strong>해야 한다는 원칙이다.</p>
+<p>한국의 망 중립성 원칙은 방통위 고시(2011, 2020 업데이트)로 규율된다. 핵심 내용:</p>
+<ul>
+  <li><strong>차단 금지:</strong> ISP는 합법적 콘텐츠·서비스·기기를 차단해서는 안 된다</li>
+  <li><strong>차별 금지:</strong> ISP는 특정 콘텐츠·서비스·기기를 차별적으로 처리해서는 안 된다</li>
+  <li><strong>속도 조절 금지:</strong> ISP는 합법적 트래픽의 속도를 임의로 조절해서는 안 된다</li>
+</ul>
+
+<h3>망 사용료가 망 중립성을 흔드는 방식</h3>
+<p>망 사용료를 내지 않는 CP의 트래픽을 ISP가 속도 저하(throttling)하거나 차단한다면 이는 명백한 망 중립성 위반이다. 그러나 더 교묘한 방식도 있다.</p>
+<p>ISP가 망 사용료를 납부한 CP의 트래픽을 우선 처리(fastlane)하고, 미납 CP를 '표준 처리'한다면, 표준 처리가 사실상 차별 처리가 된다. 겉으로는 망 중립성 위반이 아니지만 실질적으로는 CP 간 차별이다.</p>
+
+<div class="callout">
+  <div class="callout-label">수직 통합 ISP의 이해충돌</div>
+  <p>ISP가 자신의 OTT 서비스(KT의 시즌, SKT의 웨이브 등)는 망 사용료 없이 운영하면서 경쟁 CP에는 비용을 부과한다면, 이는 수직 통합 ISP가 콘텐츠 시장에서 경쟁 CP를 배제하는 전략이 된다. 규제 당국이 이 이해충돌을 어떻게 다루느냐가 망 사용료 제도의 핵심 리스크다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-8">
+  <h2 class="section-title">디지털 권리 관점 — 이용자 후생과 콘텐츠 다양성</h2>
+  <div class="prose">
+
+<h3>CP 비용 전가의 파급 경로</h3>
+<p>망 사용료가 CP에 부과되면 그 비용은 다양한 경로로 이용자와 사회에 전가된다.</p>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>경로 1 — 이용자 요금 인상</h4>
+    <p>CP가 망 사용료를 부담하면 그 비용은 구독료·콘텐츠 이용 요금 인상으로 이어진다. 한국 이용자는 ISP에 접속료를 내는 동시에 콘텐츠 가격 인상 형태로 간접 부담한다.</p>
+  </div>
+  <div class="scenario">
+    <h4>경로 2 — 콘텐츠 품질 저하</h4>
+    <p>비용 부담을 줄이기 위해 CP가 트래픽을 아끼는 방향으로 콘텐츠 품질(해상도·스트리밍 품질)을 낮출 수 있다. 이용자는 더 낮은 품질의 콘텐츠를 같은 가격에 받게 된다.</p>
+  </div>
+  <div class="scenario">
+    <h4>경로 3 — 한국 시장 서비스 축소</h4>
+    <p>글로벌 CP가 한국 시장에서의 수익성을 재평가해 서비스 투자를 줄이거나 철수를 고려할 수 있다. 한국 이용자의 글로벌 콘텐츠 접근성이 떨어진다.</p>
+  </div>
+  <div class="scenario">
+    <h4>경로 4 — 신생 CP 배제 (역설적 반경쟁 효과)</h4>
+    <p>대형 CP는 망 사용료를 부담할 능력이 있지만, 신생 서비스·스타트업·비영리는 그렇지 못하다. 결과적으로 Netflix·YouTube처럼 이미 지배적 위치에 있는 CP의 진입 장벽을 낮추는 대신, 후발 주자의 경쟁을 차단하는 역설이 발생한다.</p>
+  </div>
+</div>
+
+<h3>종단간 원칙과 인터넷의 설계 철학</h3>
+<p>인터넷의 설계 철학 중 하나는 <strong>종단간 원칙(end-to-end principle)</strong>이다 — 지능(intelligence)은 네트워크 내부가 아니라 종단 장치(단말·서버)에 있어야 하고, 망은 단지 패킷을 전달하는 역할에 집중해야 한다.</p>
+<p>망 사용료 제도는 이 철학과 충돌한다. 중간 망 사업자(ISP)가 콘텐츠의 가치를 평가하고 비용을 부과하는 게이트키퍼가 된다. 이는 인터넷의 혁신 생태계 — 누구든 망을 통해 새로운 서비스를 선보일 수 있다는 개방성 — 를 침식한다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-9">
+  <h2 class="section-title">국제 비교 — 미국·EU·일본·인도</h2>
+  <div class="prose">
+
+<h3>미국 — 망 중립성의 부침</h3>
+<p>미국에서 망 중립성 논쟁은 FCC(연방통신위원회)와 법원의 오랜 싸움이었다.</p>
+<ul>
+  <li><strong>2015년 오바마 FCC:</strong> ISP를 통신사업자(common carrier)로 재분류해 강력한 망 중립성 규칙 적용. CP에 대한 망 사용료 부과는 사실상 금지.</li>
+  <li><strong>2017년 트럼프 FCC:</strong> 망 중립성 규칙 폐지. 주(州) 단위 망 중립성 입법이 진행됐다.</li>
+  <li><strong>2024년 바이든 FCC:</strong> 망 중립성 규칙 재도입 추진했으나 법원 판결로 제약.</li>
+</ul>
+<p>미국에서 CP의 ISP 접속 정산은 대개 상업적 협상(CDN 사용·직접 피어링)으로 이뤄지며, 한국식 법적 의무화 시도는 없었다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>국가/지역</th>
+      <th>CP 망 사용료 법적 의무</th>
+      <th>망 중립성 규칙</th>
+      <th>비고</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>한국</strong></td>
+      <td>법원 판결(SKB 승소)·입법 시도(좌초 반복)</td>
+      <td>방통위 고시(2011·2020)</td>
+      <td>고시 기반, 법률 규정 부재</td>
+    </tr>
+    <tr>
+      <td><strong>미국</strong></td>
+      <td>없음 (상업 협상)</td>
+      <td>부침 반복 (FCC vs 법원)</td>
+      <td>주(州) 단위 입법 진행 중</td>
+    </tr>
+    <tr>
+      <td><strong>EU</strong></td>
+      <td>없음 (fair share 보류)</td>
+      <td>TSM 규정(2015) — 강력</td>
+      <td>BEREC 반대로 2024 보류</td>
+    </tr>
+    <tr>
+      <td><strong>일본</strong></td>
+      <td>없음 (시장 협상)</td>
+      <td>명문화 약함, 관행 준수</td>
+      <td>IXP·CDN 직접 연결 일반화</td>
+    </tr>
+    <tr>
+      <td><strong>인도</strong></td>
+      <td>없음</td>
+      <td>TRAI 강력 규칙(2017)</td>
+      <td>차별적 요금 부과 금지</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-10">
+  <h2 class="section-title">한국의 현황 — 법안 좌초 이후</h2>
+  <div class="prose">
+
+<h3>22대 국회에서의 상황</h3>
+<p>21대 국회에서 '망 사용료법'은 통과되지 않은 채 임기 만료로 폐기됐다. 22대 국회에서도 유사 취지의 법안이 재발의됐지만, 여전히 이중과금·망 중립성·CP 진입장벽 비판을 넘어서지 못하고 있다.</p>
+<p>Netflix-SKB 소송 합의 이후 국내에서도 분위기가 바뀌었다. 당사자 간 협상으로 해결할 수 있다는 사례가 만들어진 셈이고, 법으로 강제하는 것의 필요성에 의문이 제기됐다.</p>
+
+<h3>Open Connect — CDN 협력 모델</h3>
+<p>Netflix는 한국 ISP들과의 갈등 과정에서도 <strong>Open Connect</strong>라는 자체 CDN 장비를 ISP 네트워크 내에 무료로 설치해주는 방식을 제안했다. ISP 입장에서는 넷플릭스 트래픽을 자체 망 안에서 처리해 외부 트래픽 비용을 줄일 수 있고, 넷플릭스 입장에서는 망 사용료를 내지 않고도 좋은 서비스 품질을 제공할 수 있다.</p>
+
+<div class="callout">
+  <div class="callout-label">CDN 협력 모델의 의미</div>
+  <p>Open Connect 모델은 CP와 ISP가 <strong>'비용 대신 인프라 협력'</strong>으로 상호 이익을 추구하는 대안이다. 법적 의무보다 기술적 협력이 더 효율적일 수 있음을 보여준다. 이 모델은 ISP가 망 용량 확보라는 실질적 이익을 얻으면서도 CP에게 직접 과금하지 않는 구조다.</p>
+</div>
+
+<h3>과기정통부 고시의 한계와 법적 모호함</h3>
+<p>현행 인터넷 상호접속 고시는 국내 ISP 간 정산을 위해 만들어진 것이지, 글로벌 CP와 국내 ISP 간 관계를 규율하기에는 불명확하다. 법원이 "SKB 승소"를 선고했지만 구체적인 금액 기준을 정한 것이 아니고, 이후 합의로 종결된 탓에 법적 기준은 여전히 모호하다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-11">
+  <h2 class="section-title">결론 — '트래픽 공짜'도 '이중과금'도 아닌 균형</h2>
+  <div class="prose">
+
+<p>망 사용료 논쟁은 <em>"Netflix가 공짜로 망을 쓰는가"</em>가 아니다. Netflix는 이미 자체 CDN과 업스트림 접속 비용을 내고 있다. 진짜 질문은 세 가지다.</p>
+<ul>
+  <li>수신 ISP가 CP에게 추가 비용을 청구하는 것이 인터넷 상호접속의 원칙에 부합하는가?</li>
+  <li>그 비용이 이용자·콘텐츠 다양성·신생 서비스에 어떤 구조적 영향을 미치는가?</li>
+  <li>법으로 강제하는 것과 시장 협상에 맡기는 것 중 어느 쪽이 장기적으로 인터넷 생태계에 유리한가?</li>
+</ul>
+
+<p>Netflix-SKB 합의는 당사자 협상으로 망 사용료 분쟁을 해결할 수 있다는 가능성을 보여줬다. 그러나 협상 구조 자체가 비대칭적이다 — ISP는 한국 시장 진입에 필수적인 관문을 쥐고 있어 구조적 협상 우위에 있다. 대형 CP는 협상력이 있지만, 중소 CP는 없다.</p>
+
+<div class="callout">
+  <div class="callout-label">디지털 권리의 관점에서 핵심 원칙</div>
+  <p><strong>이중과금 금지:</strong> 이용자는 이미 ISP에 접속료를 낸다. CP에게도 청구하면 결국 이용자가 이중으로 부담한다.<br><br>
+  <strong>망 중립성 보호:</strong> CP 차별 유인이 생기면 결국 이용자가 선택할 수 있는 콘텐츠의 다양성이 줄어든다.<br><br>
+  <strong>진입장벽 최소화:</strong> 신생 서비스가 비용 부담 없이 이용자에게 도달할 수 있어야 인터넷 혁신 생태계가 유지된다.<br><br>
+  <strong>투명한 협상 구조:</strong> 당사자 협상이 불가피하다면, 그 협상 과정과 기준이 공개되고 감독받아야 한다.</p>
+</div>
+
+<p>망 사용료 논쟁은 기술적으로는 인터넷 상호접속 경제학, 법적으로는 전기통신사업법 해석, 정치적으로는 통신사·글로벌 CP·국내 CP·시민 간 이해충돌의 교차점이다. 한국이 이 복잡한 균형에서 어떤 선택을 하느냐는 인터넷의 개방성과 콘텐츠 생태계의 미래를 결정하는 중요한 분기점이다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-12">
+  <h2 class="section-title">참고 자료</h2>
+  <div class="prose">
+
+<h3>법령 및 고시</h3>
+<ul>
+  <li>「전기통신사업법」 제2조, 제50조</li>
+  <li>「전기통신사업법 시행령」 별표4 (금지행위 세부 기준)</li>
+  <li>과기정통부 고시 — 인터넷 상호접속 기준(2016)</li>
+  <li>방송통신위원회 망 중립성 가이드라인 (2011·2020 업데이트)</li>
+</ul>
+
+<h3>주요 판결</h3>
+<ul>
+  <li>서울중앙지법 2021. 6. 25. 선고 2020가합533534 (1심 — SKB 승소)</li>
+  <li>서울고등법원 2023. 8. 31. 선고 2021나2045588 (2심 — SKB 승소 유지)</li>
+  <li>Verizon v. FCC, 740 F.3d 623 (D.C. Cir. 2014) — 미국 망 중립성 소송</li>
+</ul>
+
+<h3>국제 문헌</h3>
+<ul>
+  <li>BEREC, Report on Internet Interconnection (2022)</li>
+  <li>BEREC, Opinion on the framework for network cost contribution by large traffic generators (2023)</li>
+  <li>GÉANT / Internet Society, Position on 'sending-party-pays' (2023)</li>
+  <li>OECD, Internet Traffic Exchange: Market Developments and Policy Challenges (2014)</li>
+  <li>Sandvine, Global Internet Phenomena Report (연도별)</li>
+  <li>FCC, Open Internet Order (2015)</li>
+</ul>
+
+<h3>본 시리즈 관련 글</h3>
+<ul>
+  <li><a href="../03-net-neutrality-korea/">글 #04 — 망 중립성: 누가 인터넷의 빠른 길과 느린 길을 정하는가</a></li>
+  <li><a href="../14-intermediary-liability-korea/">글 #14 — 중간자 책임: 플랫폼과 콘텐츠의 법적 경계</a></li>
+  <li><a href="../26-cloud-cdn-doh-ipv6-censorship-korea/">글 #26 — 클라우드 시대의 검열: CDN·DoH·IPv6</a></li>
+  <li><a href="../27-internet-real-name-identity-verification-korea/">글 #27 — 인터넷 실명제·본인확인제와 익명 표현의 자유</a></li>
+</ul>
+
+<p style="margin-top:32px;font-size:13px;color:var(--text-muted);">본 글은 net.or.kr 시리즈의 일부로, 한국 디지털 권리 환경의 구조를 살피기 위한 자료로 작성되었다. 법령·판례는 빠르게 변화하는 영역이므로 본문의 조항 번호·결정 내용은 최신 원문을 반드시 확인하기 바란다.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 27일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

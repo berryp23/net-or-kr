@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국의 온라인 표현의 자유 — 차단·처벌·삭제, 그 경계는 어디인가 | net.or.kr</title>
+<meta name="description" content="임시조치(블라인드), 인터넷 실명제 위헌, 진실적시 명예훼손, 잊힐 권리, 딥페이크 신전선 — 한국 온라인 표현의 자유를 둘러싼 법제도 지형을 해부한다.">
+<meta property="og:title" content="한국의 온라인 표현의 자유 — 차단·처벌·삭제, 그 경계는 어디인가">
+<meta property="og:description" content="권리침해 '주장'만으로 30일 차단, 진실을 말해도 형사처벌, 2012년 헌재 위헌 결정과 딥페이크 새 전선 — 차단·처벌·삭제라는 세 칼날이 어디서 멈춰야 하는가.">
+<meta property="og:type" content="article">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --amber: #f59e0b;
+    --amber-light: #fcd34d;
+    --amber-dark: #d97706;
+    --cyan: #06b6d4;
+    --cyan-light: #67e8f9;
+    --cyan-dark: #0891b2;
+    --red: #ef4444;
+    --red-light: #fca5a5;
+    --green: #22c55e;
+    --green-light: #86efac;
+    --purple: #8b5cf6;
+    --purple-light: #c4b5fd;
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #334155;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber-dark); }
+
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--bg3);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .site-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 20px;
+    transition: color 0.2s;
+  }
+
+  .site-nav a:hover { color: var(--text); }
+
+  .article-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .article-header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .article-series {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .article-title {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, var(--amber-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .article-subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+    font-weight: 400;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    align-items: center;
+  }
+
+  .article-meta .tag {
+    background: var(--bg3);
+    color: var(--text-muted);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  .section { margin-bottom: 64px; }
+
+  .section-title {
+    font-size: 22px;
+    color: var(--amber);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--amber-dark), transparent);
+  }
+
+  .intro-text {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #cbd5e1;
+    margin-bottom: 32px;
+  }
+
+  .intro-questions {
+    background: var(--bg2);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .intro-questions h4 {
+    color: var(--amber);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  .intro-questions ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .intro-questions ol li { margin-bottom: 6px; }
+  .intro-questions ol li strong { color: var(--text); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .stat-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-box:hover {
+    border-color: var(--amber-dark);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .prose {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #cbd5e1;
+  }
+
+  .prose p { margin-bottom: 16px; }
+  .prose strong { color: var(--text); }
+
+  .prose a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose h3 {
+    font-size: 19px;
+    color: var(--text);
+    margin: 36px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .prose blockquote {
+    border-left: 3px solid var(--bg3);
+    margin: 20px 0;
+    padding: 12px 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+    background: var(--bg2);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .prose blockquote strong { color: var(--text); }
+
+  .issue-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .issue-box.danger { border-left: 3px solid var(--red); }
+  .issue-box.info { border-left: 3px solid var(--cyan); }
+  .issue-box.neutral { border-left: 3px solid var(--amber); }
+  .issue-box.purple { border-left: 3px solid var(--purple); }
+
+  .issue-box-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .issue-box-title.danger { color: var(--red-light); }
+  .issue-box-title.info { color: var(--cyan-light); }
+  .issue-box-title.neutral { color: var(--amber-light); }
+  .issue-box-title.purple { color: var(--purple-light); }
+
+  .issue-box ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .issue-box ul li { margin-bottom: 4px; }
+  .issue-box ul li strong { color: var(--text); }
+
+  .law-block {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .law-block .law-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .law-block ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .law-block ul li { margin-bottom: 6px; }
+  .law-block ul li strong { color: var(--text); }
+
+  .debate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 640px) {
+    .debate-grid { grid-template-columns: 1fr; }
+  }
+
+  .debate-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .debate-card.pro { border-top: 2px solid var(--red); }
+  .debate-card.con { border-top: 2px solid var(--cyan); }
+
+  .debate-card-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .debate-card.pro .debate-card-title { color: var(--red-light); }
+  .debate-card.con .debate-card-title { color: var(--cyan-light); }
+
+  .debate-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .debate-card ul li { margin-bottom: 6px; }
+
+  .chron-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+
+  .chron-table thead tr {
+    border-bottom: 2px solid var(--amber-dark);
+  }
+
+  .chron-table th {
+    padding: 10px 14px;
+    text-align: left;
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .chron-table td {
+    padding: 12px 14px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--bg3);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .chron-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .chron-table td:first-child {
+    color: var(--amber);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .chron-table td strong { color: var(--text); }
+
+  .chron-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .badge-law { background: rgba(245,158,11,0.15); color: var(--amber-light); }
+  .badge-case { background: rgba(6,182,212,0.15); color: var(--cyan-light); }
+  .badge-platform { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+  .badge-intl { background: rgba(34,197,94,0.15); color: var(--green-light); }
+  .badge-decision { background: rgba(239,68,68,0.15); color: var(--red-light); }
+
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 48px;
+  }
+
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px;
+  }
+
+  .toc li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .toc li a:hover {
+    color: var(--amber);
+    background: rgba(245,158,11,0.05);
+  }
+
+  .toc li a span { font-size: 12px; color: var(--amber); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(6,182,212,0.06) 100%);
+    border: 1px solid rgba(245,158,11,0.18);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+  }
+
+  .highlight-box strong { color: var(--text); }
+
+  .verdict-box {
+    background: var(--bg2);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .verdict-box .verdict-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--red-light);
+    margin-bottom: 10px;
+  }
+
+  .verdict-box p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .verdict-box p strong { color: var(--text); }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 640px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+
+  .compare-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .compare-card .compare-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .compare-card.eu .compare-title { color: var(--green-light); }
+  .compare-card.kr .compare-title { color: var(--amber-light); }
+
+  .compare-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .compare-card ul li { margin-bottom: 6px; }
+  .compare-card ul li strong { color: var(--text); }
+
+  .conclusion-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(6,182,212,0.08) 100%);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 32px;
+  }
+
+  .conclusion-box h3 {
+    color: var(--amber);
+    font-size: 18px;
+    margin: 0 0 16px;
+  }
+
+  .conclusion-box p {
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .conclusion-box p:last-child { margin-bottom: 0; }
+
+  .crosslink {
+    display: inline-block;
+    background: rgba(6,182,212,0.1);
+    border: 1px solid rgba(6,182,212,0.3);
+    color: var(--cyan-light);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+
+  .crosslink:hover { background: rgba(6,182,212,0.2); }
+
+  .ref-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ref-list li {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .ref-list li:last-child { border-bottom: none; }
+
+  .ref-num {
+    color: var(--amber);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 13px;
+    min-width: 32px;
+  }
+
+  .ref-list a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+  }
+
+  .site-footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--bg3);
+    padding: 32px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .footer-brand .logo { color: var(--amber); font-weight: 800; font-size: 15px; }
+  .footer-brand p { margin: 6px 0 0; line-height: 1.5; }
+
+  .footer-right { text-align: right; }
+  .footer-right p { margin: 0 0 4px; }
+
+  .license-badge {
+    display: inline-block;
+    background: var(--bg3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  .series-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+
+  .series-nav a {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: border-color 0.2s, color 0.2s;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .series-nav a:hover { border-color: var(--amber-dark); color: var(--text); }
+  .series-nav a .nav-label { font-size: 11px; color: var(--amber); font-weight: 700; letter-spacing: 0.06em; display: block; margin-bottom: 4px; }
+
+  @media (max-width: 640px) {
+    .article-container { padding: 24px 16px 60px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .chron-table { font-size: 13px; }
+    .chron-table th, .chron-table td { padding: 8px 10px; }
+    .footer-right { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../">홈</a>
+    <a href="../01-spear-and-shield-history/">글 #01 창과 방패</a>
+    <a href="../02-wiretapping-and-privacy/">글 #02 패킷 감청</a>
+    <a href="../03-net-neutrality-korea/">글 #03 망 중립성</a>
+  </nav>
+</header>
+
+<main class="article-container">
+
+  <!-- Article Header -->
+  <header class="article-header" id="top">
+    <div class="article-series">글 #04 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">한국의 온라인 표현의 자유</h1>
+    <p class="article-subtitle">차단·처벌·삭제, 그 경계는 어디인가</p>
+    <div class="article-meta">
+      <span>2026년 6월 8일 발행</span>
+      <span>약 20분 읽기</span>
+      <span class="tag">표현의자유</span>
+      <span class="tag">임시조치</span>
+      <span class="tag">명예훼손</span>
+      <span class="tag">딥페이크</span>
+      <span class="tag">디지털권리</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#intro"><span>01</span> 들어가며</a></li>
+      <li><a href="#timeline"><span>02</span> 연대기 한눈에</a></li>
+      <li><a href="#temp-measure"><span>03</span> 임시조치: 30일 블라인드</a></li>
+      <li><a href="#realname"><span>04</span> 인터넷 실명제와 위헌 결정</a></li>
+      <li><a href="#defamation"><span>05</span> 명예훼손·모욕죄의 형사처벌</a></li>
+      <li><a href="#truth-defamation"><span>06</span> 진실적시 명예훼손</a></li>
+      <li><a href="#right-to-forget"><span>07</span> 잊힐 권리: EU와 한국</a></li>
+      <li><a href="#deepfake"><span>08</span> 2024~2026 딥페이크 신전선</a></li>
+      <li><a href="#conclusion"><span>09</span> 닫으며</a></li>
+      <li><a href="#references"><span>10</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+  <!-- 01 들어가며 -->
+  <section class="section" id="intro">
+    <h2 class="section-title">들어가며</h2>
+    <div class="intro-text">
+      [글 #01]에서 국가가 불법 콘텐츠를 막기 위해 어떤 기술을 동원하는지를 추적했고, [글 #03]은 "같은 패킷을 차별 없이 흘려보내야 하는가"를 물었다. 이 글은 조금 더 근원적인 질문으로 들어간다. <strong>인터넷에서 무언가를 말하고, 쓰고, 유포하는 행위에 어떤 법적 한계가 있는가.</strong>
+    </div>
+
+    <div class="intro-questions">
+      <h4>이 글이 다루는 세 가지 질문</h4>
+      <ol>
+        <li><strong>차단</strong> — 권리침해 '주장'만으로 30일 게시물 차단이 가능한 구조는 정당한가?</li>
+        <li><strong>처벌</strong> — 진실을 말해도, 비판적 논평을 해도 형사피의자가 되는 나라의 논리는 무엇인가?</li>
+        <li><strong>삭제</strong> — '잊힐 권리'와 역사 기록 사이, 어디서 선을 긋는가?</li>
+      </ol>
+    </div>
+
+    <div class="prose">
+      <p>
+        한국의 온라인 표현 규제는 세계적으로도 독특한 풍경을 가진다. 형사처벌이 가능한 <strong>명예훼손·모욕죄</strong>, 권리침해 주장만으로 게시물을 차단할 수 있는 <strong>임시조치(블라인드)</strong> 제도, 2012년 위헌 결정으로 막을 내린 <strong>인터넷 실명제</strong>의 역사. 그리고 최근에는 딥페이크와 AI 생성 허위정보가 새로운 전선을 열었다.
+      </p>
+      <p>
+        한 가지 전제부터 짚자. 표현의 자유는 헌법 제21조가 보장하는 기본권이다. 그러나 이 자유는 절대적이지 않다 — 타인의 명예, 프라이버시, 공중도덕이라는 반대 가치와 충돌한다. 논쟁의 핵심은 늘 <strong>그 균형을 어디서 긋느냐</strong>이다.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-number">2007</div>
+        <div class="stat-label">임시조치 제도<br>정보통신망법 신설</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">30일</div>
+        <div class="stat-label">게시물 임시차단<br>최대 기간</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">8:0</div>
+        <div class="stat-label">2012 헌재 실명제<br>위헌 결정 재판관 비율</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">7년</div>
+        <div class="stat-label">온라인 허위사실<br>명예훼손 최고 법정형</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2024</div>
+        <div class="stat-label">성폭력처벌법 개정<br>딥페이크 소지·시청 처벌</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">90일</div>
+        <div class="stat-label">선거 전 딥페이크<br>선거운동 금지 기간</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 연대기 -->
+  <section class="section" id="timeline">
+    <h2 class="section-title">연대기 한눈에</h2>
+    <div style="overflow-x:auto;">
+      <table class="chron-table">
+        <thead>
+          <tr>
+            <th>시기</th>
+            <th>사건</th>
+            <th>쟁점 / 결과</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2007.1</td>
+            <td><strong>정보통신망법 제44조의2 신설</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>임시조치(블라인드) 제도 도입 — 권리침해 주장만으로 30일 차단</td>
+          </tr>
+          <tr>
+            <td>2007.7</td>
+            <td><strong>인터넷 본인확인제 시행</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>일정 규모 사이트 댓글·게시판 실명확인 의무 — 표현의 자유 위축 우려 즉각 제기</td>
+          </tr>
+          <tr>
+            <td>2012.8.23</td>
+            <td><strong>헌법재판소 실명제 위헌 결정</strong><span class="chron-badge badge-decision">위헌</span></td>
+            <td>재판관 8인 전원 일치 위헌 — 과잉금지·효과없음·위축효과 세 논거</td>
+          </tr>
+          <tr>
+            <td>2015.11</td>
+            <td><strong>구글, 검색결과 삭제 요청 제도 운영 시작</strong><span class="chron-badge badge-platform">플랫폼</span></td>
+            <td>잊힐 권리 실질화 — EU GDPR보다 좁은 범위의 자율 운영</td>
+          </tr>
+          <tr>
+            <td>2020.2</td>
+            <td><strong>개인정보보호법 개정 — 삭제권 조항 정비</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>'잊힐 권리' 법적 근거 구체화 — EU GDPR 대비 한계 지적</td>
+          </tr>
+          <tr>
+            <td>2023~</td>
+            <td><strong>진실적시 명예훼손 폐지 입법 논의</strong><span class="chron-badge badge-law">계류</span></td>
+            <td>형법 제307조 제1항 존폐 — 22대 국회 계류 중</td>
+          </tr>
+          <tr>
+            <td>2024.1.29</td>
+            <td><strong>공직선거법 개정 — 딥페이크 선거운동 금지</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>선거일 90일 전부터 딥페이크 제작·유포 금지 — AI 표현 규제 첫 명시적 입법</td>
+          </tr>
+          <tr>
+            <td>2024.10.16</td>
+            <td><strong>개정 성폭력처벌법 시행</strong><span class="chron-badge badge-law">입법</span></td>
+            <td>딥페이크 음란물 소지·시청 처벌 신설, 반포목적 불문 제작도 처벌</td>
+          </tr>
+          <tr>
+            <td>2025~</td>
+            <td><strong>임시조치 개정 논의 — 이의신청 제도 도입안</strong><span class="chron-badge badge-law">계류</span></td>
+            <td>블라인드 남용 방지, 재개시 절차 신설 — 22대 국회 계류 중</td>
+          </tr>
+          <tr>
+            <td>2026~</td>
+            <td><strong>AI 생성물 표시 의무 입법 방안 검토</strong><span class="chron-badge badge-law">진행</span></td>
+            <td>딥페이크 식별 의무화 — 국회입법조사처 권고, 입법 진행 중</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 03 임시조치 -->
+  <section class="section" id="temp-measure">
+    <h2 class="section-title">1막 — 임시조치: 권리침해 주장만으로 30일 차단</h2>
+
+    <div class="prose">
+      <h3>제도의 구조</h3>
+      <p>
+        <strong>정보통신망법 제44조의2</strong>는 "정보통신서비스 제공자에 대한 정보의 삭제요청 등"을 규율한다. 핵심 조항(제4항)은 이렇다.
+      </p>
+    </div>
+
+    <div class="issue-box neutral">
+      <div class="issue-box-title neutral">정보통신망법 제44조의2 제4항 (요지)</div>
+      <p style="font-size:15px;color:var(--text-muted);line-height:1.8;margin:0;">
+        정보통신서비스 제공자는 제1항에 따른 정보의 삭제요청에도 불구하고 <strong style="color:var(--text);">권리의 침해 여부를 판단하기 어렵거나 이해당사자 간에 다툼이 예상되는 경우</strong>에는 해당 정보에 대한 접근을 임시적으로 차단하는 조치를 할 수 있다.
+      </p>
+    </div>
+
+    <div class="prose">
+      <p>
+        이 "임시조치"의 기간은 최대 30일이다. 문제는 실무 운영에 있다. <strong>신청자가 권리침해를 '주장'하는 것만으로도 플랫폼이 임시차단을 할 수 있으며</strong>, 플랫폼 입장에서는 분쟁에 휘말리지 않으려 적극적으로 차단을 선택하는 유인이 생긴다. 이 구조가 이른바 <strong>"과잉차단(over-blocking)"</strong> 논란의 씨앗이다.
+      </p>
+
+      <h3>과잉차단의 현실</h3>
+      <p>
+        포털·SNS 업계 보고에 따르면, 임시조치 신청 중 상당 비율은 게시물이 진실이거나 공익적 내용임에도 신청된다. 비판적 소비자 후기, 내부고발성 폭로, 공인에 대한 의혹 제기 등이 '명예훼손' 명목으로 임시차단 신청을 당하는 사례가 반복됐다. 신청자가 허위로 피해를 주장하더라도 사전 검증 절차가 없어, 플랫폼은 사실상 신청자의 일방적 주장만으로 30일 동안 게시물을 지운다.<sup>[1]</sup>
+      </p>
+      <p>
+        더 구조적인 문제는 <strong>정보게재자(원저자)에게 방어 기회가 사전에 주어지지 않는다</strong>는 것이다. 게재자는 자신의 글이 차단된 후에야 알게 되고, 이의를 제기하는 절차도 명확하지 않다. KISO(한국인터넷자율정책기구)는 자율규제를 통해 이의신청 창구를 운영해 왔으나, 법적 강제력이 없는 자율 기준이다.<sup>[1]</sup>
+      </p>
+
+      <h3>개정 논의: 재개시 절차 도입</h3>
+      <p>
+        이런 문제의식에서 개정안이 여러 차례 발의됐다. 논의된 개정안은 <strong>이의신청(재개시) 제도</strong>를 핵심으로 담았다. 안의 내용은 이렇다: 임시조치 기간 내에 게재자의 이의신청이 없으면 정보를 삭제하고, 이의신청이 있으면 임시차단을 즉시 해제한 뒤 온라인분쟁조정위원회에 분쟁조정을 요청하도록 의무화한다.<sup>[2]</sup>
+      </p>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card pro">
+        <div class="debate-card-title">현행 제도 비판</div>
+        <ul>
+          <li>신청자 일방 주장으로 30일 차단</li>
+          <li>원저자 방어권 사전 보장 없음</li>
+          <li>플랫폼의 과잉차단 유인 구조</li>
+          <li>SLAPP 수단으로 악용 가능</li>
+        </ul>
+      </div>
+      <div class="debate-card con">
+        <div class="debate-card-title">개정안 비판</div>
+        <ul>
+          <li>이의신청 시 즉시 해제 → 피해자 보호 약화</li>
+          <li>명예훼손 피해 30일 보호 상실 우려</li>
+          <li>분쟁조정 절차의 실효성 미검증</li>
+          <li>두 가치 모두 완전 만족 불가</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>임시조치 제도는 "피해자 보호"와 "표현의 자유" 사이에서 어느 쪽도 완전히 만족시키지 못한 채 2026년까지 유지되고 있다.</strong> 개정안은 22대 국회에 계류 중이며, "먼저 차단하고 나중에 다투라"는 구조의 근본적 변화를 이루지 못한 상태다.
+    </div>
+  </section>
+
+  <!-- 04 실명제 -->
+  <section class="section" id="realname">
+    <h2 class="section-title">2막 — 인터넷 실명제: 위헌까지 5년, 그 이후</h2>
+
+    <div class="prose">
+      <h3>본인확인제의 탄생 (2007)</h3>
+      <p>
+        2007년 7월, 한국은 세계적으로도 유례를 찾기 어려운 제도를 시행했다. 하루 평균 이용자 10만 명 이상의 인터넷 포털·게시판에서 댓글·게시글을 올리려면 <strong>실명을 확인</strong>해야 한다는 제도다. 정보통신망법 제44조의5 제1항 제2호 및 시행령이 근거였다. 명분은 사이버 폭력과 허위정보 방지였다.
+      </p>
+      <p>
+        도입 즉시 논란이 일었다. 익명성은 단순한 편의가 아니라, 정치적 소수자·내부고발자·성적 소수자 등이 낙인 없이 말할 수 있게 해주는 <strong>표현의 자유의 구조적 전제</strong>이기 때문이다. 실명확인 의무는 "말하기 전에 신원을 밝혀라"는 요구로, 자기검열(self-censorship)을 유도한다.
+      </p>
+
+      <h3>2012년 헌법재판소 위헌 결정</h3>
+      <p>
+        2012년 8월 23일, 헌법재판소는 <strong>재판관 8인 전원 일치</strong>로 위헌 결정을 내렸다(헌재 2010헌마47). 결정의 핵심 논거는 세 가지였다.<sup>[3]</sup>
+      </p>
+    </div>
+
+    <div class="issue-box danger">
+      <div class="issue-box-title danger">헌재 2010헌마47 — 위헌 3대 논거</div>
+      <ul>
+        <li><strong>과잉금지 원칙 위반:</strong> 사이버 폭력 억제·선거 공정성이라는 공익에 비해 표현의 자유 침해가 과도하다.</li>
+        <li><strong>효과 없음:</strong> 실명제 시행 후 명예훼손성 게시글이 유의미하게 감소했다는 증거가 없다.</li>
+        <li><strong>위축효과(chilling effect):</strong> 법적으로 허용되는 표현에 대해서도 신원 노출을 꺼리는 이용자들이 발언을 포기하게 만든다.</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <p>
+        이 결정은 한국 인터넷 역사에서 "온라인 광복"이라 불릴 만큼 상징적인 사건이었다.<sup>[3]</sup> 재판관 전원이 동의했다는 것은, 실명제의 위헌성이 팽팽한 가치 충돌의 문제가 아니라 논리적으로 명백하다는 의미이기도 했다.
+      </p>
+
+      <h3>실명제의 유산과 재도입 논쟁</h3>
+      <p>
+        위헌 결정 이후 법적 실명의무는 사라졌지만, 논쟁은 끝나지 않았다. 사이버 폭력, 특히 온라인 혐오·협박이 심각해질 때마다 실명제 또는 이에 준하는 제재 수단을 도입해야 한다는 요구가 반복된다. 그러나 헌재 결정의 논리 — <strong>"목적 달성 효과가 없는 자유 침해는 위헌"</strong> — 는 재도입 논의에 대한 강한 헌법적 장벽이 되고 있다.
+      </p>
+      <p>
+        한 가지 더 지적할 수 있다. 실명제가 달성하려 했던 목표 — 사이버 폭력 억제 — 는 실명제 폐지 이후에도 달성되지 않았다. 문제의 원인이 익명성이 아닌 다른 구조적 요인에 있을 수 있다는 시사점이다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 05 명예훼손 -->
+  <section class="section" id="defamation">
+    <h2 class="section-title">3막 — 명예훼손·모욕죄: 형사처벌의 과잉</h2>
+
+    <div class="prose">
+      <h3>한국의 독특한 형사처벌 구조</h3>
+      <p>
+        대다수 민주주의 국가에서 명예훼손은 <strong>민사 소송</strong>으로 다툰다. 한국은 다르다. <strong>형법 제307조</strong>는 명예훼손을 형사범죄로 규정한다.
+      </p>
+    </div>
+
+    <div class="law-block">
+      <div class="law-title">명예훼손·모욕 관련 형사처벌 조항</div>
+      <ul>
+        <li><strong>형법 제307조 제1항:</strong> 사실을 적시하여 명예훼손 → 2년 이하 징역 또는 500만 원 이하 벌금</li>
+        <li><strong>형법 제307조 제2항:</strong> 허위사실을 적시하여 명예훼손 → 5년 이하 징역 또는 1,000만 원 이하 벌금</li>
+        <li><strong>정보통신망법 제70조:</strong> 온라인 허위사실 명예훼손 → 7년 이하 징역 또는 5,000만 원 이하 벌금</li>
+        <li><strong>형법 제311조 모욕죄:</strong> 공연히 사람을 모욕 → 1년 이하 징역 또는 200만 원 이하 벌금</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <h3>고소 남발과 위축효과</h3>
+      <p>
+        이 구조는 <strong>전략적 소송(SLAPP, Strategic Lawsuit Against Public Participation)</strong>의 온상이 된다. 공인·기업·기관이 비판적 발언을 한 개인을 명예훼손이나 모욕죄로 형사 고소하면, 피고소인은 수사와 재판을 감당해야 한다는 것만으로도 사실상 발언을 포기하거나 취소하게 된다. 무죄로 끝나더라도 과정 자체가 억제 효과를 낸다.
+      </p>
+      <p>
+        대법원은 2022년 8월 31일 선고 2019도7370 판결에서 "모욕죄의 구성요건을 해석·적용할 때에도 개인의 인격권과 <strong>표현의 자유가 함께 고려</strong>되어야 한다"고 강조했다.<sup>[4]</sup> 그러나 고소·수사 단계에서의 위축효과는 법원의 최종 판단과 무관하게 발생한다.
+      </p>
+      <p>
+        국제 기준과 비교하면, 유엔 인권이사회와 국제앰네스티는 한국의 명예훼손 형사처벌 조항이 표현의 자유를 과도하게 제한한다는 우려를 수차례 표명해왔다.
+      </p>
+    </div>
+
+    <div class="issue-box info">
+      <div class="issue-box-title info">비교 — 주요국 명예훼손 규율 방식</div>
+      <ul>
+        <li><strong>미국:</strong> 수정헌법 제1조 보호, 민사 소송이 원칙. 공인에 대한 명예훼손은 '실제 악의(actual malice)' 입증 필요 (New York Times v. Sullivan, 1964)</li>
+        <li><strong>영국:</strong> 2013년 명예훼손법(Defamation Act) 개정 — 형사처벌 폐지, 중대한 피해 입증 요건 강화</li>
+        <li><strong>독일:</strong> 형사처벌 조항 존재하나 징역형 선고는 드물며 모욕죄와 명예훼손 분리 운용</li>
+        <li><strong>한국:</strong> 형사처벌 가능, 진실 사실 적시도 처벌 대상, 온라인은 별도 가중처벌</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 진실적시 명예훼손 -->
+  <section class="section" id="truth-defamation">
+    <h2 class="section-title">4막 — 진실적시 명예훼손: 세계 어디에도 없는 죄</h2>
+
+    <div class="prose">
+      <h3>진실을 말해도 죄가 되는 나라</h3>
+      <p>
+        형법 제307조 제1항의 핵심은 충격적이다. <strong>사실이라도</strong> 공연히 적시해 타인의 명예를 훼손하면 처벌된다. 허위사실이 처벌받는 것(제2항)은 이해할 수 있다. 그러나 진실을 말하는 것도 범죄가 될 수 있다는 것은 국제적으로 매우 이례적이다.
+      </p>
+      <p>
+        물론 예외가 있다. 형법 제310조는 "행위가 진실한 사실로서 오로지 공공의 이익에 관한 때"에는 벌하지 않는다는 <strong>위법성 조각 사유</strong>를 둔다. 그러나 이 "오로지 공공의 이익"이라는 요건은 엄격하게 해석되는 경향이 있어, 개인의 명예를 침해하면서 공익을 내세우는 것이 쉽지 않다.<sup>[5]</sup>
+      </p>
+
+      <h3>폐지 논쟁의 전개</h3>
+      <p>
+        진실적시 명예훼손 폐지 주장은 학계와 시민사회에서 꾸준히 제기됐다. 논거는 명확하다: 진실을 말하는 것은 민주주의 사회에서 보호받아야 할 표현이다. 진실한 사실을 근거로 공인의 잘못이나 기업의 비위를 폭로한 사람이 형사처벌을 받는다면, 내부고발·언론 보도·시민 감시 기능 자체가 위협받는다.
+      </p>
+      <p>
+        헌법재판소는 형법 제307조 제1항의 위헌확인 사건에서 이 조항을 합헌으로 판단했다.<sup>[5]</sup> 다만 진실이라고 오인할 정당한 이유가 있는 경우에는 죄가 성립하지 않는 것으로 해석해야 한다고 부연했다. 처벌 조항은 유지하되 해석론으로 적용 범위를 좁히는 방식이다.
+      </p>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card pro">
+        <div class="debate-card-title">폐지 찬성 논거</div>
+        <ul>
+          <li>진실한 표현은 민주사회에서 보호해야</li>
+          <li>공인 비판·내부고발 위협 수단으로 남용</li>
+          <li>언론 자유·시민 감시 기능 훼손</li>
+          <li>국제 기준과 심각한 괴리</li>
+        </ul>
+      </div>
+      <div class="debate-card con">
+        <div class="debate-card-title">유지 찬성 논거</div>
+        <ul>
+          <li>성범죄 피해자 신상공개 방어 수단</li>
+          <li>프라이버시·명예권 보호 필요</li>
+          <li>제310조 위법성 조각으로 균형 가능</li>
+          <li>민사 소송만으론 억제력 부족</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      22대 국회(2024~)에서도 진실적시 명예훼손 폐지 또는 완화 입법 논의가 이어지고 있다. <strong>피해자 보호와 표현의 자유</strong>가 충돌하며, 합의점을 찾지 못한 채 계류 중이다.
+    </div>
+  </section>
+
+  <!-- 07 잊힐 권리 -->
+  <section class="section" id="right-to-forget">
+    <h2 class="section-title">5막 — 잊힐 권리: EU는 법으로, 한국은?</h2>
+
+    <div class="prose">
+      <h3>'잊힐 권리'란 무엇인가</h3>
+      <p>
+        유럽연합은 2018년 GDPR(일반개인정보보호규정) 제17조에서 <strong>삭제권(right to erasure)</strong>, 통상 "잊힐 권리"를 명시했다. 정보주체는 ① 수집·처리 목적이 달성된 경우, ② 동의를 철회한 경우, ③ 처리에 이의를 제기한 경우 등에 개인정보의 삭제를 요구할 수 있다. 구글 등 검색엔진은 EU 내에서 정보주체의 삭제요청을 받으면 해당 URL을 검색결과에서 제거해야 한다. 이 권리의 원조는 2014년 유럽사법재판소의 <em>Google Spain v. AEPD</em>(C-131/12) 판결이다.
+      </p>
+
+      <h3>EU vs 한국 — 삭제권 비교</h3>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card eu">
+        <div class="compare-title">EU GDPR 제17조</div>
+        <ul>
+          <li>표현의 자유·공익 예외 명시 (제17조 제3항)</li>
+          <li>검색엔진 삭제청구권 판례로 확립</li>
+          <li>감독기관 통한 강제 집행 경로 명확</li>
+          <li>언론·역사·연구 목적 예외 조항 구비</li>
+        </ul>
+      </div>
+      <div class="compare-card kr">
+        <div class="compare-title">한국 개인정보보호법 제36조</div>
+        <ul>
+          <li>표현의 자유와 충돌 조정 규정 미비</li>
+          <li>검색결과 삭제청구의 법적 경로 불명확</li>
+          <li>플랫폼 자율 정책에 의존하는 경우 많음</li>
+          <li>공인 기록·역사 자료 삭제와의 경계 논쟁 중</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>
+        잊힐 권리는 "내 과거를 지워달라"는 요구다. 그런데 그 과거가 공익적 보도, 판결문, 역사 기록이라면? 삭제권이 <strong>사실상의 검열 수단</strong>이 될 수 있다는 우려는 한국에서도 제기된다. 특히 공인의 비위 기록, 과거 범죄 이력, 허위정보의 반론 기사 등이 삭제 요청의 대상이 되는 사례에서 이 긴장이 드러난다.<sup>[6]</sup>
+      </p>
+      <p>
+        한국에서 검색결과 삭제는 현재 플랫폼의 자율적 정책(구글은 2015년부터 한국 이용자 대상 삭제 신청 창구 운영)에 의존하는 경우가 많다. 개인정보보호위원회가 분쟁조정·조사 권한을 갖지만, 검색결과 삭제 청구권을 개인이 직접 법원에 청구할 수 있는 명시적 조항은 여전히 논의 중이다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 08 딥페이크 -->
+  <section class="section" id="deepfake">
+    <h2 class="section-title">6막 — 2024~2026 딥페이크와 허위정보의 새 전선</h2>
+
+    <div class="prose">
+      <h3>딥페이크 성착취물: 성폭력처벌법 전면 강화</h3>
+      <p>
+        2024년은 한국 딥페이크 규제의 분수령이었다. 2024년 9월, 텔레그램을 중심으로 딥페이크 성착취물 제작·유포 집단이 대규모로 발각되면서 사회적 공분이 폭발했다. 유명인과 일반인을 대상으로 한 다수의 성적 허위영상물이 공유된 것으로 조사됐다.<sup>[7]</sup>
+      </p>
+      <p>
+        국회는 빠르게 대응했다. <strong>2024년 10월 16일, 개정 성폭력처벌법이 시행</strong>됐다.
+      </p>
+    </div>
+
+    <div class="issue-box danger">
+      <div class="issue-box-title danger">개정 성폭력처벌법 주요 내용 (2024.10.16 시행)</div>
+      <ul>
+        <li><strong>반포 목적 불문 처벌 (제14조의2 제1항):</strong> 기존에는 반포·유통 목적이 있어야 처벌됐으나, 개정 후에는 혼자 볼 목적으로만 제작해도 처벌 대상</li>
+        <li><strong>소지·구입·저장·시청 처벌 신설 (제14조의2 제4항):</strong> 딥페이크 음란물 단순 소지·시청도 처벌 — 불법 촬영물과 동일한 처벌 체계 적용</li>
+        <li><strong>법정형 대폭 상향:</strong> 제작·편집 행위의 법정형 강화</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <p>
+        이 개정은 딥페이크 피해를 심각하게 다룬다는 점에서 의미가 있다. 그러나 "소지·시청 처벌"이 너무 광범위하다는 비판도 있다. 알고리즘 추천으로 우발적으로 접한 영상을 차단하지 않으면 "시청"이 되는가 등, 실무 적용의 경계가 불분명하다는 지적이다.<sup>[7]</sup>
+      </p>
+
+      <h3>딥페이크 선거운동 금지</h3>
+      <p>
+        2024년 1월 29일 공직선거법 개정으로, <strong>선거일 90일 전부터 선거일까지 딥페이크 영상·음성 등을 이용한 선거운동</strong>이 금지됐다(제82조의8).<sup>[8]</sup> 후보자 동의 없이 AI로 만든 가상의 선거 영상을 제작·유포하는 것이 금지 대상이다. 다만 딥페이크임을 명확히 표시한 경우에는 허용된다.
+      </p>
+      <p>
+        이 조항은 AI를 이용한 선거 허위정보 확산을 막으려는 선제적 입법으로 평가된다. 반면 표현의 자유 관점에서 "패러디·풍자 등 예술적·정치적 표현도 위축시킬 수 있다"는 우려가 제기됐다. 2026년 기준으로, 이 조항의 실제 적용 사례가 쌓이면서 '어디까지가 금지되는 딥페이크인가'를 둘러싼 해석 다툼이 진행 중이다.
+      </p>
+
+      <h3>AI 생성물 표시 의무 입법 논의</h3>
+      <p>
+        국회입법조사처는 2024년 10월, <strong>딥페이크 식별을 위한 AI 생성물 표시 의무 입법 방안</strong> 보고서를 발표했다. 요지는 AI로 생성하거나 조작된 정보에 이를 표시하도록 의무화하는 것이다. EU의 AI법(AI Act)이 고위험 AI 시스템에 대한 투명성 의무를 부과한 것과 같은 맥락이다.<sup>[9]</sup>
+      </p>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card pro">
+        <div class="debate-card-title">금지 접근</div>
+        <ul>
+          <li>딥페이크 자체를 원천 차단</li>
+          <li>피해 발생 전 예방 효과</li>
+          <li>성착취물·선거운동에 이미 적용 중</li>
+          <li>허위정보 확산에 강한 억제력</li>
+        </ul>
+      </div>
+      <div class="debate-card con">
+        <div class="debate-card-title">투명성 접근</div>
+        <ul>
+          <li>딥페이크임을 알 수 있게 표시 의무화</li>
+          <li>표현의 자유와 덜 충돌</li>
+          <li>패러디·예술·정치적 표현 허용</li>
+          <li>EU AI Act와 방향 정합성 확보</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>플랫폼 자율규제: 구조와 한계</h3>
+      <p>
+        과기정통부는 2022년 8월 <strong>플랫폼 민간 자율기구</strong>를 출범시켰다. 콘텐츠 모더레이션, 임시조치 남용 방지, AI 생성 콘텐츠 관리 등이 분과별 논의 테이블에 올랐다.<sup>[10]</sup>
+      </p>
+      <p>
+        자율규제는 법적 규제보다 유연하고 빠르게 기술 변화에 대응할 수 있다는 장점이 있다. 그러나 강제성이 없어 실효성 담보가 어렵고, 대형 플랫폼이 주도하는 구조에서 이용자 권리 관점이 충분히 반영되지 않을 수 있다는 비판도 있다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 09 닫으며 -->
+  <section class="section" id="conclusion">
+    <h2 class="section-title">닫으며 — 차단·처벌·삭제, 그 경계의 무게</h2>
+
+    <div class="conclusion-box">
+      <h3>세 칼날의 공통 문제</h3>
+      <p>
+        인터넷에서 말할 자유는 단일한 문제가 아니다. 임시조치는 "먼저 차단하고 나중에 다투라"는 구조여서 무고한 표현이 먼저 사라진다. 명예훼손·모욕의 형사처벌은 진실을 말한 사람도, 비판적 논평을 한 사람도 형사피의자로 만들 수 있다. 잊힐 권리는 프라이버시를 회복시키지만, 역사 기록과 공익적 표현을 지울 수 있다. 딥페이크 규제는 피해를 막지만, 패러디와 풍자의 경계를 흐린다.
+      </p>
+      <p>
+        이 모든 긴장의 공통점은 하나다. <strong>규제의 목적이 정당하더라도, 그 목적을 이루는 방법이 필요 이상으로 표현을 억누를 때 문제가 된다.</strong> 2012년 헌재의 실명제 위헌 결정이 남긴 논리 — "효과 없는 자유 침해는 위헌" — 는 지금도 유효하다.
+      </p>
+      <p>
+        한국 온라인 표현의 자유 논의에서 놓치기 쉬운 또 다른 층이 있다. <strong>법적 규제와 별개로, 플랫폼의 알고리즘이 어떤 콘텐츠를 증폭하고 어떤 콘텐츠를 보이지 않게 하는지</strong>는 규제 공백으로 남아 있다. 임시조치로 30일 차단하는 것보다, 알고리즘이 특정 표현을 수백만 명에게 도달하지 못하게 조용히 차단하는 것이 더 광범위한 영향을 미칠 수 있다.
+      </p>
+      <p>
+        [글 #01]에서 창과 방패의 역사가 기술의 군비경쟁이었다면, 표현의 자유를 둘러싼 싸움은 <strong>어떤 말을 막을 권한이 누구에게 있는가</strong>라는 훨씬 오래된 질문이다. 법원, 입법부, 플랫폼, 그리고 이용자 — 네 주체가 이 질문에 서로 다른 답을 내놓는 동안, 말할 자유와 침묵할 권리 사이의 경계는 계속 그어지고 지워지고 있다.
+      </p>
+    </div>
+
+    <div class="series-nav">
+      <a href="../03-net-neutrality-korea/">
+        <span class="nav-label">← 이전 글</span>
+        글 #03 — 망 중립성과 망사용료
+      </a>
+      <a href="../../" style="text-align:right;">
+        <span class="nav-label">시리즈 홈 →</span>
+        net.or.kr 디지털 권리 포털
+      </a>
+    </div>
+  </section>
+
+  <!-- 10 참고문헌 -->
+  <section class="section" id="references">
+    <h2 class="section-title">참고문헌</h2>
+    <ul class="ref-list">
+      <li>
+        <span class="ref-num">[1]</span>
+        <span>임시조치 제도 구조·과잉차단 논란 — KISO저널, 「정보통신망법상 임시조치 개정안의 문제점: 국가규제의 강화와 표현의 자유의 위축」. <a href="https://journal.kiso.or.kr/?p=10983">journal.kiso.or.kr</a> ; LBOX, 정보통신망법 제44조의2. <a href="https://lbox.kr">lbox.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[2]</span>
+        <span>임시조치 개정안 이의신청(재개시) 제도 — KISO저널, 「정보통신망법상 임시조치 개정안의 문제점」(2021.6). <a href="https://journal.kiso.or.kr/?p=10983">journal.kiso.or.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[3]</span>
+        <span>인터넷 실명제 위헌 결정 (헌재 2012.8.23. 2010헌마47) — 연합뉴스, 「헌재 "인터넷 실명제 위헌"」(2012.8.23). <a href="https://www.yna.co.kr/view/AKR20120823156200004">yna.co.kr</a> ; 법률신문, 「인터넷 실명제 위헌결정의 의의 및 전망」. <a href="https://www.lawtimes.co.kr/news/105055">lawtimes.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[4]</span>
+        <span>명예훼손·모욕죄와 표현의 자유 — 대법원 2022.8.31. 선고 2019도7370 판결; 형법 제307조(명예훼손), 제311조(모욕). <a href="https://casenote.kr/법령/형법/제307조">casenote.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[5]</span>
+        <span>진실적시 명예훼손 위헌확인 헌재 결정례 (형법 제307조 제1항) — 국가법령정보센터 헌재결정례. <a href="https://www.law.go.kr/detcInfoP.do?detcSeq=163947">law.go.kr</a> ; 형법 제310조(위법성의 조각). <a href="https://casenote.kr/법령/형법/제310조">casenote.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[6]</span>
+        <span>잊힐 권리 한국·EU 비교 — 개인정보보호위원회, 개인정보 열람 등 요구 안내. <a href="https://www.privacy.go.kr">privacy.go.kr</a> ; ZDNet Korea, 「유럽 GDPR, 한국 개인정보보호법과 어떻게 다른가」(2018.4.17). <a href="https://zdnet.co.kr">zdnet.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[7]</span>
+        <span>딥페이크 성착취물 사태·성폭력처벌법 개정(2024.10.16) — 법률신문, 「'딥페이크' 무엇이 문제인가?」(2024.10.18). <a href="https://www.lawtimes.co.kr/LawFirm-NewsLetter/202317">lawtimes.co.kr</a> ; 시사저널, 「처벌법 시행 전 저장한 딥페이크 성착취물…대법원 "처벌 대상"」. <a href="https://www.sisajournal.com/news/articleView.html?idxno=373236">sisajournal.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[8]</span>
+        <span>공직선거법 딥페이크 선거운동 금지(제82조의8, 2024.1.29 개정) — 법률신문, 「딥페이크 영상 선거운동 금지법」(2024.2.7). <a href="https://www.lawtimes.co.kr/LawFirm-NewsLetter/195759">lawtimes.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[9]</span>
+        <span>AI 생성물 표시 의무 입법 방안(국회입법조사처 2024.10) — KDI 경제교육·정보센터, 「딥페이크 식별을 위한 AI 생성물 표시 의무 입법 방안」. <a href="https://eiec.kdi.re.kr/policy/domesticView.do?ac=0000188912">eiec.kdi.re.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[10]</span>
+        <span>플랫폼 민간 자율기구·자율규제 — 김앤장, 「온라인 플랫폼 자율규제 관련 동향」. <a href="https://www.kimchang.com/ko/insights/detail.kc?sch_section=4&idx=25976">kimchang.com</a> ; 신&amp;김, 「플랫폼 자율규제 관련 입법 및 정책동향」. <a href="https://www.shinkim.com/kor/media/newsletter/2211">shinkim.com</a></span>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>디지털 권리 포털 — 기술·정책 해설 시리즈 「창과 방패」<br>
+      사실 오류나 보완 의견은 포털 <a href="https://github.com/berryp23/net-or-kr/issues" target="_blank" rel="noopener">GitHub 이슈로 제보</a>해 주세요.</p>
+      <div class="license-badge">CC BY 4.0</div>
+    </div>
+    <div class="footer-right">
+      <p>글 #04 · 온라인 표현의 자유</p>
+      <p>2026년 6월 8일 발행</p>
+      <p>
+        <a href="../01-spear-and-shield-history/" class="crosslink">글 #01 창과 방패</a>
+        <a href="../02-wiretapping-and-privacy/" class="crosslink" style="margin-left:6px;">글 #02 패킷 감청</a>
+        <a href="../03-net-neutrality-korea/" class="crosslink" style="margin-left:6px;">글 #03 망 중립성</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

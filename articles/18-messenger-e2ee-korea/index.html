@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사이버 망명, 10년 후 — 한국 메신저 E2EE의 현실 | net.or.kr</title>
+<meta name="description" content="2014년 카카오톡 사이버 망명 사건을 출발점으로, 카카오톡·텔레그램·Signal의 종단간 암호화 구조와 실질적 한계, 법적 감청 경로, EU Chat Control 동향을 분석한다.">
+<meta property="og:title" content="사이버 망명, 10년 후 — 한국 메신저 E2EE의 현실">
+<meta property="og:description" content="2014년 카카오톡 사이버 망명 사건을 출발점으로, 카카오톡·텔레그램·Signal의 종단간 암호화 구조와 실질적 한계, 법적 감청 경로, EU Chat Control 동향을 분석한다.">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+  .prose pre{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;margin:0 0 16px;}
+  .prose pre code{background:none;color:#cbd5e1;padding:0;font-size:13px;line-height:1.6;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .prose .footnote-def{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 8px;}
+  .prose .footnote-def sup{color:var(--amber);font-weight:700;margin-right:4px;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #18 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">사이버 망명, 10년 후 — 한국 메신저 E2EE의 현실</h1>
+    <p class="article-subtitle">카카오톡·텔레그램·Signal의 암호화 구조와 그 실질적 한계</p>
+    <div class="article-meta">
+      <span>2026년 6월 12일 발행</span>
+      <span>약 20분 읽기</span>
+      <span class="tag">E2EE</span><span class="tag">종단간암호화</span><span class="tag">카카오톡</span><span class="tag">텔레그램</span><span class="tag">Signal</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-1"><span>01</span> 들어가며 — "사이버 망명"의 기억</a></li>
+      <li><a href="#sec-2"><span>02</span> 1. 법적 프레임워크 — 감청의 세 가지 경로</a></li>
+      <li><a href="#sec-3"><span>03</span> 2. 카카오톡의 변천사 — 방패를 늦게 든 이유</a></li>
+      <li><a href="#sec-4"><span>04</span> 3. 텔레그램의 신화와 실체</a></li>
+      <li><a href="#sec-5"><span>05</span> 4. Signal — 진짜 E2EE의 기준</a></li>
+      <li><a href="#sec-6"><span>06</span> 5. EU Chat Control — E2EE를 깨뜨리려는 입법 시도</a></li>
+      <li><a href="#sec-7"><span>07</span> 6. E2EE가 막지 못하는 것들</a></li>
+      <li><a href="#sec-8"><span>08</span> 7. 실용 가이드 — 위협 모델별 메신저 선택</a></li>
+      <li><a href="#sec-9"><span>09</span> 마무리 — E2EE는 기술 문제이자 정치 문제</a></li>
+      <li><a href="#sec-10"><span>10</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">들어가며 — "사이버 망명"의 기억</h2>
+  <div class="prose">
+<p>2014년 9월, 스마트폰 화면을 들여다보던 수백만 명이 거의 동시에 같은 결정을 내렸다. 카카오톡을 삭제하고 텔레그램을 설치하는 것. 언론은 이를 "사이버 망명"이라고 불렀다.</p>
+<p>방아쇠가 된 것은 당시 박근혜 정부 검찰의 행보였다. 검찰이 온라인 명예훼손·허위사실 유포 등을 명목으로 SNS·메신저 감시와 카카오톡 대화 내용 확보에 나섰다는 보도가 국내 언론에 잇따랐고,<sup>1</sup> 사용자들은 비로소 깨달았다. 카카오톡 서버에 저장된 메시지는 회사를 통해 수사기관의 손에 들어갈 수 있다. 법원 허가만 있으면.</p>
+<p>텔레그램은 그 순간 '안전한 피난처'로 소비됐다. 러시아계 창업자 Pavel Durov가 만든 이 앱은 "우리는 어떤 정부에도 굴복하지 않는다"는 이미지로 유럽에서 이미 인기를 끌고 있었고, 마침 한국어 인터페이스가 완성된 시점과 맞물렸다. 2014년 9월 한 달 동안 텔레그램의 국내 신규 가입자가 크게 늘었다는 보도가 나왔고,<sup>2</sup> 카카오는 결국 같은 해 말부터 "비밀채팅" 기능을 순차적으로 선보였다.</p>
+<p>그로부터 10년이 지났다. 2014년의 사이버 망명은 당시 사람들이 생각했던 것보다 훨씬 복잡한 현실을 가리키고 있었다. 텔레그램도, 카카오도, 그리고 '안전하다'는 통념도 — 모두 다시 들여다볼 필요가 있다.</p>
+<p>이 글은 [글#2 「감청과 프라이버시」]에서 다룬 법적 프레임워크를 기반으로, 한국에서 가장 많이 쓰이는 메신저들의 암호화 구조와 그 실질적 한계를 짚는다.</p>
+  </div>
+</section>
+<section class="section" id="sec-2">
+  <h2 class="section-title">1. 법적 프레임워크 — 감청의 세 가지 경로</h2>
+  <div class="prose">
+<p>메신저 보안을 논하려면 한국의 통신 감시 법제를 먼저 이해해야 한다. 「통신비밀보호법」(이하 통비법)은 통신 감시 수단을 침해 강도에 따라 세 층위로 구분한다.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>법적 근거</th><th>대상 정보</th><th>절차</th></tr></thead><tbody><tr><td><strong>통신제한조치</strong> (감청)</td><td>통비법 제5~8조</td><td>통신 내용 실시간 취득</td><td>검사 청구 → 법원 허가</td></tr><tr><td><strong>통신사실확인자료</strong></td><td>통비법 제2조 11호</td><td>통화기록·IP·접속시간 등 메타데이터</td><td>법원 허가 (완화된 요건)</td></tr><tr><td><strong>통신이용자정보</strong></td><td>전기통신사업법</td><td>이름·주민등록번호 등 인적사항</td><td>공문 요청 (영장 불요)</td></tr></tbody></table></div>
+<p>메신저에 대한 수사기관의 접근은 크게 세 가지 경로로 이뤄진다.</p>
+<p><strong>① 통신제한조치(감청):</strong> 메신저 실시간 내용을 취득하려면 법원 허가가 필요하다. 그러나 종단간 암호화(E2EE) 메신저에서는 서버를 압수해도 암호화된 데이터만 볼 수 있다.</p>
+<p><strong>② 저장 데이터 압수·수색:</strong> 감청이 아닌 '저장된 데이터'에 대한 압수·수색 영장으로 서비스 제공사로부터 대화 내용을 받는 경우다. <strong>이것이 2014년 카카오톡 사태의 핵심이었다.</strong> 당시 카카오는 메시지를 서버에 평문 또는 서버 단에서 복호화 가능한 형태로 저장하고 있었고, 영장이 집행되면 내용을 제출할 수 있는 구조였다.</p>
+<p><strong>③ 통신사실확인자료:</strong> 내용이 아닌 메타데이터 — 누가 누구에게 언제 메시지를 보냈는가 — 를 확보하는 것이다. E2EE는 이를 막지 못한다. Signal이 "메타데이터 최소화"를 핵심 설계 원칙으로 삼은 이유가 여기 있다.</p>
+<blockquote><p><strong>핵심 구분:</strong> E2EE는 ②번 경로(저장 데이터 압수)를 막는다. ③번 메타데이터는 막지 못한다. 단말 압수는 어떤 방법으로도 막지 못한다.</p></blockquote>
+  </div>
+</section>
+<section class="section" id="sec-3">
+  <h2 class="section-title">2. 카카오톡의 변천사 — 방패를 늦게 든 이유</h2>
+  <div class="prose">
+<h3>2014년 이전: 서버 저장, 영장이면 열린 봉투</h3>
+<p>카카오톡은 서비스 초기부터 메시지를 서버에 저장하는 아키텍처를 채택했다. 멀티디바이스 지원, 메시지 복구, 오프라인 기기로 전달하기 위해서는 서버가 메시지를 보관하고 있어야 했다. 이는 카카오만의 문제가 아닌 당시 대부분의 모바일 메신저가 공유하던 설계 관행이었다.</p>
+<p>결과적으로 법원 압수·수색 영장이 발부되면 카카오는 저장된 대화 내용을 수사기관에 제출할 수 있었다. 2014년 이러한 구조가 공개적으로 알려지면서 대규모 이탈이 시작됐다.</p>
+<h3>2014년 말~2015년: '비밀채팅' 도입</h3>
+<p>사이버 망명 직후 카카오는 종단간 암호화를 적용한 "비밀채팅" 기능을 순차 도입했다. 이 기능은 서버에서도 내용을 복호화할 수 없으며, 자동 삭제 타이머와 스크린샷 방지 기능도 함께 제공된다.</p>
+<h3>"왜 기본값이 아닌가" 논쟁</h3>
+<p>그러나 비밀채팅은 <strong>기본값이 아니다.</strong> 일반 채팅은 여전히 서버에 저장되며, 압수·수색 영장이 발부되면 회사는 내용을 제출할 수 있다. 카카오가 실제로 수사 영장에 협조한 건수는 카카오 투명성 보고서를 통해 연도별로 일부 공개되고 있다.<sup>3</sup></p>
+<p>비밀채팅이 기본값이 아닌 이유에 대해 업계에서 일반적으로 거론되는 기술적 이유는 다음과 같다.</p>
+<ul><li>멀티디바이스에서 E2EE를 구현하려면 키 동기화 등 복잡한 추가 설계가 필요함</li><li>메시지 검색, 백업·복구 기능이 제한됨</li><li>기업·기관 고객(카카오워크 등)의 컴플라이언스 요구사항과 충돌 가능</li></ul>
+<p>그러나 Signal이 멀티디바이스 E2EE를 구현하고 있고, iMessage가 '고급 데이터 보호' 옵션을 통해 E2EE 기본값에 근접하는 방향으로 발전해 왔다는 점을 고려하면, 이 설명이 기술적 한계보다는 <strong>제품·비즈니스 결정</strong>의 성격이 강하다는 시각도 존재한다.</p>
+  </div>
+</section>
+<section class="section" id="sec-4">
+  <h2 class="section-title">3. 텔레그램의 신화와 실체</h2>
+  <div class="prose">
+<h3>"텔레그램은 암호화되어 있다"는 오해</h3>
+<p>2014년 이후 한국에서 텔레그램은 "안전한 메신저"의 대명사가 됐다. 그러나 이 인식에는 중요한 오해가 담겨 있다.</p>
+<p><strong>텔레그램의 일반 채팅은 E2EE가 아니다.</strong></p>
+<p>일반 채팅(클라우드 채팅)은 텔레그램 서버에 암호화되어 저장된다. 여기서 '암호화'는 텔레그램이 보유한 서버 키로 암호화됐다는 뜻이다 — 텔레그램 회사 측에서는 내용을 복호화할 수 있다. 협조를 결정하면 제3자에게 내용을 제공하는 것이 기술적으로 가능하다.</p>
+<p><strong>E2EE는 "비밀 채팅(Secret Chat)"에서만 작동한다.</strong> 비밀 채팅은 별도로 시작해야 하며, 텔레그램의 핵심 기능인 그룹 채팅과 채널에서는 지원되지 않는다.</p>
+<div class="table-wrap"><table><thead><tr><th>채팅 유형</th><th>E2EE</th><th>서버 저장</th><th>그룹 지원</th></tr></thead><tbody><tr><td>일반 채팅 (클라우드)</td><td>❌</td><td>✅ (텔레그램 키)</td><td>✅</td></tr><tr><td>비밀 채팅 (Secret Chat)</td><td>✅</td><td>❌</td><td>❌</td></tr><tr><td>그룹 채팅 / 채널</td><td>❌</td><td>✅</td><td>✅</td></tr></tbody></table></div>
+<h3>MTProto 프로토콜 논쟁</h3>
+<p>텔레그램은 Signal Protocol 같은 업계 검증 프로토콜을 채택하는 대신 자체 프로토콜인 MTProto를 사용한다. MTProto는 사양이 공개되어 있지만 여러 차례 독립 연구자들의 비판을 받았다.</p>
+<p>주요 비판 요점은 다음과 같다.</p>
+<ul><li>초기 MTProto 1.0에서 IND-CCA 보안을 충족하지 못한다는 암호학자들의 지적이 학술 논문으로 발표된 바 있다.<sup>4</sup></li><li>키 교환 방식이 Signal Protocol의 이중 래칫(Double Ratchet Algorithm)과 달리 <strong>전방 비밀성(Forward Secrecy)이 제한적</strong>이다. 세션 키가 노출되면 이전 메시지를 복호화할 수 있는 위험이 이론적으로 존재한다.</li><li>MTProto 2.0으로 개선됐다고 텔레그램 측은 주장하나, 완전한 독립 감사 결과는 제한적으로만 공개된 것으로 알려져 있다.</li></ul>
+<p>암호학 커뮤니티 다수는 검증된 기존 프로토콜(Signal Protocol, Noise Framework 등)의 채택을 선호한다. "직접 암호화 프로토콜을 설계하지 말라(Don't roll your own crypto)"는 암호학의 오래된 경고가 여기 적용된다.</p>
+<h3>2024년 Durov 체포와 정책 변화</h3>
+<p>2024년 8월, 텔레그램 창업자 Pavel Durov가 프랑스에서 체포됐다.<sup>5</sup> 프랑스 당국은 텔레그램이 마약 거래, 아동 성착취물(CSAM), 사기 등 범죄 활동에 악용되는 것을 방치했다는 혐의로 수사에 착수한 것으로 보도됐다. Durov는 일부 조건 하에 보석으로 풀려난 후, 텔레그램이 수사기관의 적법한 요청에 더 적극적으로 협조하겠다는 방침을 발표했다.</p>
+<p>이 사건은 텔레그램의 "어떤 정부에도 굴복하지 않는다"는 이미지에 균열을 냈다. 현재 텔레그램이 어느 국가 수사기관에, 어느 범위의 정보를 제공하고 있는지에 대한 상세한 투명성 보고는 공개되지 않은 것으로 알려져 있다.</p>
+  </div>
+</section>
+<section class="section" id="sec-5">
+  <h2 class="section-title">4. Signal — 진짜 E2EE의 기준</h2>
+  <div class="prose">
+<h3>Signal Protocol: 업계 표준이 된 설계</h3>
+<p>Signal은 Moxie Marlinspike가 창립한 Open Whisper Systems(현 Signal Foundation)에서 개발했다. Signal App의 기반인 <strong>Signal Protocol</strong>은 이중 래칫 알고리즘(Double Ratchet Algorithm)과 Extended Triple Diffie-Hellman(X3DH) 키 교환을 결합한다.</p>
+<p>Signal Protocol의 핵심 보안 속성:</p>
+<ul><li><strong>전방 비밀성(Forward Secrecy):</strong> 현재 세션 키가 노출되어도 과거 메시지는 복호화 불가</li><li><strong>사후 손상 복구(Break-in Recovery):</strong> 공격자가 일시적으로 세션에 접근해도 이후 메시지는 다시 안전해짐</li><li><strong>부인 가능성(Deniability):</strong> 메시지가 특정인이 보낸 것임을 제3자에게 암호학적으로 증명하기 어려움</li></ul>
+<p>WhatsApp의 기본 채팅, Google Messages(RCS), Facebook Messenger의 비밀 대화 기능도 Signal Protocol을 채택했다. Signal Protocol은 사실상 현대 E2EE 메신저의 표준 참조 구현이 됐다.</p>
+<h3>메타데이터 최소화: Signal의 차별점</h3>
+<p>Signal은 서버에 최소한의 정보만 저장하도록 설계됐다. 2016년 미국 버지니아 동부 법원이 Signal 사용자 관련 대배심 소환장을 발부했을 때, Signal Foundation이 제공할 수 있었던 것은 계정 등록 날짜와 마지막 접속 날짜뿐이었다고 Signal Foundation이 공개한 바 있다.<sup>6</sup> 이는 서버에 실제로 그 정보만 존재했기 때문이다.</p>
+<h3>한국에서 Signal 사용자가 적은 이유</h3>
+<p>Signal의 국내 사용자 수는 카카오톡에 비할 수 없이 적다. 이유는 복합적이다.</p>
+<ul><li><strong>네트워크 효과:</strong> 기존 카카오톡 사용자 기반이 압도적이다. "상대방이 써야 쓸 수 있는" 메신저의 속성상 전환 비용이 높다.</li><li><strong>기능 격차:</strong> 카카오톡의 편의 기능(카카오페이 연동, 오픈채팅, 선물하기 등)을 Signal은 제공하지 않는다.</li><li><strong>인지도:</strong> Signal은 주로 보안 의식이 높은 사용자, 기자, 활동가, IT 업계 종사자들 사이에서 알려진 편이다.</li></ul>
+  </div>
+</section>
+<section class="section" id="sec-6">
+  <h2 class="section-title">5. EU Chat Control — E2EE를 깨뜨리려는 입법 시도</h2>
+  <div class="prose">
+<h3>무엇인가</h3>
+<p>2022년 EU 집행위원회는 온라인 아동 성착취물(CSAM) 대응을 위한 규정안을 발의했다. 이 규정안의 핵심 조항 중 하나가 큰 논란을 불렀다: <strong>메신저·이메일 서비스에 CSAM 탐지 스캔 의무를 부과하는 것.</strong></p>
+<p>E2EE 서비스에 스캔 의무를 부과하려면 기술적으로 두 가지 접근이 있다.</p>
+<ol><li><strong>클라이언트 사이드 스캔(Client-Side Scanning):</strong> 메시지가 암호화되기 전, 즉 사용자의 단말에서 내용을 스캔한다.</li><li><strong>키 에스크로(Key Escrow):</strong> 서버 단에서 복호화할 수 있도록 암호화 키의 사본을 국가 또는 제3자에게 위탁하도록 강제한다.</li></ol>
+<p>암호학자와 시민단체들은 두 방법 모두 E2EE를 사실상 무력화한다고 비판했다. 특히 클라이언트 사이드 스캔은 "모든 사용자의 기기에 감시 소프트웨어를 설치하는 것"과 다름없다는 주장이 제기됐다.</p>
+<h3>진행 상황 (2024년 기준)</h3>
+<p>2024년 EU 이사회에서 독일, 오스트리아, 네덜란드 등 주요 회원국이 E2EE를 훼손하는 조항에 반대 입장을 표명했다. 예정됐던 표결이 연기됐으며, 이후에도 합의에 이르지 못하고 협상이 장기화되고 있는 것으로 보도된 바 있다.<sup>7</sup> 비교 사례로, Apple은 2021년 아이폰에서 CSAM를 탐지하는 클라이언트 사이드 스캔 기술(NeuralHash)을 발표했다가, 프라이버시 침해 논란이 거세게 일자 2022년 전면 철회했다.<sup>8</sup></p>
+<h3>한국에서의 시사점</h3>
+<p>현재 한국에는 Chat Control과 직접 유사한 입법 움직임이 가시화되지 않은 것으로 보인다. 그러나 EU의 논의는 전 세계 유사 규제의 선례로 기능할 가능성이 있으며, 한국 방송통신위원회·과학기술정보통신부 등 규제 기관이 해외 사례를 정책 참고자료로 활용하는 경향이 있다는 점에서 주목할 필요가 있다.</p>
+  </div>
+</section>
+<section class="section" id="sec-7">
+  <h2 class="section-title">6. E2EE가 막지 못하는 것들</h2>
+  <div class="prose">
+<p>E2EE는 강력한 보호 수단이지만 '송신 단말에서 수신 단말까지'의 전송 경로만 보호한다. 전송 경로 밖에서 취약점이 발생한다.</p>
+<h3>클라우드 백업의 함정</h3>
+<p><strong>iMessage:</strong> 기본 설정으로 iCloud 백업을 켜두면 iMessage 내용이 iCloud에 저장될 수 있으며, Apple이 법원 명령을 받으면 이를 제공하는 것이 가능하다고 알려져 있다. iOS 16.2부터 도입된 "고급 데이터 보호(Advanced Data Protection)"를 활성화하면 iCloud 백업도 E2EE로 보호되지만, 이 설정은 기본값이 아니다.</p>
+<p><strong>WhatsApp:</strong> 구글 드라이브·iCloud 백업 기능이 있으며, 2021년 이전 백업은 기본적으로 E2EE 없이 저장됐다. 이후 선택적 E2EE 백업 기능이 추가됐지만 여전히 기본값은 아니다.</p>
+<p><strong>카카오톡:</strong> 서버에 대화가 저장되는 구조이므로 별도 백업 경로 이전 단계부터 서버 압수·수색의 대상이 된다.</p>
+<h3>단말 압수와 포렌식</h3>
+<p>아무리 강력한 E2EE를 사용해도, 스마트폰이 압수되어 잠금이 해제되면 화면에 보이는 모든 대화 내용이 노출된다. Cellebrite, GrayKey 등으로 알려진 디지털 포렌식 도구들은 특정 iOS·Android 버전의 잠금을 해제하는 기능을 제공하는 것으로 공개 보도와 보안 연구를 통해 알려져 있으며, 이러한 도구들이 법 집행 기관에 판매된다고 보고된다.<sup>9</sup></p>
+<h3>메타데이터는 E2EE로 차단되지 않는다</h3>
+<p>통신사실확인자료 — 누가 누구와 언제 메시지를 주고받았는가 — 는 E2EE와 무관하게 접근 가능하다. Signal이 서버에 아무것도 저장하지 않도록 설계한 이유다. 반면 카카오톡·텔레그램 일반 채팅은 서비스 회사가 이 정보를 보유하며, 법원 허가 시 제출 의무가 발생할 수 있다.</p>
+<p>전 NSA·CIA 국장 Michael Hayden은 "메타데이터만으로도 사람을 죽일 수 있다(We kill people based on metadata)"는 취지의 발언을 한 것으로 여러 언론에 인용된 바 있다. 드론 타격 의사결정에서 통화 메타데이터가 결정적 역할을 했음을 시사하는 발언으로, 메타데이터가 단순한 부가 정보가 아님을 극명하게 보여준다.<sup>10</sup></p>
+<h3>상대방의 신뢰도</h3>
+<p>E2EE는 통신 경로를 보호하지, 대화 상대방을 보호하지는 않는다. 상대방이 대화를 스크린샷하거나, 내용을 제3자에게 전달하거나, 수사기관의 협조자인 경우 E2EE는 아무런 보호를 제공하지 못한다.</p>
+  </div>
+</section>
+<section class="section" id="sec-8">
+  <h2 class="section-title">7. 실용 가이드 — 위협 모델별 메신저 선택</h2>
+  <div class="prose">
+<p>보안에는 "절대적으로 안전한" 선택이 없다. <strong>위협 모델(threat model)</strong> — 누가 나를 감시할 가능성이 있는가, 무엇을 보호해야 하는가 — 에 따라 적절한 선택이 달라진다.</p>
+<div class="table-wrap"><table><thead><tr><th>사용자 유형</th><th>주요 위협</th><th>권장 메신저</th><th>핵심 주의사항</th></tr></thead><tbody><tr><td><strong>일반 시민</strong></td><td>계정 해킹, 데이터 유출</td><td>카카오톡</td><td>비밀채팅을 민감한 대화에 활용</td></tr><tr><td><strong>민감한 개인 대화</strong></td><td>사생활 보호</td><td>카카오 비밀채팅, iMessage(고급 데이터 보호 활성화)</td><td>클라우드 백업 설정 확인 필수</td></tr><tr><td><strong>기자·활동가</strong></td><td>수사기관, 취재원 보호</td><td><strong>Signal</strong></td><td>Username 기능으로 전화번호 비노출 가능</td></tr><tr><td><strong>법적 위험에 처한 개인</strong></td><td>수사 영장, 단말 압수</td><td><strong>Signal</strong> + 기기 전체 암호화 + 사라지는 메시지 타이머</td><td>법률 전문가 상담 병행 권고</td></tr><tr><td><strong>기업 기밀 보호</strong></td><td>산업 스파이, 내부 유출</td><td>기업용 E2EE 솔루션</td><td>기업 정책·컴플라이언스 요건 우선 확인</td></tr></tbody></table></div>
+<h3>주요 메신저 기능 비교</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>카카오(일반)</th><th>카카오(비밀채팅)</th><th>텔레그램(일반)</th><th>텔레그램(비밀채팅)</th><th>Signal</th></tr></thead><tbody><tr><td>E2EE</td><td>❌</td><td>✅</td><td>❌</td><td>✅</td><td>✅ (기본)</td></tr><tr><td>암호화 프로토콜</td><td>자체</td><td>자체</td><td>MTProto 2.0</td><td>MTProto 2.0</td><td>Signal Protocol</td></tr><tr><td>서버 메시지 저장</td><td>✅</td><td>❌</td><td>✅</td><td>❌</td><td>❌</td></tr><tr><td>그룹 E2EE</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td></tr><tr><td>메타데이터 최소화</td><td>❌</td><td>△</td><td>❌</td><td>△</td><td>✅</td></tr><tr><td>클라이언트 오픈소스</td><td>❌</td><td>❌</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>독립 보안 감사</td><td>미공개</td><td>미공개</td><td>부분</td><td>부분</td><td>✅</td></tr></tbody></table></div>
+<h3>실천 체크리스트</h3>
+<ul><li>[ ] 민감한 대화 시 카카오톡 "비밀채팅" 기능 사용 습관화</li><li>[ ] iCloud 또는 구글 드라이브의 메신저 백업 설정 확인</li><li>[ ] Signal 설치 및 주요 연락처 몇 명과 공유</li><li>[ ] 스마트폰 화면 잠금 강화 (6자리 이상 숫자 또는 영숫자 조합)</li><li>[ ] Signal "사라지는 메시지" 타이머 기본값 설정 검토</li><li>[ ] iMessage 사용자: iOS 설정 → Apple ID → iCloud → 고급 데이터 보호 활성화 여부 확인</li></ul>
+  </div>
+</section>
+<section class="section" id="sec-9">
+  <h2 class="section-title">마무리 — E2EE는 기술 문제이자 정치 문제</h2>
+  <div class="prose">
+<p>2014년 카카오톡 사태가 드러낸 것은 단순한 기술 선택의 문제가 아니었다. 어떤 메신저를 사용하는가는 국가와 시민 사이의 정보 비대칭이라는 정치적 현실과 직결된다.</p>
+<p>E2EE가 광범위하게 채택될수록 국가의 합법적 감청도 어려워진다. 이것이 각국 정부가 E2EE를 제한하거나 백도어를 요구하려는 유인이 생기는 이유다. EU Chat Control의 논쟁, 미국 정보기관의 "Going Dark" 문제 제기, 그리고 한국의 패킷감청 논쟁은 모두 같은 긴장 위에 서 있다.</p>
+<p>카카오가 비밀채팅을 기본값으로 만들지 않는 것도, 텔레그램이 그룹 채팅에 E2EE를 지원하지 않는 것도, 기술적 불가능의 문제가 아니다. 그것은 법적 의무, 비즈니스 판단, 그리고 어느 정도는 정부와의 관계가 교차하는 지점에서 내려지는 <strong>설계 선택</strong>이다.</p>
+<p>시민의 입장에서 할 수 있는 것은 두 가지다. 첫째, 자신의 위협 모델을 이해하고 그에 맞는 도구를 선택한다. 둘째, E2EE의 광범위한 채택을 지지한다 — 암호화는 범죄자만 쓰는 것이 아니라, 의사와 환자 사이, 변호사와 의뢰인 사이, 기자와 취재원 사이의 통신을 보호하는 사회적 인프라다.</p>
+<p>창이 더 날카로워지는 동안, 방패는 모두의 것이어야 한다.</p>
+  </div>
+</section>
+<section class="section" id="sec-10">
+  <h2 class="section-title">참고문헌</h2>
+  <div class="prose">
+<p class="footnote-def"><sup>1</sup>2014년 9월 국내 주요 언론들은 검찰이 온라인 명예훼손·허위사실 유포 혐의 수사를 위해 메신저·SNS 감시를 진행하고 있다고 보도했다. 이 보도들이 사이버 망명의 직접적 계기가 됐다.</p>
+<p class="footnote-def"><sup>2</sup>국내 언론의 2014년 9~10월 보도에 따르면 텔레그램 한국 누적 다운로드 및 신규 가입이 해당 기간 중 크게 증가했다. 정확한 수치는 보도 매체마다 차이가 있어 원문 확인을 권장한다.</p>
+<p class="footnote-def"><sup>3</sup>카카오는 투명성 보고서를 연도별로 발간하고 있으며, 수사기관의 자료 요청 건수 및 협조 현황 일부를 포함하고 있다. 최신 보고서는 카카오 공식 홈페이지에서 확인할 수 있다.</p>
+<p class="footnote-def"><sup>4</sup>Jakob Jakobsen 외, "On the IND-CCA (in)security of MTProto" 등 여러 암호학 연구가 MTProto 1.0의 취약점을 지적했다. 이후 MTProto 2.0으로 개선됐으나 완전한 독립 감사 결과는 제한적으로만 공개돼 있다.</p>
+<p class="footnote-def"><sup>5</sup>BBC News, Le Monde 등 주요 국제 언론이 2024년 8월 Pavel Durov의 프랑스 체포 소식을 보도했다. 이후 Durov는 보석으로 석방됐으며, 텔레그램의 수사 협조 방침 변화를 공개적으로 발표했다.</p>
+<p class="footnote-def"><sup>6</sup>Signal Foundation, "Grand Jury Subpoena for Signal User Data, Eastern District of Virginia" — Signal Foundation이 법원 명령에 따라 제공할 수 있었던 데이터가 매우 제한적이었음을 Signal 공식 블로그를 통해 공개했다.</p>
+<p class="footnote-def"><sup>7</sup>Euractiv 등 EU 정책 전문 매체들이 2024년 Chat Control 2.0 관련 EU 이사회 협상 교착 상태를 상세히 보도했다. 이후 2025년 10월 독일 등이 가세한 봉쇄 소수(blocking minority)가 형성되며 의무 스캐닝안 표결이 무산됐고, 덴마크 의장국은 의무 탐지 조항을 철회해 11월 EU 이사회는 자발적 스캐닝을 골자로 한 부분 일반접근(partial general approach)에 합의했으며, 이를 토대로 한 이사회·의회 간 3자 협의(trilogue)가 2025년 12월 시작된 것으로 보고된다.</p>
+<p class="footnote-def"><sup>8</sup>EFF(전자프런티어재단), "Apple Abandons Its Plans to Scan iPhones for CSAM" (2022년 12월). Apple의 NeuralHash 계획 철회를 보도한 다수의 언론 보도와 EFF 분석이 있다.</p>
+<p class="footnote-def"><sup>9</sup>Cellebrite, GrayKey 등의 포렌식 도구가 특정 스마트폰 잠금을 해제하는 기능을 제공한다는 내용은 Vice Motherboard, Wired, MIT Technology Review 등 기술 전문 매체의 탐사 보도를 통해 알려져 있다.</p>
+<p class="footnote-def"><sup>10</sup>Michael Hayden의 메타데이터 관련 발언은 2014년 The New York Review of Books 등에서 인용됐다. "We kill people based on metadata"라는 표현은 드론 타격 의사결정에서 메타데이터의 역할을 인정한 발언으로 폭넓게 인용되고 있다.</p>
+<p><em>net.or.kr — 한국 디지털 권리 포털</em> <em>관련 글: [글#2] 패킷 감청과 통신비밀보호법 — 합법적 감청은 어디까지인가</em> <em>관련 글: [글#11] 통신자료 제공과 영장주의</em> <em>관련 글: [글#12] DPI(패킷 심층 검사) — 기술과 법의 경계</em></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 12일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

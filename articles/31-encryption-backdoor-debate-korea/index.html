@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>암호화 백도어 논쟁 — '합법적 접근'의 기술적 불가능성과 디지털 권리 | net.or.kr</title>
+<meta name="description" content="수사기관은 강력한 암호화가 범죄자를 숨겨준다고 말한다. 기술 전문가들은 안전한 백도어는 수학적으로 불가능하다고 답한다 — FBI vs Apple, EU Chat Control, 영국 IPA, 클라이언트 사이드 스캐닝, 한국의 E2EE 딜레마.">
+<meta property="og:title" content="암호화 백도어 논쟁 — '합법적 접근'의 기술적 불가능성과 디지털 권리">
+<meta property="og:description" content="수사기관은 강력한 암호화가 범죄자를 숨겨준다고 말한다. 기술 전문가들은 안전한 백도어는 수학적으로 불가능하다고 답한다 — FBI vs Apple, EU Chat Control, 영국 IPA, 클라이언트 사이드 스캐닝, 한국의 E2EE 딜레마.">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .callout{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--amber);margin-bottom:8px;}
+  .callout p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .scenario-box{display:grid;gap:16px;margin:24px 0;}
+  .scenario{background:var(--bg2);border-radius:10px;padding:18px;border-left:3px solid var(--amber-dark);}
+  .scenario h4{font-size:15px;color:var(--amber-light);margin:0 0 10px;}
+  .scenario p{font-size:14px;color:#cbd5e1;margin:0;line-height:1.6;}
+
+  .verdict-box{background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .verdict-box .verdict-label{font-size:11px;font-weight:700;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--cyan-light);margin-bottom:8px;}
+  .verdict-box p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .law-box{background:rgba(148,163,184,0.06);border:1px solid var(--bg3);border-radius:10px;
+    padding:18px 20px;margin:24px 0;}
+  .law-box .law-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:8px;}
+  .law-box p{margin:0;font-size:14px;color:#cbd5e1;line-height:1.7;}
+  .law-box p+p{margin-top:8px;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #31 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">암호화 백도어 논쟁 — '합법적 접근'의 기술적 불가능성과 디지털 권리</h1>
+    <p class="article-subtitle">수사기관은 강력한 암호화가 범죄자를 숨겨준다고 말한다. 기술 전문가들은 안전한 백도어는 수학적으로 불가능하다고 답한다 — FBI vs Apple, EU Chat Control, 영국 IPA, 그리고 카카오의 딜레마</p>
+    <div class="article-meta">
+      <span>2026년 6월 28일 발행</span>
+      <span>약 43분 읽기</span>
+      <span class="tag">암호화 백도어</span><span class="tag">E2EE</span><span class="tag">FBI vs Apple</span><span class="tag">Chat Control</span><span class="tag">합법적 접근</span><span class="tag">클라이언트사이드스캐닝</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-0"><span>00</span> 인트로 — "우리가 읽을 수 없으면"</a></li>
+      <li><a href="#sec-1"><span>01</span> 백도어의 세 가지 기술적 형태</a></li>
+      <li><a href="#sec-2"><span>02</span> 미국의 암호화 전쟁 — CALEA부터 EARN IT까지</a></li>
+      <li><a href="#sec-3"><span>03</span> EU Chat Control — CSAM과 E2EE의 충돌</a></li>
+      <li><a href="#sec-4"><span>04</span> 영국 IPA와 기술 능력 통지(TCN)</a></li>
+      <li><a href="#sec-5"><span>05</span> 기술적 반론 — 왜 안전한 백도어는 불가능한가</a></li>
+      <li><a href="#sec-6"><span>06</span> 한국 — 감청 의무와 E2EE의 구조적 긴장</a></li>
+      <li><a href="#sec-7"><span>07</span> 디지털 권리 관점 — 세 원칙</a></li>
+      <li><a href="#sec-8"><span>08</span> 현황과 전망</a></li>
+      <li><a href="#sec-9"><span>09</span> 결론</a></li>
+      <li><a href="#sec-10"><span>10</span> 참고 자료</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-0">
+  <h2 class="section-title">인트로 — "우리가 읽을 수 없으면 당신도 읽을 수 없다"</h2>
+  <div class="prose">
+<p>2016년 2월, 미국 연방수사국(FBI)은 연방 지방법원에 이례적인 신청을 했다. 캘리포니아 주 샌버나디노 총기 난사 사건의 범인이 사용하던 iPhone 5C를 잠금 해제해달라는 것이었다. 법원은 애플에 잠금 해제를 도울 특수 펌웨어를 개발하라는 명령을 내렸다. 애플 CEO 팀 쿡은 공개서한을 통해 거부했다.</p>
+
+<blockquote>
+  <p>"수사기관은 이 도구를 딱 한 번, 이 사건에만 사용하겠다고 말한다. 그러나 그것은 사실이 아니다. 한번 만들어진 버전은 존재하게 되고, 어디에든 사용될 수 있다." — 팀 쿡, 2016년 2월 16일 공개서한</p>
+</blockquote>
+
+<p>이 사건은 전 세계를 두 진영으로 갈랐다. 한쪽에는 수사기관: <em>"테러리스트와 아동 성착취범이 암호화 뒤에 숨는다. 법원 영장도 무력화하는 암호화는 민주주의 사회에서 용납될 수 없다."</em> 다른 한쪽에는 기술 전문가와 시민사회: <em>"안전한 백도어는 수학적으로 불가능하다. 정부만 사용할 수 있는 열쇠는 존재하지 않는다."</em></p>
+
+<p>이 논쟁의 핵심 용어는 <strong>예외적 접근(exceptional access)</strong> 또는 <strong>합법적 접근(lawful access)</strong>이다 — 수사기관이 법원 명령을 통해 암호화된 통신에 접근할 수 있는 기술적 능력을 보장하라는 요구다. 이 요구는 세 가지 구체적 기술 형태로 나타난다: 마스터 키 에스크로, 서버 백도어, 클라이언트 사이드 스캐닝(CSS).</p>
+
+<p>이 글은 암호화 백도어 논쟁의 기술적 구조를 해부하고, 미국·EU·영국·한국의 입법·정책 전개를 추적하며, 기술 공동체가 제시하는 핵심 반론을 정리한다. 그리고 이 논쟁이 단순히 '안보 vs 프라이버시'가 아니라 민주주의 사회에서 국가 권력의 경계를 어떻게 설정할 것인가의 근본적 질문임을 논증한다. <a href="../18-messenger-e2ee-korea/">글 #18(한국 메신저 E2EE)</a>과 <a href="../30-telecom-surveillance-metadata-wiretapping-korea/">글 #30(통신감시 헌법불합치)</a>이 다루지 않은, 예외적 접근의 기술적 불가능성과 입법 공방이 이 글의 핵심이다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">암호화의 기초와 백도어의 세 가지 형태</h2>
+  <div class="prose">
+
+<h3>종단간 암호화의 작동 원리</h3>
+<p>종단간 암호화(End-to-End Encryption, E2EE)는 통신의 양 끝단 — 발신자와 수신자 — 만이 메시지를 복호화할 수 있도록 설계된 시스템이다. 메시지는 발신자의 기기에서 암호화되어 전송되고, 수신자의 기기에서만 복호화된다. 중간에 위치한 서버 — 플랫폼 사업자, 통신사, ISP — 는 암호화된 데이터만 볼 수 있고 그 내용을 알 수 없다.</p>
+
+<p>Signal Protocol(Signal, WhatsApp, iMessage 등이 채택)을 예로 들면, 각 사용자는 공개키·비공개키 쌍을 보유한다. 메시지는 수신자의 공개키로 암호화되어 수신자의 비공개키로만 복호화된다. 이 구조에서 서비스 사업자도 메시지 내용을 볼 수 없다 — <em>'기술적으로 불가능'한 것이지 '정책적으로 보지 않는' 것이 아니다.</em></p>
+
+<h3>세 가지 기술적 형태</h3>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>① 키 에스크로(Key Escrow)</h4>
+    <p>암호화 키의 사본을 제3자(정부 기관 또는 지정 신탁기관)에 예탁하는 방식. 수사기관은 법원 명령을 받아 에스크로 기관에 키 제공을 요청한다. 역사적 선례: 1993년 <strong>클리퍼 칩(Clipper Chip)</strong>. NSA가 설계하고 미국 정부가 채택한 암호화 칩으로, 정부가 마스터 키를 보관하는 에스크로 방식을 채택했다. 전문가들의 강한 비판(Blaze et al., 1994)과 시민사회의 반대로 1996년 사실상 폐기됐다.</p>
+  </div>
+  <div class="scenario">
+    <h4>② 백도어(Back Door)</h4>
+    <p>통신 시스템이나 암호화 소프트웨어에 정상적인 인증 과정을 우회하는 숨겨진 진입로를 설계 단계에서 삽입하는 방식. <strong>CALEA(1994년 통신법집행지원법)</strong>는 유선·무선 통신 장비 제조사에 '감청 인터페이스'를 의무 탑재하도록 했다 — 수사기관이 법원 명령에 따라 실시간 감청할 수 있는 기술적 능력을 갖추라는 것이다.</p>
+  </div>
+  <div class="scenario">
+    <h4>③ 클라이언트 사이드 스캐닝(CSS)</h4>
+    <p>"E2EE를 깨지 않겠다 — 대신 암호화되기 <em>전</em> 기기 안에서 콘텐츠를 스캔하겠다"는 방식. Apple이 2021년 발표한 iCloud CSAM 검출 시스템이 대표적 시도다. '신경해시(NeuralHash)'로 이미지를 처리해 알려진 CSAM과 일치하면 신고하는 구조였으나, 보안 전문가들의 강력한 비판(오탐 문제, 스캔 대상 확장 위험)으로 2022년 철회했다.</p>
+  </div>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>방식</th>
+      <th>기술 구조</th>
+      <th>핵심 취약점</th>
+      <th>주요 사례</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>키 에스크로</strong></td>
+      <td>마스터 키를 제3자에 보관</td>
+      <td>에스크로 시스템 자체가 해킹 대상</td>
+      <td>클리퍼 칩(1993, 폐기)</td>
+    </tr>
+    <tr>
+      <td><strong>서버 백도어</strong></td>
+      <td>통신 시스템에 숨겨진 진입로</td>
+      <td>선한 사용자만의 접근 보장 불가</td>
+      <td>CALEA(1994, 미국)</td>
+    </tr>
+    <tr>
+      <td><strong>클라이언트 사이드 스캐닝</strong></td>
+      <td>암호화 전 기기 내 스캔</td>
+      <td>스캔 대상 확장, 오탐, CSS 코드 해킹</td>
+      <td>Apple CSAM 시스템(2021, 철회)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-2">
+  <h2 class="section-title">미국의 암호화 전쟁 — CALEA부터 EARN IT까지</h2>
+  <div class="prose">
+
+<h3>1990년대: 클리퍼 칩과 암호화 자유화</h3>
+<p>1990년대 초 인터넷이 상용화되면서 강력한 암호화 소프트웨어가 민간에 확산됐다. NSA와 FBI는 1990년 '디지털 통신의 암흑(Going Dark)'을 경고했다 — 법원 영장이 있어도 암호화된 통신을 읽을 수 없게 된다는 것이었다.</p>
+
+<p>1993년 클리퍼 칩 제안, 1994년 CALEA 제정이 이 흐름의 결과물이다. 그러나 같은 시기, 필 짐머만(Phil Zimmermann)이 작성한 PGP(Pretty Good Privacy) 암호화 소프트웨어가 인터넷을 통해 전 세계에 배포됐다. 미국 정부는 PGP를 군수물자 수출 규정(ITAR) 위반으로 수사했지만, 결국 1996년 민간 암호화 수출 규제를 완화했다. 암호화 자유화의 첫 라운드는 시민 쪽의 승리였다.</p>
+
+<p>그러나 2001년 9·11 테러 이후 상황이 달라졌다. NSA의 대규모 감청 프로그램(PRISM, XKeyscore 등)이 은밀히 확대됐고, 2013년 에드워드 스노든의 폭로가 세계를 충격에 빠뜨렸다. 폭로 중에는 NSA가 NIST의 난수 생성 표준(Dual_EC_DRBG)에 백도어를 심었다는 내용도 포함됐다 — NSA가 스스로 암호화 표준을 약화시켜온 것이다.</p>
+
+<h3>2016: FBI vs Apple — 현대 암호화 전쟁의 분수령</h3>
+<p>2015년 12월 캘리포니아 샌버나디노 총기 난사로 14명이 사망했다. 범인의 iPhone 5C를 확보한 FBI는 잠금을 해제하려 했으나 10회 비밀번호 오류 시 데이터가 자동 삭제되는 기능 때문에 막혔다.</p>
+
+<p>FBI가 법원에 신청한 것은 애플의 운영체제(iOS)를 수정해 해당 보호 기능을 비활성화한 특수 버전(<em>FBiOS</em>)을 만들어달라는 것이었다. 애플은 거부했다.</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">FBI vs Apple 사건의 쟁점</div>
+  <p><strong>정부 주장:</strong> 법원 명령에 따른 기술 지원 의무 — 특정 기기의 잠금 해제 도움은 모든 iPhone 백도어와 다르다. 수사상 필요성이 있고, All Writs Act가 근거 규범이다.<br><br>
+  <strong>Apple 반론:</strong> 한 번 만들어진 취약 소프트웨어는 다른 사건·다른 기기에 사용될 수 있다. 미국 내에서만 막아도 다른 나라 정부의 같은 요청이 이어진다. 수억 명 사용자의 보안을 한 번의 수사를 위해 희생시킬 수 없다.<br><br>
+  <strong>결말:</strong> 2016년 3월 FBI 신청 철회. 이스라엘 사이버보안 회사(Cellebrite 등)가 제3자 취약점을 통해 기기 잠금 해제 도구를 제공한 것으로 알려졌다.</p>
+</div>
+
+<h3>NSA BULLRUN — 정부가 스스로 표준을 약화시키다</h3>
+<p>2013년 스노든 폭로에 포함된 NSA의 BULLRUN 프로그램은 충격적이었다. NSA는 NIST를 통해 2006년 <code>Dual_EC_DRBG</code>(타원곡선 난수 생성 알고리즘)를 국제 표준으로 채택시켰다. 이 알고리즘에는 NSA가 알고 있는 숨겨진 상수가 있어 NSA가 생성된 난수를 예측할 수 있었다 — 즉 이 표준을 사용하는 암호화 시스템의 키를 NSA가 해독할 수 있었다.</p>
+
+<p>이 표준을 채택한 RSA Security의 제품 수백만 개가 영향을 받았다. 2013년 폭로 이후 NIST는 표준을 철회했다. <strong>정부가 강제한 취약점이 결국 악의적 행위자에게도 이용될 수 있는 구조였다는 것이 확인됐다.</strong></p>
+
+<h3>EARN IT Act — E2EE에 법적 책임을 묻다</h3>
+<p>2020년부터 미국 의회에서 반복 발의된 EARN IT(Eliminating Abusive and Rampant Neglect of Interactive Technologies) Act는 더 간접적이지만 더 강력한 압박 수단이다. 핵심은 통신품위법 제230조(온라인 플랫폼 면책 조항)의 보호를 조건부로 만드는 것이다 — CSAM 관련 '최선의 관행(best practices)'을 준수하지 않는 플랫폼은 면책을 잃는다.</p>
+
+<div class="callout">
+  <div class="callout-label">EARN IT Act의 E2EE 위협</div>
+  <p>이 '최선의 관행'을 결정하는 위원회에 법무부(FBI 수장)가 포함되며, 사실상 E2EE 포기를 조건으로 할 수 있다는 비판이 이어졌다. 2020년, 2022년, 2024년 세 차례 발의됐으며, 매번 기술·시민 단체의 반대에 부딪혀 입법에 이르지 못했다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-3">
+  <h2 class="section-title">EU Chat Control — CSAM과 E2EE의 충돌</h2>
+  <div class="prose">
+
+<h3>Chat Control 제안의 내용</h3>
+<p>2022년 5월, 유럽위원회는 온라인 아동 성착취물 퇴치를 위한 규정을 제안했다(COM/2022/209, 이하 Chat Control). 핵심 내용: 이메일·메신저·파일 호스팅 서비스가 알려진 CSAM과 새로운 CSAM, 그리고 그루밍(성착취 목적 접근) 행위를 탐지하기 위해 이용자의 통신 내용을 스캔해야 한다.</p>
+
+<p>문제는 E2EE로 암호화된 메시지는 서비스 사업자도 내용을 볼 수 없다는 것이다. Chat Control 규정은 사실상 E2EE 서비스에게 <strong>클라이언트 사이드 스캐닝을 의무화하거나 E2EE를 포기하도록 강제하는 효과</strong>를 낳는다.</p>
+
+<h3>반발과 2024년 부결</h3>
+<p>유럽 전역의 기술·법학·시민단체가 반발했다. 유럽 데이터보호위원회(EDPB), 유럽 데이터보호감독관(EDPS)이 규정이 기본권(ECHR 제8조, EU 기본권헌장 제7·8조)에 위반된다는 의견을 냈다. <strong>Signal은 EU 통과 시 EU에서 서비스를 중단하겠다고 선언했다.</strong> ProtonMail도 같은 입장을 표명했다.</p>
+
+<p>벨기에 EU 의장국 재임 기간이던 2024년 6월, 'Chat Control 2.0' 절충안이 이사회 표결에 상정됐으나 충분한 지지를 얻지 못해 부결됐다. 2025~2026년에도 수정 제안이 계속되고 있으나 E2EE를 실질적으로 보존하면서 CSAM을 검출하는 기술적 해법은 여전히 없다.</p>
+
+<div class="callout">
+  <div class="callout-label">Chat Control의 역설</div>
+  <p>CSAM을 발견하고 신고하는 것은 중요한 목표다. 그러나 E2EE를 사실상 금지하는 방식으로 이를 달성하면, CSAM 유포자는 Chat Control의 규제를 받지 않는 해외 앱이나 자체 암호화 시스템으로 이동한다. 규제의 실질적 대상이 되는 것은 평범한 시민들의 개인 메시지다 — CSAM 퇴치라는 목표는 달성하지 못하면서 시민의 프라이버시만 희생된다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-4">
+  <h2 class="section-title">영국 IPA와 기술 능력 통지(TCN)</h2>
+  <div class="prose">
+
+<h3>수사권한법 2016 — 세계에서 가장 강력한 감청 법제 중 하나</h3>
+<p>영국의 수사권한법(Investigatory Powers Act 2016, IPA)은 '기술 능력 통지(Technical Capability Notice, TCN)'라는 조항을 두고 있다(제253조). 내무부 장관이 통신 사업자에게 감청 지원 능력을 갖추라는 통지를 발행할 수 있는 권한이다. 이 능력에는 <strong>'암호화 해제(removal of encryption)' 기능이 포함될 수 있다.</strong></p>
+
+<div class="law-box">
+  <div class="law-label">IPA 2016 제253조 — 기술 능력 통지의 핵심</div>
+  <p>내무부 장관은 통신 사업자에게 '감청 능력을 유지하기 위한 기술 조치'를 취하도록 통지할 수 있다. 사업자는 통지를 받은 사실 자체를 공개해서는 안 된다(비밀 통지). 위반 시 형사 처벌 가능.</p>
+  <p>비밀 통지는 의회 감독을 사실상 불가능하게 한다 — 어떤 사업자가, 어떤 내용의 통지를 받았는지 의원들도 알 수 없다.</p>
+</div>
+
+<h3>Apple ADP 사태 (2024)</h3>
+<p>2023년, 영국 정부는 IPA TCN 조항에 근거해 Apple의 고급 데이터 보호(Advanced Data Protection, ADP) 기능 — iCloud 데이터를 E2EE로 보호하는 기능 — 을 영국 사용자에 대해 비활성화하거나, 내무부에 백도어 접근을 허용하라는 통지를 비밀리에 발행한 것으로 알려졌다. <strong>Apple은 2024년 2월 영국에서 ADP 서비스를 중단했다</strong> — 영국 내무부 요구를 거부했지만, 요구를 받은 상태에서 서비스를 운영하지 않겠다는 선택이었다.</p>
+
+<p>이 사건은 IPA TCN 조항이 실제로 기업의 글로벌 서비스 구조에 개입할 수 있음을 보여준 첫 사례다. 영국 사용자들은 전 세계 다른 지역 사용자들에 비해 낮은 수준의 데이터 보호를 받게 됐다.</p>
+
+<h3>Five Eyes 공동성명 (2020)</h3>
+<p>미국·영국·캐나다·호주·뉴질랜드로 구성된 'Five Eyes' 정보공유 동맹은 2020년 '암호화에 관한 성명'을 발표했다. 요지: "강력한 암호화를 지지하지만, 정부가 특정 상황에서 암호화된 내용에 접근할 수 있어야 한다. 기업들은 이를 가능하게 하는 해결책을 개발하라."</p>
+
+<p>전 세계 암호화·보안 전문가들은 즉각 반박했다: <em>'정부 접근을 허용하면서도 안전한 암호화'는 논리적으로 모순이다.</em></p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-5">
+  <h2 class="section-title">기술적 반론 — 왜 안전한 백도어는 불가능한가</h2>
+  <div class="prose">
+
+<h3>Keys Under Doormats: 전문가 공동체의 공식 결론</h3>
+<p>2015년, 15명의 저명한 컴퓨터 과학자·보안 전문가가 공동논문 <em>"Keys Under Doormats: Mandating Insecurity by Requiring Government Access to All Data and Communications"</em>을 발표했다. MIT CSAIL 등 주요 기관 소속 연구자들이 참여했다. 결론은 단호하다:</p>
+
+<blockquote>
+  <p>"1990년대 '암호화 전쟁'의 교훈은 예외적 접근 기능이 심각한 안보 취약점을 만든다는 것이었다. 20년이 지났지만 이 결론은 바뀌지 않았다. 오히려 사회의 디지털 의존도가 높아진 만큼 위험은 더 커졌다."</p>
+</blockquote>
+
+<h3>세 가지 핵심 기술적 반론</h3>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>① 마스터 키 보관 인프라는 공격 대상이 된다</h4>
+    <p>예외적 접근을 위한 마스터 키를 어딘가에 보관해야 한다. 그 보관 시스템 자체가 공격 대상이 된다. 역사적으로 에스크로 시스템은 해킹됐다 — 2010년 오퍼레이션 오로라(Operation Aurora) 공격은 구글이 CALEA 준수를 위해 만들어둔 감청 인터페이스를 통해 이루어진 것으로 알려졌다.</p>
+  </div>
+  <div class="scenario">
+    <h4>② 규모 문제 — 수억 명을 위한 키를 어떻게 관리하나</h4>
+    <p>WhatsApp은 20억 명이 사용한다. Signal은 수천만 명이 사용한다. 이 서비스들에 예외적 접근을 요구하면, 수억 개의 키를 안전하게 보관·관리하는 시스템이 필요하다. 이런 시스템을 구축하면, 그 시스템 하나를 뚫는 것이 수억 명의 통신을 노출시킨다.</p>
+  </div>
+  <div class="scenario">
+    <h4>③ 지정학적 문제 — 어느 나라 정부가 접근하는가</h4>
+    <p>미국이 '미국 법원 명령에 따른 접근'을 요구한다. 중국은 '중국 법원 명령에 따른 접근'을 요구한다. 러시아, 이란, 사우디아라비아도 마찬가지다. 글로벌 서비스가 예외적 접근 인터페이스를 만들면, 어느 나라 수사기관의 요청에 응하고 거부할 것인가? 민주주의 정부와 권위주의 정부를 기술적으로 구분하는 인터페이스는 없다.</p>
+  </div>
+</div>
+
+<h3>클라이언트 사이드 스캐닝의 특수한 위험</h3>
+<p>CSS는 "암호화를 깨지 않는다"는 주장으로 포장되지만, 보안 전문가들은 세 가지 위험을 지적한다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>위험</th>
+      <th>내용</th>
+      <th>시나리오</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>오탐(False Positive)</strong></td>
+      <td>해시 기반 비교는 완벽하지 않음</td>
+      <td>무고한 사진이 CSAM으로 분류 → 계정 삭제 및 형사 고발</td>
+    </tr>
+    <tr>
+      <td><strong>스캔 대상 확장</strong></td>
+      <td>정부가 스캔 해시 목록 확장 요구 가능</td>
+      <td>테러 관련 콘텐츠 → 정치적 반대 의견 → 종교 자료 순서로 확장</td>
+    </tr>
+    <tr>
+      <td><strong>CSS 코드 해킹</strong></td>
+      <td>스캐닝 코드 자체가 공격 대상</td>
+      <td>악의적 행위자가 CSS 코드를 역이용해 기기 해킹</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Apple이 2021년 CSAM 검출 계획을 발표했다가 2022년 철회한 것은 단적인 예다. 세계 최고의 보안 전문가를 보유한 기업도 CSS의 구조적 위험을 피할 수 없었다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-6">
+  <h2 class="section-title">한국 — 감청 의무와 E2EE의 구조적 긴장</h2>
+  <div class="prose">
+
+<h3>통신비밀보호법의 감청 협력 의무</h3>
+<p>한국 통신비밀보호법(통비법) 제15조의2는 "전기통신사업자는 통신제한조치의 집행을 위한 협조 의무를 진다"고 규정한다. 이것은 CALEA의 한국판 — 사업자가 수사기관의 법원 명령 기반 감청을 기술적으로 지원해야 한다는 의무다.</p>
+
+<div class="callout">
+  <div class="callout-label">E2EE와 감청 협력 의무의 모순</div>
+  <p>카카오톡을 예로 들자. 카카오의 서버를 통과하는 메시지가 진정한 E2EE로 보호된다면, 서버를 관리하는 카카오도 내용을 볼 수 없다. 법원이 감청 영장을 발부해도 카카오가 기술적으로 협력할 수 없다. 이 상황에서 통비법 제15조의2의 협조 의무는 사실상 공문화된다.<br><br>
+  반대로, 만약 카카오가 서버 단에서 복호화 가능한 구조를 유지한다면, 감청 협력은 가능하지만 제3자 해킹이나 내부자 위협에 취약해진다. <strong>진정한 E2EE와 감청 협력 의무는 양립할 수 없다.</strong></p>
+</div>
+
+<h3>2014년 카카오 압수수색 — 사이버 망명의 시작</h3>
+<p>2014년 9월, 검찰이 카카오톡 대화 내용을 압수수색한다는 사실이 알려지면서 한국 사회에 큰 충격을 줬다. 카카오는 당시 서버에 보관된 메시지를 검찰에 제공할 수 있는 구조였다.</p>
+
+<p>이 논란이 촉발한 것이 <strong>'사이버 망명'</strong> — 수십만 명의 한국 사용자가 E2EE를 지원하는 텔레그램으로 대거 이동한 현상이다. 카카오는 이후 '비밀채팅' 기능에 E2EE를 도입했고, 일반 채팅에 대해서도 서버 보관 기간을 대폭 단축했다. <a href="../18-messenger-e2ee-korea/">글 #18(사이버 망명, 10년 후)</a> 참조.</p>
+
+<h3>딥페이크 성범죄와 E2EE의 충돌</h3>
+<p>2020년 이후 한국에서 딥페이크 성범죄 콘텐츠가 텔레그램을 통해 유통된다는 사실이 알려지면서, 텔레그램의 E2EE가 범죄 은닉 수단이 된다는 비판이 나왔다. 방송통신위원회(방통위)가 텔레그램 측에 협조를 요청했으나, 텔레그램은 '기술적으로 접근할 수 없다'며 거부했다.</p>
+
+<p>이 상황은 한국 버전의 FBI vs Apple 딜레마다: 아동·청소년 피해자를 보호하기 위해 E2EE를 우회해야 하는가, 아니면 우회가 기술적으로 불가능하다는 현실을 법제도가 수용해야 하는가? 아직 이 질문에 대한 입법적 답변은 나오지 않았다.</p>
+
+<h3>한국의 비교법적 위치</h3>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>국가/지역</th>
+      <th>주요 규정</th>
+      <th>E2EE에 대한 입장</th>
+      <th>현재 상태</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>미국</strong></td>
+      <td>CALEA(1994), EARN IT Act(발의)</td>
+      <td>EARN IT Act 통과 시 E2EE 면책 위협</td>
+      <td>EARN IT Act 미통과, 법적 공방 지속</td>
+    </tr>
+    <tr>
+      <td><strong>EU</strong></td>
+      <td>Chat Control(COM/2022/209)</td>
+      <td>CSS 의무화 → E2EE 사실상 금지</td>
+      <td>2024년 이사회 부결, 재논의 중</td>
+    </tr>
+    <tr>
+      <td><strong>영국</strong></td>
+      <td>IPA 2016, TCN(제253조)</td>
+      <td>내무부가 E2EE 우회 명령 가능</td>
+      <td>Apple ADP 사태 후 개정 논의</td>
+    </tr>
+    <tr>
+      <td><strong>한국</strong></td>
+      <td>통비법 제15조의2(감청 협력)</td>
+      <td>E2EE vs 협력 의무 충돌 미해결</td>
+      <td>명시적 입법 없음, 구조적 긴장 지속</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-7">
+  <h2 class="section-title">디지털 권리 관점 — 세 가지 원칙</h2>
+  <div class="prose">
+
+<h3>원칙 1: 암호화는 권리의 인프라다</h3>
+<p>국제인권기구는 암호화를 표현의 자유(세계인권선언 제19조)와 프라이버시 권리(세계인권선언 제12조)의 실현 수단으로 인식한다. 유엔 인권이사회 특별보고관 데이비드 케이(David Kaye)는 2015년 보고서에서 <em>"암호화와 익명성은 디지털 시대에 표현의 자유와 프라이버시를 실현하는 도구"</em>라고 명시하며, 각국 정부에 암호화 약화를 금지하도록 권고했다.</p>
+
+<p>언론인, 인권 활동가, 내부고발자, 의료인, 법률가 — 이들 모두가 강력한 암호화에 의존한다. 암호화를 약화시키면, 정치적 반대 의견이 탄압받는 국가에서 활동하는 인권 활동가가 가장 먼저 위험에 처한다. 테러리스트는 외국 앱이나 자체 암호화로 이동하지만, 평범한 시민과 약자는 더 취약한 시스템에 남겨진다.</p>
+
+<h3>원칙 2: '안보 vs 프라이버시'는 잘못된 이분법이다</h3>
+<p>암호화를 약화시키는 것이 안보를 강화한다는 주장은 사실과 다르다. 2015년 '도어매트 아래의 열쇠' 논문, 2019년 카네기 멜론 대학 연구팀, 2021년 영국 왕립학회 보고서 — 이들은 모두 같은 결론을 내렸다: 예외적 접근 기능의 도입은 공격자에게 새로운 취약점을 제공하고, <strong>전체적인 디지털 안보를 약화시킨다.</strong></p>
+
+<p>은행, 병원, 전력망, 군사 시스템 — 이 모든 것이 강력한 암호화에 의존한다. 암호화를 약화시키면, 수사기관이 범죄자를 더 쉽게 감청하는 동시에 중국 해커, 러시아 APT 그룹, 랜섬웨어 범죄 집단도 더 쉽게 공격할 수 있게 된다.</p>
+
+<h3>원칙 3: 기술적 불가능성은 법적 의무의 한계를 만든다</h3>
+<p>'불가능한 것을 요구하는 법'은 존재해도 집행할 수 없다. E2EE 서비스에게 "법원 명령 시 복호화 능력을 갖추라"고 요구하면, 두 가지 결과 중 하나가 나온다:</p>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>결과 A: E2EE 포기</h4>
+    <p>사업자가 서버 단 복호화 가능 구조로 전환한다. 수사기관의 합법적 접근은 가능해지지만, 동시에 해커·내부자·외국 정보기관의 접근도 용이해진다. 모든 사용자의 보안이 약화된다.</p>
+  </div>
+  <div class="scenario">
+    <h4>결과 B: 서비스 철수</h4>
+    <p>사업자가 요구를 거부하고 해당 국가에서 서비스를 중단한다. 사용자가 규제가 없는 외국 앱으로 이동한다. 국내 사업자만 불이익을 받고, 범죄자들의 앱은 바뀌지 않는다.</p>
+  </div>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-8">
+  <h2 class="section-title">현황과 전망 — 해결되지 않은 긴장</h2>
+  <div class="prose">
+
+<h3>수사기관의 현실적 도구들</h3>
+<p>'합법적 접근' 논쟁과 별개로, 수사기관은 이미 여러 현실적 도구를 가지고 있다.</p>
+<ul>
+  <li><strong>기기 포렌식:</strong> 암호화된 통신을 복호화하지 못해도, 잠금 해제된 기기에서 평문 메시지를 추출할 수 있다. Cellebrite, GrayKey 같은 회사들의 도구가 이에 사용된다.</li>
+  <li><strong>메타데이터:</strong> E2EE가 내용을 보호해도, 누가 누구와 언제 통신했는지의 메타데이터는 여전히 수집 가능하다. <a href="../30-telecom-surveillance-metadata-wiretapping-korea/">글 #30</a> 참조.</li>
+  <li><strong>취약점 활용:</strong> NSO Group의 페가수스(Pegasus) 스파이웨어처럼, 암호화 자체를 깨지 않고 기기를 해킹해 암호화 전 콘텐츠에 접근하는 도구들이 사용된다.</li>
+  <li><strong>법적 요구:</strong> 클라우드 백업, 기기 제조사의 메타데이터, 통신사의 정보 — E2EE로 보호되지 않는 데이터를 법원 명령으로 취득할 수 있다.</li>
+</ul>
+
+<p>이 도구들은 완전하지 않지만, '암호화 때문에 수사가 불가능하다'는 주장이 과장된 측면이 있음을 보여준다.</p>
+
+<h3>2025~2026년 입법 동향</h3>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>지역</th>
+      <th>현황</th>
+      <th>전망</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>미국</strong></td>
+      <td>EARN IT Act 2024년 재발의, 미통과</td>
+      <td>CSAM 대응 명목으로 재발의 가능성 지속</td>
+    </tr>
+    <tr>
+      <td><strong>EU</strong></td>
+      <td>Chat Control 2024년 이사회 부결</td>
+      <td>수정 제안 준비 중; 영지식 증명 기반 대안 논의</td>
+    </tr>
+    <tr>
+      <td><strong>영국</strong></td>
+      <td>Apple ADP 사태 후 IPA TCN 개정 논의</td>
+      <td>TCN 범위·절차 투명성 강화 입법 검토</td>
+    </tr>
+    <tr>
+      <td><strong>한국</strong></td>
+      <td>딥페이크 대응 플랫폼 협력 의무 논의</td>
+      <td>E2EE 명시적 입법 논의 단계 미도달</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>기술 공동체의 대안 제시</h3>
+<p>암호화 백도어 없이 수사기관이 필요한 정보에 접근할 수 있는 합법적 방법들을 기술 전문가들은 제안한다:</p>
+<ul>
+  <li><strong>메타데이터 분석:</strong> 내용이 아닌 패턴 — 언제, 얼마나 자주, 어떤 네트워크를 통해 — 을 분석하는 수사 기법.</li>
+  <li><strong>전통적 수사 기법:</strong> 인간 정보원, 물리적 감시, 협조자 활용.</li>
+  <li><strong>취약점 공개 정책(VEP):</strong> 제로데이 취약점을 비밀로 쌓아두는 대신 공개해 전반적 보안을 강화한다.</li>
+  <li><strong>국제 사법공조:</strong> 범죄자가 사용하는 서버가 있는 국가와 MLA(사법공조조약) 협력을 강화한다.</li>
+</ul>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-9">
+  <h2 class="section-title">결론 — 열쇠는 도어매트 아래 놓을 수 없다</h2>
+  <div class="prose">
+<p>'합법적 접근' 논쟁은 끝나지 않는다. 새로운 기술(양자 컴퓨팅, 포스트 양자 암호화), 새로운 위협(AI 기반 사이버 공격, 생성형 AI로 제작되는 딥페이크 성범죄 콘텐츠), 새로운 플랫폼(탈중앙화 메신저, 블록체인 기반 통신)이 등장할 때마다 이 논쟁의 새 라운드가 시작된다.</p>
+
+<p>그러나 기술적 기본 사실은 변하지 않는다: <strong>진정한 E2EE는 설계 자체로 사업자도 내용에 접근할 수 없고, 마스터 키는 공격 대상이 되며, 백도어는 합법적·불법적 행위자 모두에게 열린다.</strong></p>
+
+<div class="verdict-box">
+  <div class="verdict-label">핵심 정리</div>
+  <p><strong>기술 전문가들의 결론(1990년대~현재 일관):</strong> 안전한 백도어는 수학적으로 불가능하다. 취약점을 정부가 독점할 수 없다.<br><br>
+  <strong>수사기관의 요구:</strong> 진화하지 않는다 — 1993년 클리퍼 칩, 2016년 FBI vs Apple, 2022년 EU Chat Control, 2024년 영국 Apple ADP 사태. 다른 이름과 다른 기술이지만 같은 요구다.<br><br>
+  <strong>민주주의 사회의 질문:</strong> 암호화를 약화시키지 않으면서 심각한 범죄를 수사하는 방법은 무엇인가? 이 질문에 대한 답은 기술이 아닌 민주적 논의와 법적 판단의 영역이다.</p>
+</div>
+
+<p>이 논쟁이 궁극적으로 묻는 것은 디지털 권리의 본질이다: 국가는 시민의 통신을 기술적으로 접근 가능한 상태로 유지할 것을 요구할 권리가 있는가? 그 요구가 시민의 프라이버시와 보안을 구조적으로 약화시킬 때도?</p>
+
+<p>1990년대 암호화 전쟁의 교훈은 분명하다. 자유 사회는 강력한 암호화를 선택했다. 30년이 지났지만 그 선택의 타당성은 달라지지 않았다 — 오히려 디지털 사회의 깊이가 깊어진 만큼, 암호화가 지켜야 할 것도 더 많아졌다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-10">
+  <h2 class="section-title">참고 자료</h2>
+  <div class="prose">
+<ul>
+  <li>Abelson, H., Anderson, R., Bellovin, S. M. et al., <em>"Keys Under Doormats: Mandating Insecurity by Requiring Government Access to All Data and Communications,"</em> MIT CSAIL Technical Report, 2015.</li>
+  <li>Apple Inc., <em>Customer Letter — FBI request to build iOS backdoor,</em> February 16, 2016.</li>
+  <li>Bellovin, S. M. et al., <em>"Lawful Hacking: Using Existing Vulnerabilities for Wiretapping on the Internet,"</em> Northwestern Journal of Technology and Intellectual Property, vol. 12, 2014.</li>
+  <li>European Commission, <em>Proposal for a Regulation on Child Sexual Abuse,</em> COM/2022/209, May 2022.</li>
+  <li>Five Eyes Intelligence Alliance, <em>Statement on Encryption,</em> October 2020.</li>
+  <li>Green, M., <em>"Apple's New Child Safety Features,"</em> Security research blog post, August 2021 (critique of Apple CSAM CSS proposal).</li>
+  <li>Investigatory Powers Act 2016 (UK), c. 25, especially s.253 (Technical Capability Notices).</li>
+  <li>Kaye, D., <em>"Report of the Special Rapporteur on Freedom of Opinion and Expression,"</em> A/HRC/29/32, United Nations Human Rights Council, May 2015.</li>
+  <li>NSA BULLRUN Program (Dual_EC_DRBG backdoor), as reported by The Guardian and The New York Times, September 2013, based on Snowden documents.</li>
+  <li>한국 통신비밀보호법 제15조의2 — 전기통신사업자의 협조 의무.</li>
+  <li>헌법재판소 2022.7.21. 2016헌마388 결정 — 통신자료 사후통지 부재 헌법불합치.</li>
+  <li>방송통신위원회, 딥페이크 성착취물 관련 플랫폼 협조 요청 및 텔레그램 대응 현황, 2022–2024.</li>
+  <li>NIST, <em>Withdrawal of SP 800-90A Dual_EC_DRBG,</em> April 2014.</li>
+</ul>
+
+<hr style="border:none;border-top:1px solid var(--bg3);margin:32px 0;">
+
+<h3>관련 글</h3>
+<ul>
+  <li><a href="../18-messenger-e2ee-korea/">글 #18 — 사이버 망명, 10년 후: 한국 메신저 E2EE의 현실</a> — 카카오톡·텔레그램·Signal E2EE 구조와 한국 감청 법제의 충돌</li>
+  <li><a href="../02-wiretapping-and-privacy/">글 #02 — 통신 감청과 프라이버시</a> — 누가, 어떤 근거로 통신을 들여다보는가 (입문 개괄)</li>
+  <li><a href="../30-telecom-surveillance-metadata-wiretapping-korea/">글 #30 — 수사기관의 통신감시</a> — 통신자료·감청 헌법불합치 결정과 메타데이터의 민감성</li>
+  <li><a href="../08-esni-ech-censorship-arms-race/">글 #08 — ESNI에서 ECH로</a> — 암호화 기술과 검열의 군비경쟁 최신 전선</li>
+</ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>디지털 권리 포털 · 비영리(.or.kr)<br>
+        망 중립성 · 통신 감청 · 표현의 자유를 기술과 법으로 함께 읽습니다.
+      </p>
+      <p><a href="../../index.html">← 포털 홈으로</a></p>
+    </div>
+    <div class="footer-right">
+      <p>글 #31 · 2026년 6월 28일</p>
+      <p>약 10,500자 · 43분 읽기</p>
+      <div class="license-badge">CC BY-NC 4.0</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

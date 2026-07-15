@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>망 중립성과 망사용료 — 한국이 만든 갈라파고스 | net.or.kr</title>
+<meta name="description" content="인터넷은 누구의 것인가. 망 중립성 원칙이 한국에서 어떻게 굴절되어 '망 이용대가'라는 갈라파고스 제도가 탄생했는지, SKB vs 넷플릭스·트위치 철수·USTR 압박까지.">
+<meta property="og:title" content="망 중립성과 망사용료 — 한국이 만든 갈라파고스">
+<meta property="og:description" content="ISP는 인터넷 트래픽을 얼마나 차별할 수 있는가. 검열·감청과 같은 뿌리를 가진 경제적 게이트키핑 권력의 해부.">
+<meta property="og:type" content="article">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --amber: #f59e0b;
+    --amber-light: #fcd34d;
+    --amber-dark: #d97706;
+    --cyan: #06b6d4;
+    --cyan-light: #67e8f9;
+    --cyan-dark: #0891b2;
+    --red: #ef4444;
+    --red-light: #fca5a5;
+    --green: #22c55e;
+    --green-light: #86efac;
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #334155;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber-dark); }
+
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--bg3);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .site-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 20px;
+    transition: color 0.2s;
+  }
+
+  .site-nav a:hover { color: var(--text); }
+
+  .article-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .article-header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .article-series {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .article-title {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, var(--amber-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .article-subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+    font-weight: 400;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    align-items: center;
+  }
+
+  .article-meta .tag {
+    background: var(--bg3);
+    color: var(--text-muted);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  .section { margin-bottom: 64px; }
+
+  .section-title {
+    font-size: 22px;
+    color: var(--amber);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--amber-dark), transparent);
+  }
+
+  .intro-text {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #cbd5e1;
+    margin-bottom: 32px;
+  }
+
+  .intro-questions {
+    background: var(--bg2);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .intro-questions h4 {
+    color: var(--amber);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  .intro-questions ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .intro-questions ol li { margin-bottom: 6px; }
+  .intro-questions ol li strong { color: var(--text); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .stat-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-box:hover {
+    border-color: var(--amber-dark);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .prose {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #cbd5e1;
+  }
+
+  .prose p { margin-bottom: 16px; }
+  .prose strong { color: var(--text); }
+
+  .prose a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose h3 {
+    font-size: 19px;
+    color: var(--text);
+    margin: 36px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .issue-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .issue-box.isp {
+    border-left: 3px solid var(--red);
+  }
+
+  .issue-box.cp {
+    border-left: 3px solid var(--cyan);
+  }
+
+  .issue-box.neutral {
+    border-left: 3px solid var(--amber);
+  }
+
+  .issue-box-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .issue-box-title.isp { color: var(--red-light); }
+  .issue-box-title.cp { color: var(--cyan-light); }
+  .issue-box-title.neutral { color: var(--amber-light); }
+
+  .issue-box ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .issue-box ul li { margin-bottom: 4px; }
+  .issue-box ul li strong { color: var(--text); }
+
+  .debate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 640px) {
+    .debate-grid { grid-template-columns: 1fr; }
+  }
+
+  .debate-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .debate-card.isp { border-top: 2px solid var(--red); }
+  .debate-card.cp { border-top: 2px solid var(--cyan); }
+
+  .debate-card-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .debate-card.isp .debate-card-title { color: var(--red-light); }
+  .debate-card.cp .debate-card-title { color: var(--cyan-light); }
+
+  .debate-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .debate-card ul li { margin-bottom: 6px; }
+
+  /* Chronology table */
+  .chron-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+
+  .chron-table thead tr {
+    border-bottom: 2px solid var(--amber-dark);
+  }
+
+  .chron-table th {
+    padding: 10px 14px;
+    text-align: left;
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .chron-table td {
+    padding: 12px 14px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--bg3);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .chron-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .chron-table td:first-child {
+    color: var(--amber);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .chron-table td strong { color: var(--text); }
+
+  .chron-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .badge-law { background: rgba(245,158,11,0.15); color: var(--amber-light); }
+  .badge-case { background: rgba(6,182,212,0.15); color: var(--cyan-light); }
+  .badge-platform { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+  .badge-intl { background: rgba(34,197,94,0.15); color: var(--green-light); }
+
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 48px;
+  }
+
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px;
+  }
+
+  .toc li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .toc li a:hover {
+    color: var(--amber);
+    background: rgba(245,158,11,0.05);
+  }
+
+  .toc li a span { font-size: 12px; color: var(--amber); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(6,182,212,0.06) 100%);
+    border: 1px solid rgba(245,158,11,0.18);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+  }
+
+  .highlight-box strong { color: var(--text); }
+
+  .conclusion-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(6,182,212,0.08) 100%);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 32px;
+  }
+
+  .conclusion-box h3 {
+    color: var(--amber);
+    font-size: 18px;
+    margin: 0 0 16px;
+  }
+
+  .conclusion-box p {
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .conclusion-box p:last-child { margin-bottom: 0; }
+
+  .crosslink {
+    display: inline-block;
+    background: rgba(6,182,212,0.1);
+    border: 1px solid rgba(6,182,212,0.3);
+    color: var(--cyan-light);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+
+  .crosslink:hover { background: rgba(6,182,212,0.2); }
+
+  .ref-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ref-list li {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .ref-list li:last-child { border-bottom: none; }
+
+  .ref-num {
+    color: var(--amber);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 13px;
+    min-width: 32px;
+  }
+
+  .ref-list a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+  }
+
+  .unverified {
+    background: rgba(251,191,36,0.07);
+    border: 1px solid rgba(251,191,36,0.2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #fbbf24;
+    margin: 16px 0;
+    line-height: 1.5;
+  }
+
+  .site-footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--bg3);
+    padding: 32px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .footer-brand .logo { color: var(--amber); font-weight: 800; font-size: 15px; }
+  .footer-brand p { margin: 6px 0 0; line-height: 1.5; }
+
+  .footer-right { text-align: right; }
+  .footer-right p { margin: 0 0 4px; }
+
+  .license-badge {
+    display: inline-block;
+    background: var(--bg3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .article-container { padding: 24px 16px 60px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .chron-table { font-size: 13px; }
+    .chron-table th, .chron-table td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../">홈</a>
+    <a href="../01-spear-and-shield-history/">← 글 #01 창과 방패</a>
+    <a href="../02-wiretapping-and-privacy/">← 글 #02 패킷 감청</a>
+  </nav>
+</header>
+
+<main class="article-container">
+
+  <!-- Article Header -->
+  <header class="article-header" id="top">
+    <div class="article-series">글 #03 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">망 중립성과 망사용료</h1>
+    <p class="article-subtitle">한국이 만든 갈라파고스 — ISP 게이트키핑 권력의 경제적 형태</p>
+    <div class="article-meta">
+      <span>2026년 6월 8일 발행</span>
+      <span>약 18분 읽기</span>
+      <span class="tag">망중립성</span>
+      <span class="tag">망사용료</span>
+      <span class="tag">통신정책</span>
+      <span class="tag">디지털권리</span>
+      <span class="tag">표현의자유</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#intro"><span>01</span> 들어가며 — 갈라파고스</a></li>
+      <li><a href="#principles"><span>02</span> 망 중립성 원칙의 탄생</a></li>
+      <li><a href="#korea-model"><span>03</span> 한국적 변용 — 상호접속고시</a></li>
+      <li><a href="#court"><span>04</span> 법정의 기록 — SKB vs 넷플릭스</a></li>
+      <li><a href="#twitch"><span>05</span> 트위치가 증언한 것</a></li>
+      <li><a href="#legislation"><span>06</span> 입법의 시도와 좌초</a></li>
+      <li><a href="#eu"><span>07</span> EU의 'Fair Share' 실험</a></li>
+      <li><a href="#galapagos"><span>08</span> 왜 갈라파고스인가</a></li>
+      <li><a href="#balance"><span>09</span> 쟁점과 균형</a></li>
+      <li><a href="#conclusion"><span>10</span> 닫으며</a></li>
+      <li><a href="#references"><span>11</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+  <!-- 01 들어가며 -->
+  <section class="section" id="intro">
+    <h2 class="section-title">들어가며 — 갈라파고스</h2>
+    <div class="intro-text">
+      2026년 4월, 미국 무역대표부(USTR)는 한국을 겨냥해 이례적인 메시지를 냈다. 한국의 망 사용료 정책을 <strong>"세계 어느 나라도 하지 않는 터무니없는 무역 장벽 중 하나"</strong>로 규정한 것이다. 같은 내용은 2026년 3월 31일 연례 「무역장벽보고서(NTE)」에도 등재됐다.
+    </div>
+
+    <div class="intro-questions">
+      <h4>이 글이 다루는 세 가지 질문</h4>
+      <ol>
+        <li><strong>경제 논리</strong> — 인터넷 트래픽을 발생시키는 CP(콘텐츠 사업자)가 통신사에 별도 '망 사용료'를 내야 하는가?</li>
+        <li><strong>권력 구조</strong> — ISP의 '이중 지위'(인프라 사업자 + 콘텐츠 사업자)가 어떤 시장 왜곡을 만드는가?</li>
+        <li><strong>표현의 자유</strong> — 경제적 게이트키핑이 검열·감청과 같은 방향의 위험을 만드는가?</li>
+      </ol>
+    </div>
+
+    <div class="prose">
+      <p>
+        [글 #01]에서 ISP가 DNS·SNI로 인터넷 접속을 기술적으로 차단하는 방식을 살펴봤다. [글 #02]에서는 법원 허가 없는 패킷 복제가 헌법불합치 판정을 받은 이야기를 다뤘다. 이번 글은 같은 권력의 세 번째 형태를 다룬다 — <strong>경제적 수단을 통한 콘텐츠 차별</strong>. 검열의 창이 코드(code)라면, 감청의 창이 패킷이라면, 망 이용대가의 창은 <strong>청구서(invoice)</strong>다.
+      </p>
+    </div>
+
+    <!-- Key stats -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-number">×10</div>
+        <div class="stat-label">타국 대비 트위치<br>한국 망 사용료</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2016</div>
+        <div class="stat-label">상호접속고시 개정<br>발신자종량제 전환</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2021</div>
+        <div class="stat-label">SKB vs 넷플릭스<br>1심 판결 연도</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2024</div>
+        <div class="stat-label">트위치 한국<br>서비스 종료 연도</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2025</div>
+        <div class="stat-label">EU, 망사용료 도입<br>실질적 거부 시점</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2026</div>
+        <div class="stat-label">USTR NTE에<br>한국 명시 등재</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 망 중립성 원칙 -->
+  <section class="section" id="principles">
+    <h2 class="section-title">망 중립성 원칙의 탄생</h2>
+    <div class="prose">
+      <h3>팀 우의 논문에서 FCC 고시까지</h3>
+      <p>
+        "망 중립성(network neutrality)"이라는 용어는 컬럼비아 법대 교수 팀 우(Tim Wu)가 2003년 논문 <em>「Network Neutrality, Broadband Discrimination」</em>에서 만들었다. 핵심은 단순하다: <strong>봉투를 배달하는 우체국은 편지 내용이 마음에 들지 않는다고 배달을 거부하거나 늦출 수 없다.</strong> 인터넷도 같다 — 패킷의 출처나 내용에 무관하게 동등하게 전달해야 한다.
+      </p>
+      <p>
+        이 원칙은 인터넷의 설계 철학("end-to-end 원칙")에 이미 내재됐었다. 문제는 2000년대 광대역 상업화였다. ISP들이 DPI로 트래픽을 구분하고 VoIP·P2P를 선별 차단하는 사례가 나타났다. 미국 컴캐스트의 BitTorrent 차단(2007~2008)이 논쟁을 점화했다.
+      </p>
+      <p>
+        미국 FCC는 2015년 「Open Internet Order」에서 광대역 인터넷을 타이틀 II 통신서비스로 재분류해 ISP를 공공운송사업자(common carrier)로 규율, <strong>차단 금지·속도 제한 금지·유료 우선처리 금지</strong>를 명문화했다.
+      </p>
+
+      <h3>폐지와 복원의 진자운동 (2017~2025)</h3>
+      <p>
+        2017년 트럼프 1기 FCC 위원장 아짓 파이(Ajit Pai)는 타이틀 II 재분류를 폐지했다. 2024년 바이든 FCC가 복원을 의결했으나, 2024년 8월 제6연방항소법원이 연방대법원의 <strong>Loper Bright 결정</strong>을 인용해 FCC에 그 권한이 없다고 판결했다. 연방 차원 규정은 2025년 현재 효력 없고, 캘리포니아·워싱턴 주법이 공백을 부분적으로 메운다.
+      </p>
+
+      <h3>ISP 게이트키핑 권력의 구조</h3>
+      <p>
+        망 중립성이 규율하는 위험은 <strong>ISP의 이중적 지위</strong>에서 나온다. ISP는 인프라 사업자인 동시에 콘텐츠 서비스 운영자다. 컴캐스트는 NBCUniversal을, KT는 시즌(SEEZN)을, SK텔레콤은 웨이브(Wavve)를 운영한다.
+      </p>
+      <p>
+        이 구조에서 ISP가 경쟁 OTT의 트래픽을 느리게 하거나 비싼 사용료를 부과하면 자사 서비스와의 공정 경쟁은 무너진다. 이것이 망 중립성이 막으려는 핵심 시나리오다: <strong>인터넷 진입로의 수문장이 콘텐츠 시장의 심판관을 겸직하는 것.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- 03 한국적 변용 -->
+  <section class="section" id="korea-model">
+    <h2 class="section-title">한국적 변용 — 상호접속고시의 전환</h2>
+    <div class="prose">
+      <h3>2016년 개정: 결정적 분기점</h3>
+      <p>
+        망 중립성이 미국에서 규범 논쟁으로 전개될 때, 한국에서는 조용하지만 훨씬 구조적인 변화가 일어났다. 2016년 미래창조과학부(현 과학기술정보통신부)가 「전기통신설비의 상호접속기준」 고시를 개정했다.
+      </p>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card isp">
+        <div class="debate-card-title">개정 전 — 무정산(無精算)</div>
+        <ul>
+          <li>동일 계위 통신사끼리 트래픽 교환 시 상계</li>
+          <li>국제 인터넷 피어링의 표준 관행</li>
+          <li>발신·수신량이 비슷하면 별도 정산 없음</li>
+        </ul>
+      </div>
+      <div class="debate-card cp">
+        <div class="debate-card-title">개정 후 — 발신자종량제</div>
+        <ul>
+          <li>트래픽 발신량에 비례해 상호정산</li>
+          <li>과기부가 2년마다 정산 상한가 고시</li>
+          <li>CP에게도 종량제 부과 논리 탄생</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>
+        이 변화의 효과는 간접적이었지만 강력했다. 국내 통신사들이 발신량에 따라 서로 요금을 청구하게 되자, <strong>CP(콘텐츠 사업자)에게도 종량제 방식으로 접속료를 청구할 논리적 근거</strong>가 생겼다. CP가 생산하는 대용량 트래픽은 결국 ISP 네트워크를 타고 흐르기 때문이다. 2016년 이후 "세계에서 드물게 망 비용이 증가하는 나라"가 된 배경에는 이 고시 개정이 있다.
+      </p>
+
+      <h3>이중 지불의 구조</h3>
+      <p>
+        ISP의 논리는 명료하다: 넷플릭스·유튜브가 대용량 트래픽을 발생시키면 망 유지 비용이 든다. CP도 분담해야 공정하다.
+      </p>
+      <p>
+        반론도 명료하다: <strong>이용자는 이미 접속 비용을 ISP에 냈다.</strong> CP는 자사 서버를 연결하는 업스트림 ISP·CDN에 이미 비용을 낸다. 트래픽 양쪽 끝이 이미 지불한 상황에서 중간 ISP가 콘텐츠 인기도에 비례하는 <strong>추가 통행세</strong>를 요구하는 것이 망 이용대가의 실체라는 비판이다.
+      </p>
+      <p>
+        이 구조는 "end-to-end 원칙"의 정면 훼손이다. CP가 인기 있을수록 — 이용자에게 더 많은 가치를 제공할수록 — 더 많은 통행세를 낸다면, 인터넷의 혁신 생태계는 ISP의 수익 모델에 종속된다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 04 법정의 기록 -->
+  <section class="section" id="court">
+    <h2 class="section-title">법정의 기록 — SK브로드밴드 vs 넷플릭스</h2>
+
+    <div class="prose">
+      <p>
+        2020년 COVID-19 팬데믹이 스트리밍 수요를 폭발시켰다. SK브로드밴드(SKB)는 넷플릭스에 망 이용대가 협상을 요구했고, 넷플릭스는 이를 거부한 뒤 선제적으로 법원에 <strong>채무부존재 확인소송</strong>(사건번호 2020가합533643)을 제기했다 — "우리는 SKB에 망 사용료를 낼 법적 의무가 없다"는 확인을 구한 것이다.
+      </p>
+    </div>
+
+    <table class="chron-table">
+      <thead>
+        <tr>
+          <th>시점</th>
+          <th>사건</th>
+          <th>의의</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2020<br><span class="chron-badge badge-case">소송</span></td>
+          <td><strong>넷플릭스, 채무부존재 확인소송 제기</strong><br>망 중립성 원칙 기반. 업스트림에 이미 비용 지불 중.</td>
+          <td>한국이 글로벌 망 이용대가 논쟁의 시험 무대가 된 순간</td>
+        </tr>
+        <tr>
+          <td>2021.6.25<br><span class="chron-badge badge-case">판결</span></td>
+          <td><strong>서울중앙지법 1심 — 넷플릭스 패소</strong><br>"넷플릭스가 SKB 망 연결 유지 역무에 대가를 지급할 의무 있다."<br>(재판장: 김형석 부장판사)</td>
+          <td>법원이 망 이용대가의 존재 자체를 적법하다고 인정</td>
+        </tr>
+        <tr>
+          <td>2023.9.18<br><span class="chron-badge badge-case">합의</span></td>
+          <td><strong>SKB·넷플릭스 상호 소취하 + 전략적 파트너십</strong><br>세부 내용 비공개. 업계 소식통: 넷플릭스가 대가에 상당하는 보상 제공 추정.</td>
+          <td>선례 없는 종전. 법적 불확실성 그대로 잔존</td>
+        </tr>
+        <tr>
+          <td>2025.9<br><span class="chron-badge badge-case">재분쟁</span></td>
+          <td><strong>서울법원, ETRI·KISDI에 보상 방법론 산정 명령</strong><br>새로운 넷플릭스-SKB 분쟁에서 전문기관 산정 지시.</td>
+          <td>합의 이후에도 분쟁 반복. 제도적 해결 없음 확인</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      합의의 진짜 의미는 숫자보다 <strong>선례의 부재</strong>에 있다. 소송이 끝나면서 법원이 망 이용대가의 구체적 산정 방식을 판결로 확정할 기회는 사라졌다. 이후 다른 CP들은 개별 협상으로 "조용히 처리"할 수밖에 없는 구조가 굳어졌다.
+    </div>
+  </section>
+
+  <!-- 05 트위치 -->
+  <section class="section" id="twitch">
+    <h2 class="section-title">트위치가 증언한 것</h2>
+    <div class="prose">
+      <p>
+        아마존의 게임 스트리밍 플랫폼 트위치(Twitch)는 망 이용대가 논쟁의 <strong>가장 드라마틱한 피해 증거</strong>를 남겼다.
+      </p>
+
+      <h3>2022년 화질 제한 → 2024년 철수</h3>
+    </div>
+
+    <table class="chron-table">
+      <thead>
+        <tr>
+          <th>시점</th>
+          <th>내용</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2022.9<br><span class="chron-badge badge-platform">트위치</span></td>
+          <td><strong>한국 최대 화질 720p(HD)로 제한</strong> 발표<br>글로벌 서비스는 1080p·60fps 기본인 시점. 공식 이유 미발표. 업계: 망 이용대가 협상 추정.</td>
+        </tr>
+        <tr>
+          <td>2023.12.6<br><span class="chron-badge badge-platform">트위치</span></td>
+          <td><strong>2024년 2월 27일부 한국 서비스 전면 종료 발표</strong><br>트위치 코리아 대표 공식 발언: <em>"타국가 대비 10배 이상 높은 인터넷 사용료로 인해 사업을 지속할 수 없어 철수한다."</em></td>
+        </tr>
+        <tr>
+          <td>2024.2.27<br><span class="chron-badge badge-platform">트위치</span></td>
+          <td><strong>한국 서비스 종료</strong> — 2015년 국내 서비스 시작 후 9년 만<br>720p 화질 제한은 종료 후에도 유지됨.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="prose">
+      <p>
+        통신사 측(KTOA)은 "경쟁사들이 정상 서비스를 제공하며, 트위치 철수는 적자 사업 정리일 뿐"이라고 반박했다. 그러나 "왜 한국에서만"이라는 질문에 대한 답으로는 빈약했다.
+      </p>
+    </div>
+
+    <div class="issue-box neutral">
+      <div class="issue-box-title neutral">트위치 사례가 중요한 세 가지 이유</div>
+      <ul>
+        <li><strong>비용 전가:</strong> ISP가 아닌 CP 측의 일방적 서비스 철수로 최종 이용자가 선택지를 잃는다.</li>
+        <li><strong>지속성:</strong> 720p 화질 제한은 법인이 사라진 후에도 그대로 유지됐다.</li>
+        <li><strong>생태계 방향:</strong> 경쟁이 덜한 중소 플랫폼일수록 협상력이 없어 더 큰 비용을 진다 — 독과점 강화.</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <h3>유튜브의 반격과 여론전</h3>
+      <p>
+        구글·유튜브는 더 전략적으로 대응했다. 2022년 9월 망사용료법 입법 논의가 달아오르자, 유튜브 아태지역 총괄 부사장 거텀 아난드가 공식 블로그를 통해 이용자들에게 반대 서명을 요청했다. 국회에서는 "플랫폼이 자사 이익을 위해 이용자를 동원한다"는 비판이 나왔지만, 역으로 글로벌 CP의 여론전 능력이 없는 중소 플랫폼들의 취약성도 드러냈다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 06 입법 -->
+  <section class="section" id="legislation">
+    <h2 class="section-title">입법의 시도와 좌초 — 망사용료법 5년사</h2>
+    <div class="prose">
+      <h3>2021~2022: 법안 발의의 물결</h3>
+      <p>
+        SKB vs 넷플릭스 소송이 진행 중이던 2021년부터 국회에 전기통신사업법 개정안들이 발의됐다. 핵심: 한국에서 서비스하는 글로벌 CP에게 국내 ISP 망 이용대가 지급 의무를 직접 부과.
+      </p>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card isp">
+        <div class="debate-card-title">법안 지지 논거</div>
+        <ul>
+          <li>OTT 트래픽 급증 → ISP 망 투자 부담 증가</li>
+          <li>네이버·카카오는 내는데 글로벌 CP만 회피 → 역차별</li>
+          <li>망 고도화 비용은 수익을 올리는 측이 분담해야</li>
+        </ul>
+      </div>
+      <div class="debate-card cp">
+        <div class="debate-card-title">법안 반대 논거</div>
+        <ul>
+          <li>HRW: "망 중립성은 자유로운 표현의 토대" — 중단 요청</li>
+          <li>스타트업·독립 미디어에 불균형 비용 집중</li>
+          <li>한국 법인 없는 해외 CP에 역외 규제 집행 불가능</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>2025~2026: 재점화와 통상 압력의 역전</h3>
+      <p>
+        2025년 트럼프 행정부의 관세 공세가 시작되면서 망사용료 문제는 새로운 맥락에 놓였다. 미국은 25% 상호관세를 예고하며 한국에 비관세 장벽 철폐를 압박했고, 그 목록에 망 이용대가 문제가 명시적으로 포함됐다.
+      </p>
+      <p>
+        역설적 구도가 만들어졌다: <strong>입법 추진 측(통신사·일부 국회의원)은 법안을 통과시키려 하고, 트럼프 행정부는 그 법안의 폐기를 무역 협상 카드로 사용한다.</strong> 22대 국회에 계류 중인 이해민(조국혁신당)·김우영·이정헌(더불어민주당) 의원의 "망이용계약 공정화" 개정안은 이 지정학적 맥락 속에서 속도를 내지 못하고 있다.
+      </p>
+      <p>
+        한국경제연구원(KIEP) 분석에 따르면 미국이 EU와 체결한 통상 공동성명에는 "망사용료를 도입하거나 유지하지 않는다"는 내용이 포함됐고, 이는 한국에 대한 협상 레버리지로 작용할 가능성이 높다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 07 EU -->
+  <section class="section" id="eu">
+    <h2 class="section-title">EU의 'Fair Share' 실험과 그 결말</h2>
+    <div class="prose">
+      <p>
+        유럽에서도 비슷한 논쟁이 전개됐다. 도이체텔레콤·오렌지·텔레포니카 등이 2022년부터 빅테크 플랫폼이 네트워크 업그레이드 비용을 분담해야 한다는 "공정한 기여(fair share)" 원칙을 주장하며 EU 입법을 촉구했다.
+      </p>
+      <p>
+        2025년 7월 31일, EU 집행위원회 대변인이 결론을 내렸다: <strong>"빅테크에 망 사용료를 부과하는 것은 EU 디지털 인프라 확충의 현실적 해법이 아니다."</strong> 근거는 세 가지였다:
+      </p>
+    </div>
+
+    <div class="issue-box neutral">
+      <div class="issue-box-title neutral">EU 집행위의 거부 근거 (2025.7.31)</div>
+      <ul>
+        <li><strong>투자 촉진 효과의 불확실성:</strong> 망 사용료 수입이 실제로 망 투자로 이어진다는 증거 없음.</li>
+        <li><strong>단일 시장 분절 우려:</strong> 회원국별 다른 규정이 EU 디지털 단일시장을 파편화할 수 있음.</li>
+        <li><strong>망 중립성 훼손 위험:</strong> EU의 오픈 인터넷 규정(2015년)과 충돌. ISP에게 트래픽 차별 동인 제공.</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <h3>한국과 EU의 결정적 차이</h3>
+      <p>
+        EU가 망 사용료를 <strong>도입하지 않기로 한 것</strong>과 한국이 <strong>이미 시행 중인 것</strong>은 같은 논쟁의 다른 귀결이다. 가장 중요한 구조적 차이는 상호접속 체제다 — EU 내 ISP 간 접속은 대부분 무정산 피어링 원칙이지만, 한국은 2016년 이를 종량제 정산으로 바꾸었다. 또한 EU는 이미 2015년 「오픈 인터넷 규정(Regulation 2015/2120)」으로 망 중립성을 법제화한 상태였다. 한국에는 동등한 수준의 법제화된 망 중립성 원칙이 없다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 08 갈라파고스 -->
+  <section class="section" id="galapagos">
+    <h2 class="section-title">왜 '갈라파고스'인가 — 고립의 구조</h2>
+    <div class="prose">
+      <h3>이중 과금 구조</h3>
+    </div>
+
+    <div class="debate-grid">
+      <div class="debate-card isp">
+        <div class="debate-card-title">글로벌 표준 모델</div>
+        <ul>
+          <li>이용자 → ISP에 접속료 지불</li>
+          <li>CP → 업스트림 ISP·CDN에 비용 지불</li>
+          <li>중간 ISP들은 피어링·트랜짓 계약으로 정산</li>
+        </ul>
+      </div>
+      <div class="debate-card cp">
+        <div class="debate-card-title">한국 모델 (갈라파고스)</div>
+        <ul>
+          <li>이용자 → ISP에 접속료 지불 <em>(동일)</em></li>
+          <li>CP → 업스트림에 지불 <em>(동일)</em></li>
+          <li><strong>CP → 국내 ISP에 추가 망 이용대가</strong> ← 여기가 다르다</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>비용 전가의 생태계</h3>
+      <p>
+        망 이용대가 체제가 고착화되면 생태계에 무슨 일이 일어나는가?
+      </p>
+    </div>
+
+    <div class="issue-box isp">
+      <div class="issue-box-title isp">생태계 계층별 영향</div>
+      <ul>
+        <li><strong>대형 CP (넷플릭스·유튜브):</strong> 협상 테이블에 앉아 조건 절충. 비용 올라가도 서비스 유지.</li>
+        <li><strong>중형 CP (트위치):</strong> 수익성 낮은 구조에 고비용 → 서비스 품질 저하(720p 제한) 또는 철수.</li>
+        <li><strong>스타트업·독립 미디어:</strong> 진입 장벽이 높아져 한국 시장 포기. 혁신 대신 독과점 강화.</li>
+        <li><strong>최종 수혜자:</strong> ISP와 그들이 직접 운영하는 OTT — 경쟁자를 비용으로 억누르면서 자사 서비스는 같은 부담 없이 망 사용.</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <h3>표현의 자유와의 연결</h3>
+      <p>
+        [글 #01]·[글 #02]에서 다룬 검열·감청은 국가권력이 ISP 인프라를 통해 정보에 접근하는 문제였다. 망 이용대가는 다른 방향의 힘이다 — <strong>ISP가 경제적 수단으로 어떤 콘텐츠가 이용자에게 도달하는지를 통제하는 힘.</strong>
+      </p>
+      <p>
+        ISP가 재정적으로 불리한 미디어·독립 언론·비주류 플랫폼에 높은 망 이용대가를 부과하면 — 또는 그들이 감당하지 못해 철수하면 — 정보 다양성은 경제 논리 속에서 조용히 소멸한다. <strong>법원 영장도, 방심위 심의도 필요 없다. 청구서 한 장이면 충분하다.</strong>
+      </p>
+      <p>
+        한국의 ISP는 SNI를 읽어 접속을 차단하는 기술적 능력과, 망 이용대가를 통해 서비스를 시장에서 퇴출시키는 경제적 능력을 동시에 보유한다. 그리고 일부는 국가의 행정심의를 집행하는 법적 의무도 진다. 세 가지가 한 사업자에 집중될 때 생겨나는 게이트키핑 권력의 크기를, 우리는 충분히 생각하고 있는가?
+      </p>
+    </div>
+  </section>
+
+  <!-- 09 쟁점과 균형 -->
+  <section class="section" id="balance">
+    <h2 class="section-title">쟁점과 균형 — 들어봐야 할 반론들</h2>
+    <div class="prose">
+      <p>이 글이 비판적 시각을 주로 취하는 만큼, 반대편의 논거도 공정하게 검토해야 한다.</p>
+    </div>
+
+    <div class="issue-box isp">
+      <div class="issue-box-title isp">ISP 측의 정당한 주장</div>
+      <ul>
+        <li>5G·광케이블 인프라 투자는 막대한 비용을 요구한다. 이용자 요금만으로 전액 회수하기 어렵다면, 인프라를 가장 많이 활용해 수익을 올리는 대형 CP가 일부 기여하는 것이 부당하다고 볼 수 없다.</li>
+        <li>네이버·카카오는 망 이용대가를 낸다. 글로벌 빅테크가 같은 의무에서 면제된다면, 이것도 일종의 차별이다.</li>
+      </ul>
+    </div>
+
+    <div class="issue-box cp">
+      <div class="issue-box-title cp">이 반론들이 답해야 할 질문</div>
+      <ul>
+        <li><strong>인과관계:</strong> ISP의 망 투자와 CP의 서비스는 정말 인과관계가 있는가? 아니면 ISP의 망 투자 여부는 독립적인 사업 결정인가?</li>
+        <li><strong>원칙의 검증:</strong> 국내 CP도 같은 의무를 진다면, 왜 그 의무가 애초에 타당한지부터 검증해야 하지 않는가?</li>
+        <li><strong>투명성:</strong> 망 이용대가 수입이 실제로 망 고도화에 쓰인다는 보장이 있는가? EU가 "투자 촉진 효과의 불확실성"을 이유로 든 것은 이 전제가 검증되지 않았음을 의미한다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10 결론 -->
+  <section class="section" id="conclusion">
+    <h2 class="section-title">닫으며 — 진짜 질문</h2>
+    <div class="conclusion-box">
+      <h3>인터넷은 어떤 종류의 인프라인가</h3>
+      <p>두 가지 대답이 가능하다. 첫째: 인터넷은 시장이 운영하는 상업 인프라다. ISP·CP·이용자 모두 비용과 이익을 자율 협상으로 조정하는 생태계이며, 국가는 공정한 경쟁 환경을 보장하는 심판 역할만 한다. 둘째: 인터넷은 현대 민주주의의 공공 인프라다. 전기·수도처럼 보편적 접근이 보장되어야 하며, 중간 사업자가 콘텐츠를 차별할 권한을 행사해서는 안 된다.</p>
+      <p>망 중립성은 두 번째 대답에서 나온 원칙이다. 미국이 이 원칙을 정치 사이클에 따라 오락가락하는 동안, EU는 법제화로 방어선을 치려 했고, 한국은 전혀 다른 방향으로 걸어 나갔다.</p>
+      <p>한국의 망 이용대가 구조가 진정한 문제라면, 그것은 단순히 "비용을 누가 내느냐"의 문제가 아니다. <strong>정보 유통의 최종 관문을 누가 통제하며, 그 통제에 무슨 동기가 작동하는가의 문제다.</strong> 트위치의 철수는 하나의 서비스가 사라진 사건이 아니다. 그것은 어떤 종류의 인터넷을 우리가 허용하고 있는가를 보여주는 증거다.</p>
+      <p>[글 #01]에서 SNI 차단을 검열이라 부를 수 있는가를 물었고, [글 #02]에서 패킷 복제를 사생활 침해라 부를 수 있는가를 물었다. 이 글의 질문은: <strong>ISP에게 콘텐츠 비용 결정권을 허용하는 것을 표현의 자유 침해라 부를 수 있는가.</strong> 세 질문은 같은 방향을 가리킨다 — 인터넷 트래픽을 통제할 권한이 어디에, 어떻게 규율되어야 하는가. 그 답은 기술이나 시장이 아니라, 우리가 어떤 민주주의를 원하는지에 대한 정치적 선택이다.</p>
+
+      <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px;">
+        <a href="../01-spear-and-shield-history/" class="crosslink">→ 글 #01: 창과 방패의 역사</a>
+        <a href="../02-wiretapping-and-privacy/" class="crosslink">→ 글 #02: 패킷 감청과 통신비밀보호법</a>
+        <a href="../08-esni-ech-censorship-arms-race/" class="crosslink">→ 글 #08: ESNI→ECH 최신 전선</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 참고문헌 -->
+  <section class="section" id="references">
+    <h2 class="section-title">참고문헌</h2>
+    <ul class="ref-list">
+      <li>
+        <span class="ref-num">[1]</span>
+        <span>MK News, "Donald Trump administration has identified South Korea's network usage fee policy as a major trade barrier" (2026.4). USTR SNS 발언: "No country in the world charges companies network usage fees for transmitting internet traffic while providing internet services, except South Korea."<br>
+        <a href="https://www.mk.co.kr/en/world/12029551" target="_blank" rel="noopener">mk.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[2]</span>
+        <span>Seoul Economic Daily (영문), "U.S. Publicly Targets Korea's Network Usage Fees as Trade Barrier" (2026.4.28); Korea JoongAng Daily, "USTR highlights Korea's network usage fee among 'craziest trade barriers'" (2026.4.28).<br>
+        <a href="https://en.sedaily.com/international/2026/04/28/us-publicly-targets-koreas-network-usage-fees-as-trade" target="_blank" rel="noopener">en.sedaily.com</a> · <a href="https://koreajoongangdaily.joins.com/news/2026-04-28/national/diplomacy/USTR-highlights-Koreas-network-usage-fee-among-craziest-trade-barriers/2579536" target="_blank" rel="noopener">koreajoongangdaily</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[3]</span>
+        <span>Tim Wu, "Network Neutrality, Broadband Discrimination," Journal of Telecommunications and High Technology Law, Vol. 2 (2003).<br>
+        <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=388863" target="_blank" rel="noopener">SSRN</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[4]</span>
+        <span>FCC, "2015 Open Internet Order" (FCC-15-24): 광대역 타이틀 II 재분류, 차단·속도제한·유료우선처리 금지.<br>
+        <a href="https://www.congress.gov/crs-product/R46973" target="_blank" rel="noopener">Congress.gov CRS</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[5]</span>
+        <span>FCC, "Restoring Internet Freedom Order" (FCC 17-166, 2017.12): 타이틀 II 재분류 폐지, 정보서비스 재분류.<br>
+        <a href="https://docs.fcc.gov/public/attachments/DOC-347927A1.pdf" target="_blank" rel="noopener">fcc.gov</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[6]</span>
+        <span>Perkins Coie, "Why the FCC's Net Neutrality Rules Were Struck Down" (2025); RCR Wireless News (2025.1.6): 제6연방항소법원, Loper Bright 인용해 FCC 권한 부재 판결.<br>
+        <a href="https://perkinscoie.com/insights/update/why-fccs-net-neutrality-rules-were-struck-down" target="_blank" rel="noopener">perkinscoie.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[7]</span>
+        <span>연합뉴스, "말 많았던 '상호접속고시' 개정…망 사용료 논란 잦아들까" (2019.12.22): 2016년 무정산→상호정산(종량제) 전환.<br>
+        <a href="https://www.yna.co.kr/view/AKR20191222043200017" target="_blank" rel="noopener">yna.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[8]</span>
+        <span>KCI, 인터넷 접속통신료 정산방식의 국제관행 조화방안에 대한 소고: "우리나라는 세계에서 드물게 망 비용이 증가하는 나라가 되었다."<br>
+        <a href="https://kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002572029" target="_blank" rel="noopener">kci.go.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[9]</span>
+        <span>KISO저널, "넷플릭스, '망 이용대가 소송' 1심 패소의 의미" (2021.8.23); ScienceDirect: Telecommunications Policy (2025) — Netflix and network neutrality.<br>
+        <a href="https://journal.kiso.or.kr/?p=11116" target="_blank" rel="noopener">journal.kiso.or.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[10]</span>
+        <span>ZDNet Korea, "SKB, '網 이용대가 소송'에서 넷플릭스에 완승" (2021.6.27): 사건번호 2020가합533643.<br>
+        <a href="https://zdnet.co.kr/view/?no=20210625151817" target="_blank" rel="noopener">zdnet.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[11]</span>
+        <span>이뉴스투데이, "SK브로드밴드, 넷플릭스와 '채무부존재 확인' 소송 승소" (2021.6.27): 판결문 인용.<br>
+        <a href="https://www.enewstoday.co.kr/news/articleView.html?idxno=1491011" target="_blank" rel="noopener">enewstoday.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[12]</span>
+        <span>Variety, "Netflix and Korea's SK Broadband End Lawsuits Over Fees, Technology" (2023.9.18); The Verge (2023.9.18); KED Global: SKB 소취하 대가로 보상 수령 업계 소식통 인용.<br>
+        <a href="https://variety.com/2023/biz/news/netflix-korea-sk-broadband-end-lawsuits-fees-1235726280/" target="_blank" rel="noopener">variety.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[13]</span>
+        <span>Strand Consult, "Fair Share: South Korean court orders network usage fee methodology for intractable Netflix" (2025.9.24).<br>
+        <a href="https://strandconsult.dk/fair-share-south-korean-court-orders-network-usage-fee-methodology-for-intractable-netflix-broadband-cost-recovery-update/" target="_blank" rel="noopener">strandconsult.dk</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[14]</span>
+        <span>아시아타임즈, "[e와글] 트위치의 국내 서비스 철수 이유는 '10배 높은' 망사용료" (2023.12.6): 트위치 코리아 CEO 발언 인용.<br>
+        <a href="https://www.asiatime.co.kr/article/20231206500097" target="_blank" rel="noopener">asiatime.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[15]</span>
+        <span>뉴스핌, "한국 떠나는 트위치...망사용료 적정 논란 '재점화'" (2024.2.26): KTOA 반박 입장문.<br>
+        <a href="https://www.newspim.com/news/view/20240226001028" target="_blank" rel="noopener">newspim.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[16]</span>
+        <span>YouTube MBC뉴스 (2022.9.22): 거텀 아난드 유튜브 아태 총괄 부사장, 공식 블로그에서 이용자 반대 서명 독려.<br>
+        <a href="https://www.youtube.com/watch?v=QoKX8Ls6lRM" target="_blank" rel="noopener">youtube.com (MBC뉴스)</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[17]</span>
+        <span>중앙일보 팩플, "유튜버 읍소까지 동원…구글·넷플릭스 저격 '망 사용료법' 뭐길래" (2022.9.22).<br>
+        <a href="https://www.joongang.co.kr/article/25103950" target="_blank" rel="noopener">joongang.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[18]</span>
+        <span>경향신문, "미 행정부 '한국 뺀 어떤 나라도 망 사용료 부과 안 해···터무니없는 무역 장벽' 재차 불만" (2026.4.28).<br>
+        <a href="https://www.khan.co.kr/article/202604280836001" target="_blank" rel="noopener">khan.co.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[19]</span>
+        <span>KIEP, 한미정상회담 주요 내용과 시사점 (2025.8): 미-EU 공동성명 "망사용료 도입하거나 유지하지 않는다" 내용 포함.<br>
+        <a href="https://www.kiep.go.kr/galleryDownload.es?bid=0003&list_no=11989&seq=1" target="_blank" rel="noopener">kiep.go.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[20]</span>
+        <span>Reuters, "Network fee on Big Tech not a viable solution to boost EU digital rollout, EU says" (2025.7.31): EU 집행위 대변인 성명.<br>
+        <a href="https://www.reuters.com/business/media-telecom/network-fee-big-tech-not-viable-solution-boost-eu-digital-rollout-eu-says-2025-07-31/" target="_blank" rel="noopener">reuters.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[21]</span>
+        <span>디지털투데이, "상호관세가 쏘아 올린 공?...'망 사용료' 논란 재점화" (2025.4.3): 22대 국회 계류 법안 목록.<br>
+        <a href="https://www.digitaltoday.co.kr/news/articleView.html?idxno=560046" target="_blank" rel="noopener">digitaltoday.co.kr</a></span>
+      </li>
+    </ul>
+
+    <div class="unverified" style="margin-top:24px;">
+      <strong>확인 노트:</strong> 망 이용대가 수입 중 망 투자에 전용되는 비율은 ISP별 공시가 없어 정확한 수치는 확인되지 않는다. 22대 국회의 망이용계약 공정화법(2024년 8월 이해민·김우영 의원 등 발의)은 본 기사 작성 시점까지 본회의를 통과하지 못하고 소관 상임위 심사 단계에 머물러 있는 것으로 확인된다. 넷플릭스-SKB의 2023년 9월 합의는 비밀유지 조항에 따라 정확한 금액이 공개되지 않았으며, 업계에서는 최소 수백억 원 규모로 추정한 것으로 알려졌다. 유튜브 프리미엄의 1080p 화질 정책이 망 이용대가와 직접 연관된다는 구글의 공식 확인은 없으며, 통신업계의 비판적 해석으로 보도되고 있다.
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko" style="color:var(--amber)">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 8일</p>
+      <p>오류·제보: GitHub 이슈</p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

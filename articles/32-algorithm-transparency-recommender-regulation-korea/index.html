@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>알고리즘 투명성과 추천시스템 규제 — 플랫폼 권력 vs 정보 자기결정권 | net.or.kr</title>
+<meta name="description" content="플랫폼은 무엇을 보여줄지 스스로 결정한다. 이용자는 왜 그 콘텐츠가 나에게 왔는지 알 수 없다 — EU DSA 추천시스템 투명성 의무, 한국 네이버·쿠팡 알고리즘 공정성 논쟁, 필터버블과 정보 자기결정권.">
+<meta property="og:title" content="알고리즘 투명성과 추천시스템 규제 — 플랫폼 권력 vs 정보 자기결정권">
+<meta property="og:description" content="플랫폼은 무엇을 보여줄지 스스로 결정한다. 이용자는 왜 그 콘텐츠가 나에게 왔는지 알 수 없다 — EU DSA 추천시스템 투명성 의무, 한국 네이버·쿠팡 알고리즘 공정성 논쟁, 필터버블과 정보 자기결정권.">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --emerald:#10b981;--emerald-light:#6ee7b7;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .callout{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--amber);margin-bottom:8px;}
+  .callout p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .callout-emerald{background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .callout-emerald .callout-label{color:var(--emerald-light);}
+  .callout-emerald p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .scenario-box{display:grid;gap:16px;margin:24px 0;}
+  .scenario{background:var(--bg2);border-radius:10px;padding:18px;border-left:3px solid var(--amber-dark);}
+  .scenario h4{font-size:15px;color:var(--amber-light);margin:0 0 10px;}
+  .scenario p{font-size:14px;color:#cbd5e1;margin:0;line-height:1.6;}
+
+  .verdict-box{background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .verdict-box .verdict-label{font-size:11px;font-weight:700;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--cyan-light);margin-bottom:8px;}
+  .verdict-box p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .law-box{background:rgba(148,163,184,0.06);border:1px solid var(--bg3);border-radius:10px;
+    padding:18px 20px;margin:24px 0;}
+  .law-box .law-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:8px;}
+  .law-box p{margin:0;font-size:14px;color:#cbd5e1;line-height:1.7;}
+  .law-box p+p{margin-top:8px;}
+
+  .rights-box{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .rights-box .rights-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--emerald-light);margin-bottom:10px;}
+  .rights-box ul{margin:0;padding-left:18px;color:#cbd5e1;font-size:14px;line-height:1.7;}
+  .rights-box li{margin-bottom:8px;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #32 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">알고리즘 투명성과 추천시스템 규제 — 플랫폼 권력 vs 정보 자기결정권</h1>
+    <p class="article-subtitle">플랫폼은 무엇을 보여줄지 스스로 결정한다. 이용자는 왜 그 콘텐츠가 나에게 왔는지 알 수 없다 — EU DSA 추천시스템 투명성 의무, 한국 네이버·쿠팡 알고리즘 공정성 논쟁, 필터버블과 정보 자기결정권</p>
+    <div class="article-meta">
+      <span>2026년 6월 28일 발행</span>
+      <span>약 45분 읽기</span>
+      <span class="tag">알고리즘 투명성</span><span class="tag">DSA</span><span class="tag">필터버블</span><span class="tag">추천시스템</span><span class="tag">정보 자기결정권</span><span class="tag">다크패턴</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-0"><span>00</span> 인트로 — "왜 이게 나에게 보이는가"</a></li>
+      <li><a href="#sec-1"><span>01</span> 추천 알고리즘의 구조와 권력</a></li>
+      <li><a href="#sec-2"><span>02</span> EU DSA — 추천시스템 투명성 의무</a></li>
+      <li><a href="#sec-3"><span>03</span> 한국 — 네이버·쿠팡과 규제 논쟁</a></li>
+      <li><a href="#sec-4"><span>04</span> GDPR 22조와 알고리즘 설명 요구권</a></li>
+      <li><a href="#sec-5"><span>05</span> 필터버블, 표현의 자유, 민주주의</a></li>
+      <li><a href="#sec-6"><span>06</span> 미국·기타 국제 동향</a></li>
+      <li><a href="#sec-7"><span>07</span> 디지털 권리 관점 — 알고리즘 자기결정권</a></li>
+      <li><a href="#sec-8"><span>08</span> 현황과 전망</a></li>
+      <li><a href="#sec-9"><span>09</span> 결론</a></li>
+      <li><a href="#sec-10"><span>10</span> 참고 자료</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-0">
+  <h2 class="section-title">인트로 — "왜 이게 나에게 보이는가"</h2>
+  <div class="prose">
+<p>페이스북 피드를 열면 친구의 근황 대신 분노를 자극하는 정치 기사가 가득하다. 유튜브에서 영상 한 편을 보면 다음 영상이 자동 재생된다 — 처음에는 취미 영상이었던 것이 어느 순간 극단적 주장의 채널로 이어진다. 쿠팡에서 상품을 검색하면 같은 카테고리의 다른 경쟁사보다 쿠팡 자체 브랜드 상품이 더 눈에 띄는 위치에 나타난다.</p>
+
+<p>이 모든 경험의 배후에는 <strong>추천 알고리즘</strong>이 있다. 플랫폼은 이용자가 무엇을 클릭하고, 얼마나 머물며, 무엇을 구매하는지를 분석해 다음 순간 무엇을 보여줄지를 결정한다. 이용자의 체류시간을 늘리고, 구매를 유도하고, 재방문을 높이는 것이 목표다.</p>
+
+<p>그러나 이용자는 알 수 없다. <em>왜 이 콘텐츠가 나에게 보여졌는가? 어떤 데이터가 이 결과를 만들었는가? 내가 보지 못하는 다른 콘텐츠는 무엇인가?</em> 알고리즘의 작동 방식은 플랫폼의 영업비밀이다.</p>
+
+<p>이 정보 비대칭이 만드는 것은 단순한 소비자 불편이 아니다. <strong>알고리즘 권력</strong> — 플랫폼이 이용자의 정보 환경, 구매 결정, 나아가 세계관을 형성하는 권력이다. 이 권력을 어떻게 규제할 것인가, 이용자는 어떤 권리를 가져야 하는가 — 이것이 이 글의 주제다.</p>
+
+<p>이 글은 <a href="../19-pipa-data-protection-korea/">글 #19(개인정보 자기결정권)</a>과 <a href="../15-platform-regulation-comparison/">글 #15(플랫폼 규제 비교)</a>가 다루지 않은, <em>추천 알고리즘 규제와 정보 자기결정권</em>의 특수한 문제를 다룬다. 감시·감청·암호화가 아니라, 이용자가 받는 정보 자체를 플랫폼이 설계하는 구조의 디지털 권리 문제다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">추천 알고리즘의 구조와 권력</h2>
+  <div class="prose">
+
+<h3>추천 알고리즘의 작동 원리</h3>
+<p>추천 알고리즘은 이용자에 대한 데이터(과거 클릭·시청·구매·검색·위치·시간대·기기·사회적 관계망)와 콘텐츠에 대한 데이터(조회수·공유·댓글·유사 이용자 반응)를 결합해, 특정 이용자가 특정 콘텐츠에 반응할 확률을 예측한다.</p>
+
+<p>목표함수(objective function)는 주로 <strong>참여도(engagement)</strong> — 클릭, 시청 시간, 공유, 댓글. 이 지표를 극대화하도록 모델이 학습된다.</p>
+
+<div class="callout">
+  <div class="callout-label">구조적 문제 — 분노가 클릭을 만든다</div>
+  <p>인간의 감정 중 분노·공포·혐오·놀라움은 참여도를 높인다. 평온하고 균형 잡힌 정보보다 자극적인 정보가 더 많은 클릭과 체류시간을 만든다. 알고리즘은 이를 학습하고, 자극적 콘텐츠를 더 많이 추천한다. <strong>알고리즘은 설계자의 의도와 무관하게, 수익 최적화의 부산물로 감정 조작적 콘텐츠를 증폭시킨다.</strong></p>
+</div>
+
+<h3>필터버블과 에코챔버</h3>
+<p>엘리 파리저(Eli Pariser)가 2011년 <em>『필터 버블(The Filter Bubble)』</em>에서 제시한 개념: 알고리즘이 이용자의 기존 관심사·성향에 맞는 정보만 보여주면, 이용자는 자신의 세계관을 강화하는 정보 거품(bubble) 안에 갇힌다. 반대 의견, 불편한 사실, 다양한 관점은 피드에서 사라진다.</p>
+
+<p>에코챔버(echo chamber)는 이와 관련되지만 다른 현상이다: 비슷한 생각을 가진 사람들끼리만 정보를 공유하며 서로의 믿음을 강화하는 집단 역학. 알고리즘은 이 에코챔버를 물리적·사회적 경계를 넘어 디지털 공간에서 형성·강화한다.</p>
+
+<p>필터버블·에코챔버의 규모와 정도를 둘러싼 학술 논쟁이 있다. 일부 연구는 알고리즘보다 이용자의 자기선택(selective exposure)이 에코챔버를 더 크게 만든다고 주장한다. 그러나 알고리즘이 이용자의 정보 환경에 영향을 미친다는 점, 그리고 그 영향이 민주주의적 공론장에 문제를 일으킬 수 있다는 점은 폭넓은 공감대를 얻고 있다.</p>
+
+<h3>알고리즘 편향</h3>
+<p>추천 알고리즘에는 편향(bias)이 내재한다. 훈련 데이터 자체가 역사적 불평등을 반영하기 때문이다. 채용 플랫폼 알고리즘이 과거 채용 패턴을 학습해 특정 성별·인종·출신 지역의 지원자를 불이익하게 처우하거나, 콘텐츠 추천 알고리즘이 특정 언어·문화권의 콘텐츠를 구조적으로 적게 추천하는 사례가 보고됐다.</p>
+
+<p>알고리즘 편향은 이용자가 받는 정보의 다양성을 제한하고, 기존의 불평등을 자동화·확장한다. 이는 단순한 기술적 오류가 아니라 <strong>알고리즘 설계와 훈련 데이터 선택이 이미 가치 판단을 내포하고 있음</strong>을 보여준다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>알고리즘 현상</th>
+      <th>메커니즘</th>
+      <th>디지털 권리 문제</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>필터버블</strong></td>
+      <td>관심사 기반 개인화 → 다양한 정보 차단</td>
+      <td>알 권리, 정보 다양성 침해</td>
+    </tr>
+    <tr>
+      <td><strong>에코챔버</strong></td>
+      <td>유사 성향 집단화 → 세계관 강화·고착</td>
+      <td>공론장 기능 약화, 민주주의적 토론 축소</td>
+    </tr>
+    <tr>
+      <td><strong>알고리즘 편향</strong></td>
+      <td>역사적 불평등 반영 데이터 → 차별 자동화</td>
+      <td>비차별권, 공정한 정보 접근권 침해</td>
+    </tr>
+    <tr>
+      <td><strong>참여도 극대화</strong></td>
+      <td>자극적 콘텐츠 증폭 → 감정 조작</td>
+      <td>이용자 자율성·정보 자기결정권 침해</td>
+    </tr>
+    <tr>
+      <td><strong>다크패턴</strong></td>
+      <td>조종적 UI 설계 → 이용자 행동 유도</td>
+      <td>자유로운 의사결정권 침해</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-2">
+  <h2 class="section-title">EU 디지털서비스법(DSA) — 추천시스템 투명성 의무</h2>
+  <div class="prose">
+
+<h3>DSA의 배경과 VLOP</h3>
+<p>EU 디지털서비스법(Digital Services Act, Regulation 2022/2065)은 2022년 10월 발효됐다. 이 규정은 EU 내 온라인 플랫폼의 불법 콘텐츠 관리·투명성·이용자 권리를 포괄적으로 규제한다. 특히 매우 큰 온라인 플랫폼(Very Large Online Platforms, <strong>VLOP</strong>)과 매우 큰 온라인 검색엔진(VLOSE)에는 더 강한 의무가 부과된다.</p>
+
+<p>VLOP 기준: EU 내 활성 이용자 4,500만 명(EU 인구의 약 10%) 이상인 플랫폼. 2023년 4월, EU 집행위원회는 TikTok·Meta(Facebook, Instagram)·Google(YouTube, Google Maps, Google Play, Google Shopping)·X(구 Twitter)·Snapchat·LinkedIn·Wikipedia·Amazon·Apple·Booking.com·Bing 등 19개 플랫폼을 VLOP 또는 VLOSE로 지정했다. 이 플랫폼들은 2023년 8월부터 VLOP 의무를 이행해야 했다.</p>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>제27조 — 추천시스템 파라미터 공개</h4>
+    <p>플랫폼은 추천시스템의 <strong>주요 파라미터(main parameters)</strong>를 이용자에게 이해하기 쉬운 방식으로 공개해야 한다. 공개 대상 파라미터의 예: 서비스가 추천에 사용하는 기준, 해당 기준의 상대적 중요도, 이용자 프로파일링이 추천에 미치는 방식. '주요 파라미터'의 범위와 공개 깊이는 이행 단계에서 논쟁이 된다 — 소비자가 이해할 수 있는 정보와, 경쟁사가 역설계에 활용할 수 있는 수준 사이의 균형 문제다.</p>
+  </div>
+  <div class="scenario">
+    <h4>제38조 — 비프로파일링 추천 선택권(VLOP 전용)</h4>
+    <p>VLOP에만 적용되는 특별 의무: <strong>이용자는 자신의 프로파일링에 기반하지 않는 추천시스템을 선택할 수 있어야 한다.</strong> 적어도 하나의 비프로파일링 추천 옵션을 쉽게 접근할 수 있게 제공해야 한다. 이는 알고리즘 자기결정권의 실질적 형태다 — 이용자가 자신에 대한 데이터 분석을 거부하고, 다른 기준으로 콘텐츠를 볼 수 있도록 보장하는 것이다.</p>
+  </div>
+  <div class="scenario">
+    <h4>제25조 — 다크패턴 금지</h4>
+    <p><strong>다크패턴(dark patterns)</strong> — 이용자의 선택을 조종하거나 기만하도록 설계된 인터페이스 — 을 금지한다. 예: 구독 취소를 어렵게 만드는 복잡한 절차, 동의를 기본값으로 설정하는 방식, 특정 선택을 시각적으로 두드러지게 만들어 유도하는 방식. 알고리즘이 이용자를 특정 행동으로 유도하면서 인터페이스 설계까지 그 유도를 강화한다면, 이용자의 자율적 선택은 형식만 남게 된다.</p>
+  </div>
+  <div class="scenario">
+    <h4>제34·35조 — 시스템적 위험 평가 및 완화(VLOP 전용)</h4>
+    <p>VLOP은 추천시스템이 만들어낼 수 있는 <strong>시스템적 위험(systemic risks)</strong>을 매년 평가하고 완화 조치를 취해야 한다. 시스템적 위험의 예: 기본권(표현의 자유·비차별)에 대한 부정적 영향, 선거 과정에 대한 영향, 성·인종·종교에 기반한 콘텐츠 차별화. VLOP은 EU 집행위원회가 인증한 독립 감사기관의 감사를 받아야 한다 — <strong>알고리즘에 대한 독립적 외부 감사 체계의 최초 법제화 사례 중 하나다.</strong></p>
+  </div>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>DSA 조항</th>
+      <th>적용 대상</th>
+      <th>핵심 의무</th>
+      <th>권리 형태</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>제27조</strong></td>
+      <td>모든 플랫폼</td>
+      <td>추천시스템 핵심 파라미터 공개</td>
+      <td>알 권리 (최소 형태)</td>
+    </tr>
+    <tr>
+      <td><strong>제38조</strong></td>
+      <td>VLOP 한정</td>
+      <td>비프로파일링 추천 옵션 제공</td>
+      <td>거부 권리 (알고리즘 자기결정)</td>
+    </tr>
+    <tr>
+      <td><strong>제25조</strong></td>
+      <td>모든 플랫폼</td>
+      <td>다크패턴 설계 금지</td>
+      <td>자율적 의사결정 보호</td>
+    </tr>
+    <tr>
+      <td><strong>제34·35조</strong></td>
+      <td>VLOP 한정</td>
+      <td>시스템적 위험 평가·독립 감사</td>
+      <td>플랫폼 책임 (공익 보호)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout-emerald">
+  <div class="callout-label">DSA 이행 현황</div>
+  <p>DSA는 2023년 이후 VLOP에 적용되기 시작했다. EU 집행위원회는 TikTok(2024년 미성년자 보호·추천 알고리즘 시스템 리스크 평가 관련 조사), X(DSA 준수 여부 조사) 등에 대한 집행 절차를 진행 중이다. 이행 실효성은 플랫폼이 파라미터 공개를 이용자가 이해할 수 있는 방식으로 하는지, 비프로파일링 옵션을 접근하기 쉬운 위치에 두는지에 달려 있다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-3">
+  <h2 class="section-title">한국 — 네이버·쿠팡 알고리즘 공정성 논쟁과 규제</h2>
+  <div class="prose">
+
+<h3>2021년 공정거래위원회 네이버 제재</h3>
+<p>2021년 1월, 공정거래위원회는 네이버에 <strong>과징금 267억 원</strong>을 부과했다(의결 제2021-028호). 제재의 핵심: 네이버가 자사 쇼핑 서비스(네이버 쇼핑)와 동영상 서비스(네이버 TV)에 유리하도록 검색 알고리즘을 조작해 시장지배적 지위를 남용했다는 것이다.</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">네이버 알고리즘 조작 제재 요지</div>
+  <p><strong>공정위 인정 사실:</strong> 네이버가 2012년경부터 쇼핑 검색 결과에서 자사 네이버 쇼핑(스마트스토어) 입점 상품을 G마켓·11번가 등 경쟁 오픈마켓 상품보다 우선 노출되도록 알고리즘 가중치를 조작했다. 동영상 검색에서도 네이버 TV 콘텐츠가 유튜브·아프리카TV 등 경쟁 서비스보다 상위에 노출됐다.<br><br>
+  <strong>법적 판단:</strong> 검색 서비스라는 시장지배적 지위를 이용해 자사 연관 서비스에 부당한 이익을 부여하고 경쟁사에 불이익을 줬다 — 공정거래법 제5조 시장지배적 지위 남용 해당.<br><br>
+  <strong>의의:</strong> 알고리즘 조작이 공정거래법 위반이 될 수 있음을 한국에서 처음으로 명확히 한 사례. 검색 중립성과 알고리즘 공정성의 문제가 경쟁법의 영역임을 확인했다. 네이버는 불복해 행정소송을 제기했으며, 최종 판결은 진행 중이다.</p>
+</div>
+
+<h3>쿠팡 자체 상품 우선 노출 논란</h3>
+<p>쿠팡도 자체 브랜드(PB) 상품이나 자체 직매입 상품을 검색 결과·추천에서 우선 노출하는 알고리즘 운용 방식에 대한 비판이 제기됐다. 공정거래위원회는 쿠팡의 알고리즘 운용 방식을 조사했다.</p>
+
+<p>이 논란은 네이버 제재와 유사한 구조다: <em>플랫폼이 검색·추천 알고리즘을 이용해 자사 이익을 위한 노출 편향을 만든다면, 이는 플랫폼 경쟁 중립성의 문제이자 이용자에 대한 정보 조작의 문제다.</em></p>
+
+<p>EU에서는 디지털 시장법(Digital Markets Act, DMA)이 게이트키퍼 지위 플랫폼의 자사우대(self-preferencing)를 명시적으로 금지한다. 한국의 온라인 플랫폼 공정화법 논의도 유사한 맥락이지만, 입법 과정에서 규제 범위를 둘러싼 논쟁이 지속되고 있다.</p>
+
+<h3>전자상거래법 다크패턴 규제</h3>
+<p>공정거래위원회는 2023년 이후 전자상거래법 개정을 통해 다크패턴 규제 근거를 마련했다. 규제 대상 유형: 자동 갱신·정기결제를 불분명하게 고지하는 방식, 취소·해지를 어렵게 만드는 절차 설계, 무료 체험 후 자동 유료 전환 고지 불충분, 가격·조건을 불분명하게 표시하는 방식 등.</p>
+
+<div class="law-box">
+  <div class="law-label">한국 알고리즘 관련 법령 현황</div>
+  <p><strong>공정거래법</strong> — 알고리즘 조작을 통한 시장지배적 지위 남용 제재 근거. 네이버 제재(2021)가 첫 적용 사례.</p>
+  <p><strong>전자상거래법(개정)</strong> — 다크패턴 금지 조항 도입(2023). EU DSA 제25조와 같은 방향이나, 주로 전자상거래 소비자 보호 맥락에 한정.</p>
+  <p><strong>개인정보 보호법(개정, 2023)</strong> — 자동화된 의사결정에 대한 이의 제기·설명 요구권 도입. '중요한 영향을 미치는' 자동화 결정에 한정 적용.</p>
+  <p><strong>AI 기본법(2026년 시행)</strong> — 고영향 AI 시스템 의무 부과 포함. 추천 알고리즘과의 관계는 이행 과정에서 구체화될 예정.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-4">
+  <h2 class="section-title">GDPR 제22조와 알고리즘 설명 요구권</h2>
+  <div class="prose">
+
+<h3>GDPR 제22조 — 자동화된 의사결정 이의권</h3>
+<p>EU 일반개인정보보호규정(GDPR) 제22조는 개인에게 <strong>자신에 대한 법적 효과 또는 유사하게 중요한 효과를 미치는 자동화된 의사결정</strong>에 이의를 제기하고, 인간의 검토를 요구할 권리를 보장한다.</p>
+
+<p>'법적 효과 또는 유사하게 중요한 효과'의 예: 대출 심사 알고리즘의 거부 결정, 채용 알고리즘의 서류 탈락, 보험료 산정 알고리즘의 결과. 이 경우 당사자는 자동화 결정에 이의를 제기하고, 결정의 근거를 설명받고, 인간이 다시 검토하도록 요구할 수 있다.</p>
+
+<div class="callout">
+  <div class="callout-label">GDPR 22조의 적용 범위 논쟁</div>
+  <p>GDPR 제22조는 <strong>알고리즘 설명 가능성(algorithmic explainability)</strong>의 법적 근거다. 그러나 추천 알고리즘 — 어떤 콘텐츠를 피드에 보여줄지 — 에 대한 설명 요구권은 GDPR 제22조의 적용 범위에 명확히 포함되지 않는다는 해석이 일반적이다. '법적 효과 또는 유사하게 중요한 효과'가 없다는 이유다. 소셜미디어 피드 추천이 민주주의적 공론장에 미치는 영향을 고려할 때, 이 해석이 충분한가에 대한 논쟁이 진행 중이다.</p>
+</div>
+
+<h3>알고리즘 설명 요구권의 논의</h3>
+<p>학계와 시민사회는 <strong>알고리즘 설명 요구권</strong>을 더 넓게 인정해야 한다고 주장한다. 소셜미디어 플랫폼이 단순한 소비 플랫폼이 아니라 사람들이 세상을 이해하고 정치적 의견을 형성하는 공론장으로서 역할을 하기 때문이다.</p>
+
+<p>이 논의의 핵심 질문: <em>'왜 이 콘텐츠가 나에게 보였는가'를 이용자가 이해할 수 있는 권리가 있는가? 알고리즘이 나의 정치적 견해 형성에 영향을 미칠 때, 그 영향의 메커니즘을 알 권리가 있는가?</em></p>
+
+<p>DSA 제27·38조는 이 방향으로 한 발자국 나아간 규제다. 파라미터 공개와 비프로파일링 옵션은 알고리즘 설명 요구권의 약한 형태라 볼 수 있다. 더 강한 형태의 권리 — 개별 추천 결정에 대한 설명 요구, 알고리즘 독립 감사 결과 공개 — 는 입법 논의가 진행 중이다.</p>
+
+<h3>한국 개인정보보호법과 자동화 의사결정</h3>
+<p>한국 개인정보보호법(PIPA) 2023년 개정은 자동화 의사결정에 관한 조항을 도입했다. 개인에게 자신에 대한 자동화된 결정에 이의를 제기하고 설명을 요구할 권리를 명시했다. 다만 GDPR 제22조와 유사하게 '중요한 영향을 미치는' 자동화 의사결정에 한정된다. 추천 알고리즘 전반에 대한 설명 요구권을 인정하는 것은 아니다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-5">
+  <h2 class="section-title">필터버블, 표현의 자유, 민주주의적 공론장</h2>
+  <div class="prose">
+
+<h3>알고리즘이 여론 형성에 미치는 영향</h3>
+<p>추천 알고리즘이 민주주의적 공론장에 미치는 영향에 대한 우려는 오랫동안 제기됐다. 특히 선거 국면에서 알고리즘이 특정 정치적 콘텐츠를 선택적으로 증폭하거나, 극단적 주장의 확산을 가속화한다는 주장이 제기됐다.</p>
+
+<p>EU DSA 제34조의 시스템적 위험 평가 의무는 이 우려를 법제화한 것이다. VLOP은 자신의 추천시스템이 선거에 미치는 영향을 평가해야 한다. EU 집행위원회는 2024년 EU 의회 선거를 앞두고 TikTok·Meta 등에 선거 관련 시스템적 위험 평가 의무를 강조했다.</p>
+
+<h3>'알고리즘 중립성'의 허구</h3>
+<p>플랫폼들은 종종 알고리즘을 '중립적 기술'로 포지셔닝한다. 인간이 아닌 수학이 콘텐츠를 선택하므로 편향이 없다는 주장이다.</p>
+
+<p>그러나 이는 잘못된 프레임이다. 목표함수 설계, 훈련 데이터 선택, 피드백 루프 설정 — 모든 단계에 가치 판단이 개입한다. '참여도 극대화'라는 목표 자체가 가치 중립적이지 않다. <strong>알고리즘 중립성 신화는 플랫폼의 책임 회피 수단으로 기능할 수 있다</strong> — '우리는 기술이 선택한 것을 보여줄 뿐'이라는 논리로, 알고리즘이 만들어내는 사회적 결과에 대한 책임을 외면하는 것이다.</p>
+
+<h3>표현의 자유와 알고리즘 거버넌스의 긴장</h3>
+<p>알고리즘 규제는 표현의 자유와 긴장 관계에 있다. 정부가 플랫폼에 특정 콘텐츠를 더 많이 또는 적게 추천하도록 강제할 경우, 이는 국가에 의한 콘텐츠 편집 개입이 될 수 있다.</p>
+
+<p>DSA의 접근 방식은 이 긴장을 의식한다. DSA는 플랫폼에 특정 콘텐츠를 더 많이 또는 적게 추천하라고 강제하지 않는다. 대신 <strong>절차적 투명성</strong> — 알고리즘이 어떻게 작동하는지 설명하고, 이용자에게 대안을 제공하며, 독립적 감사를 받는 것 — 을 요구한다. 이용자에게 알고리즘 작동 방식을 알 권리를 주고, 대안을 선택할 권리를 주는 것은 이용자의 자율성을 강화하는 방향이다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-6">
+  <h2 class="section-title">미국·기타 국제 동향</h2>
+  <div class="prose">
+
+<h3>미국 — 입법 시도와 헌법적 긴장</h3>
+<p>미국에서는 알고리즘 투명성을 위한 입법 시도가 여러 차례 있었다. <strong>알고리즘 책임법(Algorithmic Accountability Act)</strong> — 2019년, 2022년 복수 발의 — 은 기업에 자동화 의사결정 시스템의 영향 평가 의무를 부과하는 내용을 담았다. 그러나 입법에 이르지 못했다.</p>
+
+<p>미국 연방거래위원회(FTC)는 2022년 보고서 <em>'Bringing Dark Patterns to Light'</em>를 통해 다크패턴의 구체적 유형과 소비자 피해를 분석하고, 기존 FTC법을 적용한 집행 의지를 표명했다.</p>
+
+<div class="callout">
+  <div class="callout-label">수정헌법 제1조 논쟁</div>
+  <p>미국에서는 알고리즘 규제를 둘러싼 수정헌법 제1조(표현의 자유) 논쟁이 유독 활발하다. 플랫폼의 알고리즘 편집 결정이 수정헌법 제1조의 보호를 받는 표현이라는 주장이 제기되며, 정부의 알고리즘 규제 권한에 헌법적 제약이 있다는 논쟁이 진행 중이다. 이는 EU와 미국의 알고리즘 규제 접근 방식이 다른 근본적 이유 중 하나다.</p>
+</div>
+
+<h3>영국·호주 동향</h3>
+<p>영국은 2024년 디지털 시장·경쟁·소비자법(DMCC Act)을 제정했다. 이 법은 전략적 시장 지위를 가진 플랫폼에 대한 경쟁 규제를 강화하며, 다크패턴 금지 조항도 포함한다.</p>
+
+<p>호주 경쟁·소비자위원회(ACCC)는 2022년 디지털 플랫폼 서비스 조사 보고서에서 추천 알고리즘 투명성 의무화를 권고했다. 호주는 구글·메타와의 뉴스미디어 협상 의무화(뉴스미디어 협상법, 2021년 제정)로 이미 디지털 플랫폼 규제에서 선도적 입장을 취하고 있다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>국가/지역</th>
+      <th>주요 규제</th>
+      <th>추천 알고리즘 투명성</th>
+      <th>비고</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>EU</strong></td>
+      <td>DSA(2022)</td>
+      <td>파라미터 공개·비프로파일링 옵션·독립 감사</td>
+      <td>가장 포괄적 규제</td>
+    </tr>
+    <tr>
+      <td><strong>한국</strong></td>
+      <td>공정거래법·전자상거래법·PIPA</td>
+      <td>경쟁법 접근(알고리즘 조작 제재), 다크패턴 금지</td>
+      <td>추천 투명성 직접 규제 미비</td>
+    </tr>
+    <tr>
+      <td><strong>미국</strong></td>
+      <td>FTC법(집행), 알고리즘책임법(발의)</td>
+      <td>입법 부재, 헌법적 논쟁</td>
+      <td>1조 논쟁으로 규제 어려움</td>
+    </tr>
+    <tr>
+      <td><strong>영국</strong></td>
+      <td>DMCC Act(2024)</td>
+      <td>경쟁 규제·다크패턴 금지</td>
+      <td>EU DSA 유사 방향</td>
+    </tr>
+    <tr>
+      <td><strong>호주</strong></td>
+      <td>ACCC 권고, 뉴스협상법</td>
+      <td>투명성 의무화 권고</td>
+      <td>입법 과정 진행 중</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-7">
+  <h2 class="section-title">디지털 권리 관점 — 알고리즘 자기결정권의 세 차원</h2>
+  <div class="prose">
+
+<p>디지털 권리 관점에서 추천 알고리즘 규제는 <strong>정보 자기결정권</strong>의 알고리즘 시대적 문제다. 세 차원에서 볼 수 있다.</p>
+
+<div class="rights-box">
+  <div class="rights-label">알고리즘 자기결정권의 세 차원</div>
+  <ul>
+    <li><strong>알 권리 (Right to Know):</strong> 나에게 어떤 알고리즘이 작동하는지, 어떤 파라미터로 나의 피드가 구성되는지 알 권리. DSA 제27조의 파라미터 공개 의무는 이 권리의 최소 형태다.</li>
+    <li><strong>거부 권리 (Right to Refuse):</strong> 프로파일링에 기반한 알고리즘 추천을 거부하고, 내 데이터를 추천에 사용하지 않도록 요구할 권리. DSA 제38조의 비프로파일링 추천 선택권은 이 권리의 실질적 구현이다.</li>
+    <li><strong>이의·교정 권리 (Right to Contest):</strong> 알고리즘이 나에 대해 잘못된 결론을 내렸을 때 이의를 제기하고, 교정을 요구할 권리. GDPR 제22조는 '법적 효과를 미치는' 자동화 결정에 이 권리를 인정한다.</li>
+  </ul>
+</div>
+
+<h3>감사 가능성과 독립성</h3>
+<p>알고리즘 투명성 규제가 실효성을 가지려면, <strong>독립적 외부 감사</strong> 체계가 필요하다. 플랫폼이 자체 설명하는 알고리즘 원리가 실제 작동과 일치하는지 검증하는 것은 플랫폼 내부적으로는 불가능하기 때문이다.</p>
+
+<p>DSA가 VLOP에 독립 감사를 의무화한 것은 이 방향이다. 그러나 알고리즘 감사 방법론은 아직 표준화되지 않았다. 복잡한 머신러닝 알고리즘이 내리는 수억 건의 추천 결정을 어떻게 감사할 것인지 — 방법론 개발 자체가 과제다.</p>
+
+<h3>이용자 역량 강화 vs 플랫폼 책임</h3>
+<p>알고리즘 규제의 접근 방식은 두 방향이 있다. <strong>이용자 역량 강화(user empowerment) 접근:</strong> 이용자에게 알고리즘 정보를 제공하고, 선택지를 주어 스스로 결정하게 한다. DSA의 파라미터 공개·비프로파일링 옵션이 이 방향이다. 이용자 자율성을 존중하지만, 실제로 대부분의 이용자가 이 선택지를 이해하고 활용할 수 있는가라는 한계가 있다.</p>
+
+<p><strong>플랫폼 책임(platform accountability) 접근:</strong> 플랫폼이 알고리즘 설계 단계에서 사회적 책임을 지도록 한다. DSA 제34·35조의 시스템적 위험 평가·독립 감사가 이 접근이다. 이용자의 행동에 의존하지 않고 플랫폼 구조 자체를 바꾸는 것이지만, 국가가 알고리즘 설계에 개입하는 것에 대한 우려도 있다.</p>
+
+<p>현실적 규제 틀은 두 접근을 결합한다. DSA가 그 예다: 파라미터 공개·비프로파일링 옵션(이용자 역량 강화) + 시스템적 위험 평가·독립 감사(플랫폼 책임).</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-8">
+  <h2 class="section-title">현황과 전망</h2>
+  <div class="prose">
+
+<h3>DSA 이행과 집행</h3>
+<p>DSA는 2023년 이후 VLOP에 적용되기 시작했고, EU 집행위원회는 집행을 강화하고 있다. TikTok은 2024년 DSA 위반 혐의 조사를 받았다 — 미성년자 보호 조치, 추천 알고리즘의 시스템적 위험 평가 등의 쟁점이었다. X(구 Twitter)도 DSA 준수 여부에 대한 조사가 진행 중이다.</p>
+
+<p>알고리즘 투명성 규제의 실효성은 이행 단계에서 결정된다. 플랫폼이 파라미터 공개를 소비자가 이해할 수 없는 기술적 문서로 처리하거나, 비프로파일링 옵션을 찾기 어려운 설정 메뉴에 숨긴다면, 규제의 실질적 효과는 제한된다.</p>
+
+<h3>한국의 과제</h3>
+<p>한국에서 알고리즘 투명성 규제는 아직 초기 단계다. 공정거래위원회의 네이버 제재는 경쟁법적 접근이었고, 다크패턴 규제는 전자상거래 소비자 보호 맥락이었다. DSA처럼 플랫폼 추천시스템 투명성을 직접 요구하는 규제는 아직 없다.</p>
+
+<p>온라인 플랫폼 공정화법 논의, AI 기본법의 알고리즘 관련 조항, 개인정보보호법의 자동화 의사결정 조항 등이 간접적으로 알고리즘 규제와 연결된다. 그러나 이를 통합하는 알고리즘 투명성 법제는 입법 과제로 남아 있다.</p>
+
+<h3>기술 발전과 규제의 속도 차이</h3>
+<p>알고리즘 기술 — 특히 대형 언어 모델(LLM) 기반의 추천 시스템 — 의 발전은 규제가 쫓아가기 어려운 속도로 이루어진다. 설명 가능성(explainability)이 어려운 블랙박스 모델이 추천을 결정할 때, 'DSA 제27조의 파라미터 공개'를 어떻게 이행할 것인가는 기술적 과제이기도 하다.</p>
+
+<p>규제자의 알고리즘 이해 역량 강화, 알고리즘 감사 방법론 표준화, 학계·시민사회·산업계의 지속적 대화가 필요한 이유다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-9">
+  <h2 class="section-title">결론 — 알고리즘 권력과 민주주의</h2>
+  <div class="prose">
+
+<p>추천 알고리즘은 플랫폼의 내부 기술이 아니다. 이미 사회적 인프라다. 수억 명의 이용자가 플랫폼을 통해 뉴스를 접하고, 상품을 구매하고, 정치적 의견을 형성한다. 이 과정을 조직하는 알고리즘의 권력은 방송·출판의 편집권에 비견할 만하다 — 그러나 방송·출판의 편집자는 사회적 책임을 지며 규제를 받는다. 알고리즘은 오랫동안 그 책임에서 자유로웠다.</p>
+
+<p>EU DSA는 이 상황을 바꾸려는 첫 번째 포괄적 법제다. 완벽하지 않고, 이행이 어떻게 될지는 지켜봐야 한다. 그러나 방향은 분명하다: <em>알고리즘은 설명 책임을 져야 하고, 이용자는 자신의 정보 환경에 대한 최소한의 통제권을 가져야 한다.</em></p>
+
+<p>한국에서의 과제는 두 갈래다. 하나는 경쟁 공정성: 알고리즘이 시장 권력 남용의 도구가 되지 않도록 하는 것 — 네이버·쿠팡 사례가 보여준 과제다. 다른 하나는 정보 자기결정권: 이용자가 자신에게 작동하는 알고리즘을 이해하고, 그 영향에서 일정 정도 주체적으로 벗어날 수 있는 권리를 법적으로 보장하는 것.</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">핵심 쟁점 정리</div>
+  <p><strong>'알고리즘 투명성'은 기술 용어가 아니다.</strong> 그것은 디지털 시대 정보 자기결정권의 이름이다. 이용자가 자신에게 무엇이 보여지는지 알 권리, 그 구조를 거부할 권리, 그 결과에 이의를 제기할 권리 — 이 세 권리가 알고리즘 시대의 정보 자기결정권이다.<br><br>
+  그리고 정보 자기결정권은, 어느 시대에나 민주주의의 기초 중 하나였다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-10">
+  <h2 class="section-title">참고 자료</h2>
+  <div class="prose">
+
+<h3>법령·규정</h3>
+<ul>
+  <li>EU Digital Services Act (Regulation 2022/2065), Official Journal of the EU, 2022.10.27.</li>
+  <li>EU General Data Protection Regulation (Regulation 2016/679), Art. 22 (Automated Decision-Making)</li>
+  <li>전자상거래 등에서의 소비자보호에 관한 법률 (한국, 2023년 개정)</li>
+  <li>개인정보 보호법 (한국, 2023년 개정, 자동화 의사결정 조항)</li>
+  <li>독점규제 및 공정거래에 관한 법률 (한국) — 시장지배적 지위 남용 제5조</li>
+</ul>
+
+<h3>한국 규제 사례</h3>
+<ul>
+  <li>공정거래위원회 의결 제2021-028호 (2021.1.27.) — 네이버(주)의 시장지배적지위 남용행위에 대한 건</li>
+  <li>공정거래위원회 보도자료 — 쿠팡 자사우대 행위 관련 이행점검 결과</li>
+</ul>
+
+<h3>학술·보고서</h3>
+<ul>
+  <li>Eli Pariser, <em>The Filter Bubble: What the Internet Is Hiding from You</em>, Penguin Press, 2011.</li>
+  <li>European Parliament Research Service, "Algorithmic Accountability: Transparency of Online Platforms", 2019.</li>
+  <li>US FTC, "Bringing Dark Patterns to Light", FTC Staff Report, 2022.</li>
+  <li>UNESCO, "Recommendation on the Ethics of Artificial Intelligence", 2021.</li>
+  <li>ACCC, "Digital Platform Services Inquiry — Interim Report No. 5: Updating Competition and Consumer Law for Digital Platform Services", 2022.</li>
+</ul>
+
+<h3>관련 글</h3>
+<ul>
+  <li><a href="../15-platform-regulation-comparison/">글 #15 — 한국·EU·미국 플랫폼 규제 비교</a></li>
+  <li><a href="../19-pipa-data-protection-korea/">글 #19 — 내 정보의 주인은 나인가 — 한국 개인정보 자기결정권의 진화사</a></li>
+  <li><a href="../06-ai-basic-act-korea/">글 #06 — AI 기본법 시대 — 한국의 AI 규제와 디지털 권리</a></li>
+  <li><a href="../25-deepfake-ai-synthetic-content-korea/">글 #25 — 딥페이크와 AI 합성 콘텐츠</a></li>
+  <li><a href="../29-ai-training-data-crawling-copyright-korea/">글 #29 — AI 학습 데이터 크롤링과 저작권</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>디지털 권리 포털 · 망 중립성·통신 감청·표현의 자유·알고리즘 투명성을 다루는 비영리 해설 포털</p>
+      <p><a href="../../index.html">← 포털 홈으로</a></p>
+    </div>
+    <div class="footer-right">
+      <p>글 #32 · 2026년 6월 28일</p>
+      <p>알고리즘 투명성 · DSA · 정보 자기결정권</p>
+      <span class="license-badge">비영리 · .or.kr</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

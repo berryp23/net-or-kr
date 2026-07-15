@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>창과 방패의 역사 — 한국 인터넷 검열 ↔ 우회 군비경쟁 | net.or.kr</title>
+<meta name="description" content="1995~2026년 한국 인터넷 검열과 우회 기술의 군비경쟁 연대기. DNS 변조부터 SNI 차단, ECH까지 네트워크 계층을 따라 내려간 창과 방패의 역사.">
+<meta property="og:title" content="창과 방패의 역사 — 한국 인터넷 검열 ↔ 우회 군비경쟁">
+<meta property="og:description" content="1995~2026년 한국 인터넷 검열과 우회 기술의 군비경쟁 연대기.">
+<meta property="og:type" content="article">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --amber: #f59e0b;
+    --amber-light: #fcd34d;
+    --amber-dark: #d97706;
+    --cyan: #06b6d4;
+    --cyan-light: #67e8f9;
+    --cyan-dark: #0891b2;
+    --spear: #ef4444;
+    --spear-light: #fca5a5;
+    --spear-dark: #b91c1c;
+    --shield: #22c55e;
+    --shield-light: #86efac;
+    --shield-dark: #15803d;
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #334155;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber-dark); }
+
+  /* Typography */
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Header */
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--bg3);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .site-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 20px;
+    transition: color 0.2s;
+  }
+
+  .site-nav a:hover { color: var(--text); }
+
+  /* Article layout */
+  .article-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Article header */
+  .article-header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .article-series {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .article-title {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, var(--amber-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .article-subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+    font-weight: 400;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    align-items: center;
+  }
+
+  .article-meta .tag {
+    background: var(--bg3);
+    color: var(--text-muted);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    color: var(--amber);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--amber-dark), transparent);
+  }
+
+  /* Intro text */
+  .intro-text {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #cbd5e1;
+    margin-bottom: 32px;
+  }
+
+  .intro-questions {
+    background: var(--bg2);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .intro-questions h4 {
+    color: var(--amber);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  .intro-questions ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .intro-questions ol li { margin-bottom: 6px; }
+  .intro-questions ol li strong { color: var(--text); }
+
+  /* Stats boxes */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .stat-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-box:hover {
+    border-color: var(--amber-dark);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Timeline controls */
+  .timeline-controls {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .control-group {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .control-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .search-input {
+    background: var(--bg3);
+    border: 1px solid #475569;
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 14px;
+    padding: 8px 12px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus { border-color: var(--amber); }
+  .search-input::placeholder { color: var(--text-muted); }
+
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .filter-btn {
+    background: var(--bg3);
+    border: 1px solid #475569;
+    border-radius: 20px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 5px 12px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--amber-dark);
+    color: var(--text);
+  }
+
+  .filter-btn.active {
+    background: rgba(245,158,11,0.15);
+    border-color: var(--amber);
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .filter-btn.spear.active {
+    background: rgba(239,68,68,0.15);
+    border-color: var(--spear);
+    color: var(--spear);
+  }
+
+  .filter-btn.shield.active {
+    background: rgba(34,197,94,0.15);
+    border-color: var(--shield);
+    color: var(--shield);
+  }
+
+  /* Year range slider */
+  .year-range {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .year-display {
+    font-size: 13px;
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--bg3);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--amber);
+    cursor: pointer;
+  }
+
+  .range-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--amber);
+    cursor: pointer;
+    border: none;
+  }
+
+  /* Legend */
+  .timeline-legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    font-size: 13px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-dot.spear { background: var(--spear); }
+  .legend-dot.shield { background: var(--shield); }
+  .legend-dot.both { background: linear-gradient(135deg, var(--spear) 50%, var(--shield) 50%); }
+  .legend-dot.law { background: var(--amber); }
+  .legend-dot.intl { background: var(--cyan); }
+
+  /* Timeline */
+  .timeline-wrapper {
+    position: relative;
+  }
+
+  .timeline-axis {
+    position: absolute;
+    left: 120px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--bg3) 5%, var(--bg3) 95%, transparent);
+  }
+
+  @media (max-width: 640px) {
+    .timeline-axis { left: 60px; }
+  }
+
+  .timeline-event {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 8px;
+    transition: opacity 0.3s;
+  }
+
+  .timeline-event.hidden { display: none; }
+
+  .event-year-col {
+    width: 120px;
+    flex-shrink: 0;
+    padding-right: 24px;
+    text-align: right;
+    padding-top: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .event-year-col { width: 60px; padding-right: 12px; }
+  }
+
+  .event-year-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .event-dot-col {
+    flex-shrink: 0;
+    width: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 22px;
+  }
+
+  .event-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .event-dot:hover, .event-dot.expanded {
+    transform: scale(1.3);
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
+  }
+
+  .event-dot.spear { background: var(--spear); box-shadow: 0 0 8px rgba(239,68,68,0.3); }
+  .event-dot.shield { background: var(--shield); box-shadow: 0 0 8px rgba(34,197,94,0.3); }
+  .event-dot.both {
+    background: linear-gradient(135deg, var(--spear) 50%, var(--shield) 50%);
+    box-shadow: 0 0 8px rgba(245,158,11,0.3);
+  }
+  .event-dot.law { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.3); }
+  .event-dot.intl { background: var(--cyan); box-shadow: 0 0 8px rgba(6,182,212,0.3); }
+  .event-dot.landmark { width: 18px; height: 18px; }
+
+  .event-content-col {
+    flex: 1;
+    padding-left: 20px;
+    padding-bottom: 8px;
+  }
+
+  .event-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .event-card:hover {
+    border-color: #475569;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .event-card.spear:hover, .event-card.spear.expanded {
+    border-color: rgba(239,68,68,0.5);
+  }
+
+  .event-card.shield:hover, .event-card.shield.expanded {
+    border-color: rgba(34,197,94,0.5);
+  }
+
+  .event-card.both:hover, .event-card.both.expanded {
+    border-color: rgba(245,158,11,0.5);
+  }
+
+  .event-card.law:hover, .event-card.law.expanded {
+    border-color: rgba(245,158,11,0.5);
+  }
+
+  .event-card.intl:hover, .event-card.intl.expanded {
+    border-color: rgba(6,182,212,0.5);
+  }
+
+  .event-card-header {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+  }
+
+  .event-type-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .badge-spear {
+    background: rgba(239,68,68,0.2);
+    color: var(--spear-light);
+  }
+
+  .badge-shield {
+    background: rgba(34,197,94,0.2);
+    color: var(--shield-light);
+  }
+
+  .badge-both {
+    background: rgba(245,158,11,0.2);
+    color: var(--amber-light);
+  }
+
+  .badge-law {
+    background: rgba(245,158,11,0.2);
+    color: var(--amber-light);
+  }
+
+  .badge-intl {
+    background: rgba(6,182,212,0.2);
+    color: var(--cyan-light);
+  }
+
+  .event-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .event-expand-icon {
+    color: var(--text-muted);
+    font-size: 16px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .event-card.expanded .event-expand-icon { transform: rotate(180deg); }
+
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 0 16px 10px;
+  }
+
+  .event-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--bg3);
+    color: var(--text-muted);
+  }
+
+  .event-detail {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--bg3);
+  }
+
+  .event-card.expanded .event-detail { display: block; }
+
+  .event-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .event-detail-grid { grid-template-columns: 1fr; }
+  }
+
+  .detail-block {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .detail-block-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .detail-block-title.spear { color: var(--spear); }
+  .detail-block-title.shield { color: var(--shield); }
+  .detail-block-title.neutral { color: var(--amber); }
+  .detail-block-title.law { color: var(--cyan); }
+
+  .detail-block p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .event-significance {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+
+  .event-significance strong { color: var(--text); }
+
+  .crosslink {
+    display: inline-block;
+    background: rgba(6,182,212,0.1);
+    border: 1px solid rgba(6,182,212,0.3);
+    color: var(--cyan-light);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+
+  .crosslink:hover {
+    background: rgba(6,182,212,0.2);
+  }
+
+  /* No results */
+  .no-results {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  /* Era sections */
+  .era-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 4px;
+    margin-top: 24px;
+  }
+
+  .era-year-col {
+    width: 120px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .era-year-col { width: 60px; }
+  }
+
+  .era-dot-col {
+    flex-shrink: 0;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .era-label-col {
+    flex: 1;
+    padding-left: 20px;
+  }
+
+  .era-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--bg3);
+    color: var(--text-muted);
+    border: 1px solid #475569;
+  }
+
+  /* Article sections */
+  .prose {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #cbd5e1;
+  }
+
+  .prose p { margin-bottom: 16px; }
+  .prose strong { color: var(--text); }
+
+  .prose a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose h3 {
+    font-size: 20px;
+    color: var(--text);
+    margin: 32px 0 12px;
+  }
+
+  /* Era cards */
+  .era-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .era-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+
+  .era-card:hover { border-color: var(--amber-dark); }
+
+  .era-card-period {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .era-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .era-card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .era-card-layer {
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background: var(--bg3);
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  /* Result count */
+  .result-count {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .result-count strong { color: var(--amber); }
+
+  /* References */
+  .ref-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ref-list li {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .ref-list li:last-child { border-bottom: none; }
+
+  .ref-num {
+    color: var(--amber);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 13px;
+    min-width: 28px;
+  }
+
+  .ref-list a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+  }
+
+  /* Conclusion */
+  .conclusion-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(6,182,212,0.08) 100%);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 32px;
+  }
+
+  .conclusion-box h3 {
+    color: var(--amber);
+    font-size: 18px;
+    margin: 0 0 16px;
+  }
+
+  .conclusion-box p {
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .conclusion-box p:last-child { margin-bottom: 0; }
+
+  /* Footer */
+  .site-footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--bg3);
+    padding: 32px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .footer-brand .logo { color: var(--amber); font-weight: 800; font-size: 15px; }
+  .footer-brand p { margin: 6px 0 0; line-height: 1.5; }
+
+  .footer-right { text-align: right; }
+  .footer-right p { margin: 0 0 4px; }
+
+  .license-badge {
+    display: inline-block;
+    background: var(--bg3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* Jump nav */
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 48px;
+  }
+
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px;
+  }
+
+  .toc li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .toc li a:hover {
+    color: var(--amber);
+    background: rgba(245,158,11,0.05);
+  }
+
+  .toc li a span { font-size: 12px; }
+
+  /* Unverified note */
+  .unverified {
+    background: rgba(251,191,36,0.07);
+    border: 1px solid rgba(251,191,36,0.2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #fbbf24;
+    margin: 16px 0;
+    line-height: 1.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .article-container { padding: 24px 16px 60px; }
+    .timeline-controls { padding: 16px; }
+    .event-detail-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Highlight */
+  .highlight {
+    background: rgba(245,158,11,0.15);
+    color: var(--amber-light);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Site Header -->
+<header class="site-header">
+  <a href="../../" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../">홈</a>
+    <a href="../08-esni-ech-censorship-arms-race/">→ 글 #08 ECH</a>
+  </nav>
+</header>
+
+<!-- Article -->
+<main class="article-container">
+
+  <!-- Article Header -->
+  <header class="article-header" id="top">
+    <div class="article-series">글 #01 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">창과 방패의 역사</h1>
+    <p class="article-subtitle">한국 인터넷 검열 ↔ 우회 군비경쟁 1995–2026 연대기</p>
+    <div class="article-meta">
+      <span>2026년 6월 2일 발행 · 7월 1일 보강</span>
+      <span>약 18분 읽기</span>
+      <span class="tag">기술</span>
+      <span class="tag">정책</span>
+      <span class="tag">검열</span>
+      <span class="tag">프라이버시</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#intro"><span>01</span> 들어가며</a></li>
+      <li><a href="#stats"><span>02</span> 숫자로 보는 군비경쟁</a></li>
+      <li><a href="#eras"><span>03</span> 4시대 구분</a></li>
+      <li><a href="#timeline"><span>04</span> 인터랙티브 타임라인</a></li>
+      <li><a href="#axes"><span>05</span> 세 개의 축 심층</a></li>
+      <li><a href="#conclusion"><span>06</span> 결론</a></li>
+      <li><a href="#references"><span>07</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+  <!-- 01 Intro -->
+  <section class="section" id="intro">
+    <h2 class="section-title">들어가며 — 왜 "창과 방패"인가</h2>
+    <div class="prose">
+      <p>차단 기술이 한 겹 올라가면 우회 기술이 그 위를 덮고, 다시 차단이 더 깊은 계층을 들여다본다. 한국은 이 군비경쟁이 <strong>네트워크 스택을 따라 점점 더 깊이 내려간 전형적 사례</strong>다. 차단의 표적은 시간이 흐르며 이렇게 이동했다:</p>
+      <p style="text-align:center; padding: 16px; background: var(--bg2); border-radius: 8px; font-size: 15px; color: var(--text-muted);">
+        도메인 이름<span style="color:var(--amber); margin: 0 8px">→</span>평문 HTTP<span style="color:var(--amber); margin: 0 8px">→</span>TLS SNI<span style="color:var(--amber); margin: 0 8px">→</span>암호화된 ECH
+      </p>
+      <p>DNS를 변조해 사이트를 막으면 사람들은 공개 DNS(8.8.8.8)로 우회했다. 그러자 국가는 HTTP 패킷의 내부를 들여다보는 DPI로 내려갔고, HTTPS 보편화가 그 계층을 봉인했다. 2019년 SNI 차단은 더 깊은 계층으로 파고들었고, 이제 ECH가 그 마지막 창구마저 닫고 있다.</p>
+    </div>
+
+    <div class="intro-questions">
+      <h4>세 가지 관통 질문</h4>
+      <ol>
+        <li><strong>망 중립성</strong> — 통신사·국가가 트래픽 내용을 들여다보고 선별 차단하는 것이 정당한가?</li>
+        <li><strong>통신감청</strong> — DNS 변조·DPI(심층패킷분석)는 「통신비밀보호법」상 감청·검열과 어떤 관계인가?</li>
+        <li><strong>표현의 자유</strong> — 법원 영장 없는 행정심의 차단의 헌법적 한계는 어디인가?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 02 Stats -->
+  <section class="section" id="stats">
+    <h2 class="section-title">숫자로 보는 군비경쟁</h2>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-number">895</div>
+        <div class="stat-label">2019년 SNI 차단 최초 대상<br>(도박 776·음란 96·저작권 11·불법식의약품 8 등)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">27만</div>
+        <div class="stat-label">SNI 차단 반대<br>국민청원 서명 수</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2개국</div>
+        <div class="stat-label">OECD 중 SNI 차단 도입<br>(한국·터키)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">9:0</div>
+        <div class="stat-label">SNI 차단 '합헌'<br>헌재 전원일치(2023)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">6:3</div>
+        <div class="stat-label">패킷감청 헌법불합치<br>헌재 의견(2018)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">RFC 9849</div>
+        <div class="stat-label">ECH 최종 표준 확정<br>(2026.3 · 표준화 7년)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Eras -->
+  <section class="section" id="eras">
+    <h2 class="section-title">4시대 구분</h2>
+    <div class="era-cards">
+      <div class="era-card">
+        <div class="era-card-period">제1기 · 2000년대~</div>
+        <div class="era-card-title">DNS 변조 시대</div>
+        <div class="era-card-desc">행정심의 + DNS 스푸핑. 통신사가 차단 목록 도메인을 경고 페이지로 응답. 공개 DNS로 우회 가능.</div>
+        <span class="era-card-layer">계층: DNS</span>
+      </div>
+      <div class="era-card">
+        <div class="era-card-period">제2기 · 2007~2018</div>
+        <div class="era-card-title">HTTP DPI 시대</div>
+        <div class="era-card-desc">평문 HTTP Host 헤더·URL을 DPI로 검사해 차단. HTTPS 보급으로 무력화.</div>
+        <span class="era-card-layer">계층: HTTP</span>
+      </div>
+      <div class="era-card">
+        <div class="era-card-period">제3기 · 2019~2023</div>
+        <div class="era-card-title">SNI 차단 시대</div>
+        <div class="era-card-desc">2019.2.11 SNI 기반 HTTPS 차단 도입. OECD 중 한국·터키만. 대규모 사회적 반발.</div>
+        <span class="era-card-layer">계층: TLS SNI</span>
+      </div>
+      <div class="era-card">
+        <div class="era-card-period">제4기 · 2024~현재</div>
+        <div class="era-card-title">ECH·QUIC 시대</div>
+        <div class="era-card-desc">ECH 표준화(RFC 9849, 2026.3). Firefox/Chrome 기본 탑재. SNI 차단의 기술적 한계 도달.</div>
+        <span class="era-card-layer">계층: TLS ECH</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Timeline -->
+  <section class="section" id="timeline">
+    <h2 class="section-title">인터랙티브 타임라인</h2>
+
+    <!-- Controls -->
+    <div class="timeline-controls">
+      <div class="control-group">
+        <div class="control-label">검색</div>
+        <input type="text" class="search-input" id="searchInput" placeholder="사건 검색..." aria-label="타임라인 검색">
+      </div>
+      <div class="control-group">
+        <div class="control-label">카테고리 필터</div>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all" onclick="setFilter(this,'all')">전체</button>
+          <button class="filter-btn spear" data-filter="spear" onclick="setFilter(this,'spear')">🗡️ 창 (검열)</button>
+          <button class="filter-btn shield" data-filter="shield" onclick="setFilter(this,'shield')">🛡️ 방패 (우회)</button>
+          <button class="filter-btn" data-filter="law" onclick="setFilter(this,'law')">⚖️ 법·제도</button>
+          <button class="filter-btn" data-filter="intl" onclick="setFilter(this,'intl')">🌐 국제·통상</button>
+        </div>
+      </div>
+      <div class="control-group" style="min-width:180px; max-width:240px;">
+        <div class="control-label">연도 범위</div>
+        <div class="year-range">
+          <div class="year-display" id="yearDisplay">1995 — 2026</div>
+          <input type="range" class="range-slider" id="yearStart" min="1995" max="2026" value="1995" step="1" oninput="updateYearFilter()">
+          <input type="range" class="range-slider" id="yearEnd" min="1995" max="2026" value="2026" step="1" oninput="updateYearFilter()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="timeline-legend">
+      <div class="legend-item"><div class="legend-dot spear"></div>창 (검열·차단)</div>
+      <div class="legend-item"><div class="legend-dot shield"></div>방패 (우회·암호화)</div>
+      <div class="legend-item"><div class="legend-dot both"></div>분수령 사건</div>
+      <div class="legend-item"><div class="legend-dot law"></div>법·제도</div>
+      <div class="legend-item"><div class="legend-dot intl"></div>국제·기술 표준</div>
+    </div>
+
+    <!-- Result count -->
+    <div class="result-count" id="resultCount"></div>
+
+    <!-- No results -->
+    <div class="no-results" id="noResults" style="display:none">검색 결과가 없습니다.</div>
+
+    <!-- Timeline -->
+    <div class="timeline-wrapper" id="timelineWrapper">
+      <div class="timeline-axis"></div>
+
+      <!-- Events will be rendered here by JS -->
+      <div id="timelineEvents"></div>
+    </div>
+  </section>
+
+  <!-- 05 Three Axes Deep-dive -->
+  <section class="section" id="axes">
+    <h2 class="section-title">세 개의 축 심층 — 법·통상·플랫폼</h2>
+    <div class="prose">
+      <p>타임라인이 기술 공방의 <em>수직축</em>(네트워크 계층의 하강)을 보여준다면, 이 군비경쟁을 실제로 굴린 힘은 세 개의 <em>수평축</em>이다. 통신비밀보호법을 둘러싼 법적 정당성, 미국발 디지털 무역 압박, 그리고 Cloudflare로 대표되는 글로벌 CDN과 방통위의 충돌이다.</p>
+
+      <h3>① 법의 축 — 정보통신망법이 근거, 통신비밀보호법이 전선</h3>
+      <p>먼저 흔한 오해 하나를 정리해 둘 필요가 있다. <strong>차단의 법적 근거는 「통신비밀보호법」이 아니라 「정보통신망법」 제44조의7</strong>이다. 방송통신심의위원회(방심위)가 같은 조항에 근거해 ISP에 '시정요구'(접속차단)를 하고, ISP가 이를 집행한다. 법원 영장이 아니라 행정기관의 심의·요구로 작동하는 구조다.</p>
+      <p>「통신비밀보호법」은 오히려 <strong>차단을 공격하는 쪽의 무기</strong>로 등장했다. SNI 차단 반대 측은 "DPI 장비가 TLS ClientHello의 SNI 필드를 실시간으로 읽어 차단 목록과 대조하는 행위는 통비법이 정한 요건(법원 허가)을 갖추지 못한 위법한 <span class="highlight">감청</span>"이라며 헌법소원을 제기했다(2019헌마158·232 병합). 정부는 "SNI는 통신의 '내용'이 아니라 접속 식별용 메타데이터이므로 감청이 아니다"라고 맞섰다.</p>
+      <p><strong>2023년 10월 26일, 헌법재판소는 재판관 전원일치(9:0)로 이 헌법소원을 기각했다.</strong> ▲시정요구의 목적이 정당하고 ▲HTTPS 보편화로 기존 방식(URL·DNS) 차단이 어려워진 상황에서 SNI 차단을 동원할 필요가 인정되며 ▲SNI는 암호화 이전에 노출되는 정보라는 취지였다. 다만 이 결정은 2018년 패킷감청 <strong>헌법불합치</strong>(2016헌마263, 6:3)와 나란히 읽어야 한다. 헌재는 "메타데이터 차단은 허용된다"고 보면서도, 패킷 내용을 폭넓게 취득·보관하는 감청에는 사후 통제장치가 없으면 위헌이라는 선을 그어 둔 것이다.</p>
+      <div class="unverified">⚖️ 두 결정의 공존이 남긴 회색지대: '접속 도메인을 읽는 것'(합헌)과 '통신 내용을 취득하는 것'(통제 없으면 위헌) 사이의 경계는 ECH·DoH로 메타데이터가 사라지는 시대에 다시 시험대에 오른다.</div>
+
+      <h3>② 통상의 축 — 미국 USTR의 디지털 무역장벽 압박</h3>
+      <p>한국의 인터넷 규제는 국내 문제로만 머물지 않는다. 미국 무역대표부(USTR)는 매년 발간하는 <strong>국가별 무역장벽 보고서(NTE)</strong>에서 한국의 디지털 정책을 반복적으로 '무역장벽'으로 지목해 왔다. 핵심 표적은 검열 자체보다 <strong>망 사용료(network usage fee)</strong>다. 2021년 이후 국회에 발의된 '망 사용료 의무화' 법안들에 대해 USTR은 2023·2024년 NTE에서 "반경쟁적(anticompetitive)"이라고 적시했다. 한국 ISP가 동시에 콘텐츠 사업자이기도 해, 미국 CP가 낸 망 사용료가 결국 한국 경쟁사를 살찌우고 ISP 과점을 강화한다는 논리다.</p>
+      <p>USTR은 "전 세계 어느 나라도 자국 ISP에 인터넷 트래픽 전송 대가를 의무화하지 않는다 — <span class="highlight">한국만 빼고</span>"라는 표현까지 동원했다. 2026년 들어서는 X(트위터) 게시물로 공개 저격하고, 관세 위협과 연계해 압박 강도를 높였다. 검열·차단 정책과 망 사용료는 별개 사안이지만, 둘 다 <strong>"글로벌 플랫폼 트래픽을 한국이 어떻게 통제·과금하느냐"</strong>라는 같은 뿌리에서 갈라져 나온다는 점에서 통상 축은 검열 군비경쟁의 외곽 전선을 이룬다.</p>
+
+      <h3>③ 플랫폼의 축 — Cloudflare vs 방통위</h3>
+      <p>SNI 차단은 한 가지 결정적 약점이 있었다. <strong>Cloudflare 같은 글로벌 CDN 뒤에 숨은 사이트</strong>다. 하나의 IP와 공유 인증서 뒤에 수만 개 도메인이 올라가 있고, ESNI/ECH까지 켜지면 ISP는 목적지를 특정할 수 없다. 2019년 SNI 차단 직후부터 Cloudflare를 경유한 우회가 곧바로 등장했고, 방통위로서는 'ISP 단(端)' 차단의 한계를 절감했다.</p>
+      <p>그 대응이 <strong>「불법정보 접근 차단 기술 의무화법」</strong>(정보통신망법 개정)이다. 2023년 12월 국회 본회의를 여야 압도적 찬성으로 통과해 <strong>2025년 5월 20일 시행</strong>됐다. 종전에는 Cloudflare가 한국에 캐시서버를 둬도 그 캐시 단계에서 불법정보를 막을 법적 근거가 없었는데, 개정법은 <strong>CDN·캐시 사업자에게도 차단 의무</strong>를 부과하고 위반 시 과태료를 물린다. 후속 절차를 거쳐 <strong>2026년 5월 1일, Cloudflare가 한국 이용자를 상대로 일부 해외 성인·도박 사이트 차단을 직접 시작</strong>했다. 차단의 무게중심이 'ISP 단'에서 한 계층 위인 <strong>'글로벌 CDN 단'</strong>으로 올라간 것이다.</p>
+      <p>이는 ECH 시대의 새로운 전선을 예고한다. ECH가 ISP의 SNI 차단을 무력화하더라도, 국가가 <strong>CDN 사업자 자체를 법으로 포섭</strong>하면 차단은 다시 가능해진다. 실제로 한국 정부는 2025년 Cloudflare R2(클라우드 스토리지)를 차단한 전례도 있다. 결국 군비경쟁의 다음 라운드는 '암호화 vs DPI'가 아니라 <strong>'관할권(jurisdiction) vs 글로벌 인프라'</strong>의 싸움으로 옮겨가고 있다.</p>
+    </div>
+  </section>
+
+  <!-- 06 Conclusion -->
+  <section class="section" id="conclusion">
+    <h2 class="section-title">결론 — 기술은 앞서고, 제도는 뒤따른다</h2>
+    <div class="conclusion-box">
+      <h3>군비경쟁의 구조</h3>
+      <p>한국 인터넷 검열의 역사는 기술적 공방의 연속이었다. 차단이 DNS 계층을 겨누면 우회는 공개 DNS를 통했고, 차단이 HTTP 계층으로 내려가면 HTTPS가 봉인했다. SNI 차단이 마지막 평문 단서를 공략했지만, ECH가 그 문을 닫고 있다.</p>
+      <p>이 군비경쟁에서 놓쳐서는 안 될 핵심은 기술적 숫자 게임이 아니다. <strong>SNI 차단을 정당화한 논리 — 사법 심사 없는 행정 차단, 불투명한 목록 관리, 망 중립성 예외 — 는 ECH가 차단을 무력화하더라도 사라지지 않는다.</strong> 2023년 헌재의 전원일치 합헌 결정(2019헌마158·232)은 그 행정 차단 구조에 헌법적 정당성까지 부여했다. 기술이 문을 열어도 제도의 빗장은 그대로 남는다.</p>
+      <p>역설적으로, 기술 우회가 쉬워질수록 국가는 더 강력한 수단으로 밀어붙일 유인이 생긴다. 2025~2026년 「불법정보 접근 차단 기술 의무화법」으로 <strong>Cloudflare 등 글로벌 CDN을 직접 차단 의무자로 포섭</strong>한 것이 그 증거다. 군비경쟁의 다음 라운드는 '암호화 vs DPI'가 아니라 <strong>'관할권 vs 글로벌 인프라'</strong>로 옮겨가고 있고, 그 위에는 미국 USTR의 통상 압박이라는 외곽 전선까지 겹친다. 이 반복의 실질적 비용은 결국 평범한 인터넷 이용자가 치른다.</p>
+
+      <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px;">
+        <a href="../08-esni-ech-censorship-arms-race/" class="crosslink">→ 글 #08: ECH 최신 전선 자세히 보기</a>
+        <a href="../02-wiretapping-and-privacy/" class="crosslink">→ 글 #02: 통신감청과 프라이버시</a>
+        <a href="../04-net-neutrality-korea/" class="crosslink">→ 글 #04: 망 중립성</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 References -->
+  <section class="section" id="references">
+    <h2 class="section-title">참고문헌</h2>
+    <ul class="ref-list">
+      <li>
+        <span class="ref-num">[1]</span>
+        <span>방송통신위원회 보도자료 "불법정보를 유통하는 해외 인터넷사이트 차단 강화로 피해구제 확대". 2007년 URL 차단 강화 방침 포함.<br>
+        <a href="https://kcc.go.kr/user.do?mode=view&page=A05030000&dc=K05030000&boardId=1113&boardSeq=46820" target="_blank" rel="noopener">kcc.go.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[2]</span>
+        <span>아주경제, "불법사이트 SNI 차단은 韓만?…해외 주요국 사례" (2019.3.16). OECD 36개국 중 한국·터키만 SNI 차단 명시적 도입.<br>
+        <a href="https://www.ajunews.com/view/20190316234958215" target="_blank" rel="noopener">ajunews.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[3]</span>
+        <span>허프포스트코리아, "'https 차단 정책 반대' 국민청원이 서명 20만을 넘겼다". 약 25만 명 참여.<br>
+        <a href="https://www.huffingtonpost.kr/entry/story_kr_5c690c88e4b033a7994353e2" target="_blank" rel="noopener">huffingtonpost.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[4]</span>
+        <span>청와대, "[청원답변] https 차단 정책 반대 청원 with 이효성 방송통신위원장" (2019.2.21). "검열은 있어서도 안 되고, 있을 수도 없는 일".<br>
+        <a href="https://www1.president.go.kr/articles/5549" target="_blank" rel="noopener">president.go.kr</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[5]</span>
+        <span>Wikipedia, "Server Name Indication" — SNI/ESNI/ECH 연혁, 1.1.1.1, HPKE, Firefox 119 기본 활성화.<br>
+        <a href="https://en.wikipedia.org/wiki/Server_Name_Indication" target="_blank" rel="noopener">wikipedia.org</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[6]</span>
+        <span>Cloudflare Blog, "Encrypting SNI: Fixing One of the Core Internet Bugs" (2018.9.24). ESNI 발표.<br>
+        <a href="https://blog.cloudflare.com/esni/" target="_blank" rel="noopener">blog.cloudflare.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[7]</span>
+        <span>RFC 9180, "Hybrid Public Key Encryption" (HPKE, 2022.2). ECH가 사용하는 암호화 방식.<br>
+        <a href="https://datatracker.ietf.org/doc/rfc9180/" target="_blank" rel="noopener">datatracker.ietf.org</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[8]</span>
+        <span>IETF Datatracker, draft-ietf-tls-esni "TLS Encrypted Client Hello" (25판, TLS WG 승인). 러시아 ECH 차단 2024.11 포함.<br>
+        <a href="https://datatracker.ietf.org/doc/draft-ietf-tls-esni/" target="_blank" rel="noopener">datatracker.ietf.org</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[9]</span>
+        <span>net4people/bbs Issue #290, "Korean government just blocked Cloudflare R2" (2025).<br>
+        <a href="https://github.com/net4people/bbs/issues/290" target="_blank" rel="noopener">github.com/net4people</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[10]</span>
+        <span>USTR, "FACT SHEET ON 2019 NATIONAL TRADE ESTIMATE: Key Barriers to Digital Trade" (2019.3). 위치정보 국외이전·망 사용료 쟁점.<br>
+        <a href="https://ustr.gov/about-us/policy-offices/press-office/fact-sheets/2019/march/fact-sheet-2019-national-trade-estimate" target="_blank" rel="noopener">ustr.gov</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[11]</span>
+        <span>The Korea Herald, "US calls Korea's network fee policy 'outlier', raises trade concerns".<br>
+        <a href="https://www.koreaherald.com/article/10727598" target="_blank" rel="noopener">koreaherald.com</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[12]</span>
+        <span>헌법재판소 2018.8.30. 선고 2016헌마263 결정 — 인터넷 회선 감청(패킷감청) 헌법불합치, 6:3 의견.<br>
+        <a href="https://casenote.kr/헌법재판소/2016헌마263" target="_blank" rel="noopener">casenote.kr</a> · <a href="https://slownews.kr/71448" target="_blank" rel="noopener">슬로우뉴스 해설</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[13]</span>
+        <span>헌법재판소 2023.10.26. 선고 2019헌마158·2019헌마232(병합) 결정 — 방통위 SNI 차단 시정요구에 대한 헌법소원, 재판관 전원일치 기각(합헌).<br>
+        <a href="https://casenote.kr/헌법재판소/2019헌마158" target="_blank" rel="noopener">casenote.kr</a> · <a href="https://www.lawtimes.co.kr/news/192600" target="_blank" rel="noopener">법률신문 보도</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[14]</span>
+        <span>USTR, "National Trade Estimate Report on Foreign Trade Barriers" (2023·2024) — 한국 망 사용료 법안·플랫폼 규제를 반경쟁적 디지털 무역장벽으로 지목. The Korea Herald 보도 종합.<br>
+        <a href="https://www.koreaherald.com/article/10727598" target="_blank" rel="noopener">koreaherald.com</a> · <a href="https://ustr.gov/sites/default/files/2024%20NTE%20Report.pdf" target="_blank" rel="noopener">USTR 2024 NTE</a></span>
+      </li>
+      <li>
+        <span class="ref-num">[15]</span>
+        <span>나무위키, "불법정보 접근 차단 기술 의무화법" — 2023.12 국회 통과, 2025.5.20 시행, CDN·캐시 사업자 차단의무·과태료. "Cloudflare 한국 차단" 사례(2026.5.1) 포함.<br>
+        <a href="https://namu.wiki/w/불법정보 접근 차단 기술 의무화법" target="_blank" rel="noopener">namu.wiki</a></span>
+      </li>
+    </ul>
+
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko" style="color:var(--amber)">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 7월 1일</p>
+      <p>오류·제보: GitHub 이슈</p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── Timeline Data ────────────────────────────────────────────────────────────
+const events = [
+  {
+    year: 1995,
+    yearLabel: "1995",
+    type: "spear",
+    title: "정보통신망법 제정 — 불법정보 차단 법적 근거 마련",
+    tags: ["법", "행정"],
+    spear: "정보통신망 이용촉진 및 정보보호 등에 관한 법률 제정. 불법·유해정보 차단을 위한 행정심의 체계의 법적 근거.",
+    shield: null,
+    significance: "이후 방심위(KCSC) 심의와 통신사 집행 구조의 법적 토대. 사법 영장 없는 행정 차단 체계의 시작점.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2000,
+    yearLabel: "2000년대",
+    type: "spear",
+    title: "방송통신심의위원회(KCSC) — DNS 변조 차단 체계 정착",
+    tags: ["기술", "행정"],
+    spear: "방심위(KCSC)가 불법·유해 사이트 목록을 심의·결정하고, KT·SKT·LGU+ 등 통신사 DNS 리졸버가 해당 도메인 질의에 실제 IP 대신 차단 안내 페이지(warning.or.kr 류)를 응답. 사실상 DNS 스푸핑을 국가가 제도화.",
+    shield: "ISP DNS를 구글 8.8.8.8 등 공개 DNS로 바꾸면 우회 가능. 차단의 비대칭성이 바로 노출.",
+    significance: "가장 얕은 계층(DNS)의 차단. 우회가 쉬워 고도화 필요성 인식.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2007,
+    yearLabel: "2007",
+    type: "spear",
+    title: "방통위, HTTP URL 차단 강화 방침 발표",
+    tags: ["기술", "정책"],
+    spear: "DNS 우회 확산에 대응해 정부가 HTTP 통신에서 URL 정보를 추출·차단을 강화하겠다는 방침 공식 발표. 더 깊은 계층(HTTP 패킷)으로의 이행 선언.",
+    shield: null,
+    significance: "검열이 DNS 계층에서 애플리케이션 계층(HTTP)으로 내려가는 분수령. 이후 DPI 장비 도입으로 이어짐.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2010,
+    yearLabel: "2010년대",
+    type: "spear",
+    title: "HTTP Host 헤더 DPI 차단 — 패킷 내부 검사 시대",
+    tags: ["기술", "DPI"],
+    spear: "통신사가 DPI(Deep Packet Inspection) 장비로 HTTP 패킷의 Host 헤더와 URL을 실시간 검사. 차단 목록 도메인 접속 시 차단 페이지로 리다이렉트(HTTP 302/307) 또는 연결 강제 종료(TCP RST 주입).",
+    shield: "HTTPS 전환 — TLS 암호화가 HTTP 헤더 전체를 덮어 Host 기반 차단 무력화. 2010년대 중후반 전 세계적 HTTPS 보편화와 맞물림.",
+    significance: "패킷 내용 검사(DPI) 자체가 감청인가의 법적 논쟁 시작. 통신사에 검열 집행을 위탁하는 구조의 적법성 문제 대두.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2018,
+    yearLabel: "2018.4.1",
+    type: "shield",
+    title: "Cloudflare 1.1.1.1 공개 DNS·DoH 서비스 출시",
+    tags: ["기술", "프라이버시", "국제"],
+    spear: null,
+    shield: "Cloudflare가 개인정보 보호를 내세운 공개 DNS 리졸버 1.1.1.1 출시. DNS over HTTPS(DoH) 지원으로 DNS 질의 자체를 암호화. ISP의 DNS 변조 감시를 우회하는 인프라 기반 마련.",
+    significance: "1.1.1.1은 이후 한국 이용자의 DNS 차단 우회 주요 수단으로 부상. 이로 인해 정부는 더 깊은 계층(SNI)으로 내려갈 동인 강화.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2018,
+    yearLabel: "2018.8.30",
+    type: "law",
+    title: "헌재 패킷감청 헌법불합치 결정 — 2016헌마263",
+    tags: ["법", "헌재", "감청"],
+    spear: null,
+    shield: "헌법재판소, 「통신비밀보호법」 제5조 제2항 인터넷 회선 감청(패킷감청) 부분에 재판관 6:3 의견으로 헌법불합치 선고. 집행 후 취득 자료에 대한 객관적 통제수단 미비가 통신·사생활 비밀·자유 침해.",
+    significance: "설령 감청이 허용되더라도 집행과 사후 통제가 설계되지 않으면 위헌. 영장조차 없는 행정심의 SNI 차단에 더 무거운 정당화 부담을 시사.",
+    crosslinks: ["02-wiretapping-and-privacy"],
+    landmark: true
+  },
+  {
+    year: 2018,
+    yearLabel: "2018.9.24",
+    type: "shield",
+    title: "Cloudflare ESNI(Encrypted SNI) 지원 발표",
+    tags: ["기술", "암호화", "국제"],
+    spear: null,
+    shield: "Cloudflare, ESNI(Encrypted SNI) 지원 공식 발표. SNI 필드를 DNS에 게시된 공개키로 암호화해 네트워크 중간자가 접속 도메인을 볼 수 없게 함. Firefox Nightly와 함께 실험 지원 시작.",
+    significance: "SNI 차단(2019.2)보다 5개월 앞선 기술 등장. 방패가 창보다 먼저 나타나는 패턴의 사례.",
+    crosslinks: ["08-esni-ech-censorship-arms-race"],
+    landmark: false
+  },
+  {
+    year: 2019,
+    yearLabel: "2019.2.11",
+    type: "both",
+    title: "🔴 KT·방통위, SNI 기반 HTTPS 차단 전격 도입",
+    tags: ["기술", "정책", "분수령"],
+    spear: "방통위/KCC 주도로 KT를 시작으로 SNI(Server Name Indication) 필드 기반 HTTPS 차단 적용. DPI가 TLS ClientHello의 평문 SNI를 읽어 방심위 차단 목록과 대조, 대상이면 연결 끊음(RST/drop). 초기 차단 대상 895곳(불법도박 776, 불법촬영물·음란물 96 등). OECD 36개국 중 한국·터키만 명시적 도입.",
+    shield: "VPN, ESNI, 도메인 프론팅 우회 확산. Cloudflare CDN 경유 사이트는 ESNI로 일부 접속 가능.",
+    significance: "한국 인터넷 검열 역사의 최대 분수령. 행정심의 vs 사법영장, 감청 여부, 망 중립성 논쟁이 동시 폭발. 국민청원 25만 명 서명.",
+    crosslinks: ["08-esni-ech-censorship-arms-race", "04-net-neutrality-korea"],
+    landmark: true
+  },
+  {
+    year: 2019,
+    yearLabel: "2019.2.21",
+    type: "law",
+    title: "이효성 방통위원장 청와대 청원 공식 답변",
+    tags: ["정책", "정부답변"],
+    spear: null,
+    shield: "청와대 국민청원 \"https 차단 정책 반대\" 약 25만 명 서명에 대해 이효성 방통위원장이 공식 답변. \"검열은 있어서도 안 되고, 있을 수도 없는 일\"이라며 SNI는 암호화되지 않은 메타데이터만 확인해 감청이 아니라는 정부 입장 표명. 소통 부족은 인정.",
+    significance: "'메타데이터 = 통신 내용이 아니다'는 정부 논리와 '접속 도메인도 통신비밀'이라는 반론의 공식화.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2019,
+    yearLabel: "2019",
+    type: "law",
+    title: "SNI 차단 위헌 헌법소원 제기 — 2019헌마158·232",
+    tags: ["법", "헌재", "통신비밀보호법"],
+    spear: null,
+    shield: "이용자·활동가들이 방통위의 SNI 차단 시정요구에 대해 헌법소원 청구(2019헌마158, 2019헌마232 등). DPI로 ClientHello의 SNI를 실시간 판독·대조하는 행위가 「통신비밀보호법」상 요건을 갖추지 못한 위법한 감청이며, 통신·표현의 자유와 법률유보원칙을 침해한다는 주장.",
+    significance: "'접속 도메인 판독 = 감청인가'라는 핵심 쟁점이 비로소 헌재 심판대에 오름. 2023년 결정까지 약 4년간 계류.",
+    crosslinks: ["02-wiretapping-and-privacy"],
+    landmark: false
+  },
+  {
+    year: 2020,
+    yearLabel: "2020.3",
+    type: "shield",
+    title: "ESNI → ECH 재설계 — IETF draft-ietf-tls-esni",
+    tags: ["기술", "표준", "IETF"],
+    spear: null,
+    shield: "ESNI가 SNI 하나만 암호화해 ClientHello 다른 필드에서 정보 누출 한계 드러남. IETF, ECH(Encrypted Client Hello)로 재설계 착수. ClientHello 전체를 암호화, HPKE(RFC 9180) 사용. 25판까지 개정되며 7년간 표준화 작업.",
+    significance: "방패의 근본적 강화. 2026년 RFC 9849로 최종 표준화.",
+    crosslinks: ["08-esni-ech-censorship-arms-race"],
+    landmark: false
+  },
+  {
+    year: 2020,
+    yearLabel: "2020",
+    type: "spear",
+    title: "중국, ESNI 사용 TLS 1.3 연결 전면 차단",
+    tags: ["기술", "국제", "검열"],
+    spear: "중국 GFW(방화장성), 특정 도메인 차단이 아닌 ESNI·TLS 1.3 기술 특징을 프로토콜 지문으로 탐지해 전면 차단. 'ECH 사용 = 의심 트래픽' 방식의 선례.",
+    shield: null,
+    significance: "한국이 중국 방식을 채택한다면 Firefox/Chrome 기본 사용자 전체의 브라우징이 차단. 민주주의 국가에서의 정치적 가능성 논쟁.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2022,
+    yearLabel: "2022.2",
+    type: "shield",
+    title: "RFC 9180 — HPKE 표준화",
+    tags: ["기술", "표준", "IETF"],
+    spear: null,
+    shield: "IETF, Hybrid Public Key Encryption(HPKE) RFC 9180 발행. ECH 암호화의 핵심 기반. 현대적 공개키 암호화 방식으로 EC Diffie-Hellman + AEAD 조합.",
+    significance: "ECH의 암호화 기반 표준화. 이후 브라우저·서버 구현의 기술적 토대.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2023,
+    yearLabel: "2023.10",
+    type: "shield",
+    title: "Firefox 119, ECH 기본 활성화",
+    tags: ["기술", "브라우저"],
+    spear: null,
+    shield: "Mozilla Firefox 버전 119부터 ECH 기본 활성화. 한국 이용자가 별도 설정 없이 Firefox 최신 버전 사용 시 ECH 자동 적용. SNI 차단 우회 가능성 대폭 확대.",
+    significance: "표준화 완료 전 실사용 배포. 브라우저 기본 탑재가 정책 시행보다 앞서는 패턴.",
+    crosslinks: ["08-esni-ech-censorship-arms-race"],
+    landmark: false
+  },
+  {
+    year: 2023,
+    yearLabel: "2023.10.26",
+    type: "law",
+    title: "🟡 헌재, SNI 차단 헌법소원 전원일치 기각 — 합헌",
+    tags: ["법", "헌재", "분수령"],
+    spear: "헌법재판소, 방통위 SNI 차단 시정요구에 대한 헌법소원(2019헌마158·232 병합)을 재판관 9:0 전원일치로 기각. ▲차단 목적이 정당하고 ▲HTTPS 보편화로 URL·DNS 차단이 어려워진 상황에서 SNI 방식의 필요성이 인정되며 ▲SNI는 암호화 이전 단계에 노출되는 정보라는 취지. 행정심의 기반 SNI 차단에 '합헌' 판단.",
+    shield: null,
+    significance: "SNI 차단의 헌법적 정당성이 공식 확정. 단, 2018년 패킷감청 헌법불합치(6:3)와 함께 읽으면 '메타데이터 판독은 허용, 내용 감청은 통제 필요'라는 경계가 드러남.",
+    crosslinks: ["02-wiretapping-and-privacy"],
+    landmark: true
+  },
+  {
+    year: 2024,
+    yearLabel: "2024.3",
+    type: "intl",
+    title: "USTR, 한국 디지털 정책을 '무역장벽'으로 지목 (NTE)",
+    tags: ["국제", "통상", "망사용료"],
+    spear: null,
+    shield: null,
+    significance: "미국 무역대표부(USTR)가 국가별무역장벽보고서(NTE 2023·2024)에서 한국의 망 사용료 법안·플랫폼 규제·국경 간 데이터 이전 제한을 '반경쟁적' 무역장벽으로 적시. \"전 세계에서 자국 ISP에 트래픽 전송료를 의무화한 나라는 한국뿐\"이라는 표현 동원. 검열·차단과 직접 연결되진 않으나 '글로벌 플랫폼 트래픽 통제'라는 같은 뿌리에서 통상 압박을 형성.",
+    crosslinks: ["04-net-neutrality-korea"],
+    landmark: false
+  },
+  {
+    year: 2024,
+    yearLabel: "2024.11",
+    type: "spear",
+    title: "러시아, ECH 차단 시작",
+    tags: ["기술", "국제", "검열"],
+    spear: "러시아, Cloudflare ECH 활성화 직후 ECH 트래픽 차단 시작. 중국과 유사한 프로토콜 지문 탐지 방식. ECH가 활성화된 Cloudflare 연결에 대한 선택적 차단.",
+    shield: null,
+    significance: "ECH 차단의 실제 사례 등장. 한국에서 유사 정책 채택 여부 논쟁의 참고점.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2025,
+    yearLabel: "2025",
+    type: "spear",
+    title: "한국, 불법정보 접속차단 의무화법 시행 (2025.5)",
+    tags: ["법", "정책", "CDN"],
+    spear: "불법정보 접근 차단 기술 의무화법 시행(2025.5.20). Cloudflare 등 해외 CDN 사업자에게도 한국 내 차단 의무 부과. 2026.5.1부터 Cloudflare 한국 이용자 대상 유해 사이트 차단 시작.",
+    shield: null,
+    significance: "ECH 보편화에 앞서 CDN 레이어에서 협력 강제. ECH + CDN 비협력 조합이 새 우회 경로가 될 수 있음.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2025,
+    yearLabel: "2025",
+    type: "spear",
+    title: "한국 정부, Cloudflare R2 차단",
+    tags: ["기술", "정책"],
+    spear: "한국 정부가 Cloudflare R2 클라우드 스토리지 서비스를 차단. 기술 커뮤니티에서 net4people/bbs 이슈로 보고.",
+    shield: null,
+    significance: "CDN·클라우드 플랫폼 자체를 차단하는 방식. ECH 도입 전 플랫폼 레이어 차단 시도의 선례.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2025,
+    yearLabel: "2025.12",
+    type: "shield",
+    title: "NGINX, ECH 공식 지원",
+    tags: ["기술", "서버", "인프라"],
+    spear: null,
+    shield: "NGINX(세계 최대 점유율 웹서버)가 ECH를 공식 지원하기 시작. 서버 생태계에서 ECH 배포 장벽 대폭 낮아짐.",
+    significance: "CDN·클라우드 중심이던 ECH가 자체 서버 운영자에게도 확산. 차단이 더 어려워지는 구조.",
+    crosslinks: [],
+    landmark: false
+  },
+  {
+    year: 2026,
+    yearLabel: "2026.3",
+    type: "shield",
+    title: "RFC 9849 — ECH 공식 표준 확정",
+    tags: ["기술", "IETF", "표준"],
+    spear: null,
+    shield: "IETF, ECH(Encrypted Client Hello) RFC 9849 최종 발행. 7년에 걸친 draft-ietf-tls-esni 25판 개정의 결실. ClientHello 전체 암호화 + HPKE + HTTPS/SVCB DNS 레코드 체계 공식화.",
+    significance: "SNI 차단의 기술적 무력화가 표준으로 공식화. 한국 차단 체계의 근본적 전환점.",
+    crosslinks: ["08-esni-ech-censorship-arms-race"],
+    landmark: true
+  },
+  {
+    year: 2026,
+    yearLabel: "2026.3",
+    type: "shield",
+    title: "OpenSSL 4.0, ECH 공식 탑재",
+    tags: ["기술", "인프라"],
+    spear: null,
+    shield: "OpenSSL 4.0이 ECH를 공식 탑재. 서버 생태계의 기반 암호화 라이브러리 차원에서 ECH 지원 완성. 자체 서버 운영 모든 환경에서 ECH 적용 가능.",
+    significance: "ECH 보편화의 인프라 완성. 이제 CDN에 의존하지 않아도 ECH 사용 가능.",
+    crosslinks: [],
+    landmark: false
+  }
+];
+
+// ─── State ───────────────────────────────────────────────────────────────────
+let activeFilter = 'all';
+let searchQuery = '';
+let yearStart = 1995;
+let yearEnd = 2026;
+
+// ─── Render ──────────────────────────────────────────────────────────────────
+function renderTimeline() {
+  const container = document.getElementById('timelineEvents');
+  container.innerHTML = '';
+
+  const filtered = events.filter(e => {
+    const matchFilter = activeFilter === 'all' || e.type === activeFilter;
+    const matchSearch = searchQuery === '' ||
+      e.title.toLowerCase().includes(searchQuery) ||
+      (e.spear && e.spear.toLowerCase().includes(searchQuery)) ||
+      (e.shield && e.shield.toLowerCase().includes(searchQuery)) ||
+      e.tags.some(t => t.toLowerCase().includes(searchQuery));
+    const matchYear = e.year >= yearStart && e.year <= yearEnd;
+    return matchFilter && matchSearch && matchYear;
+  });
+
+  const noResults = document.getElementById('noResults');
+  const resultCount = document.getElementById('resultCount');
+
+  if (filtered.length === 0) {
+    noResults.style.display = 'block';
+    resultCount.innerHTML = '';
+    return;
+  }
+
+  noResults.style.display = 'none';
+  resultCount.innerHTML = `<strong>${filtered.length}</strong>개 사건 표시 중 (전체 ${events.length}개)`;
+
+  filtered.forEach((e, idx) => {
+    const evEl = document.createElement('div');
+    evEl.className = 'timeline-event';
+    evEl.dataset.id = idx;
+
+    const badgeClass = `badge-${e.type}`;
+    const badgeText = {
+      spear: '🗡️ 창',
+      shield: '🛡️ 방패',
+      both: '⚔️ 분수령',
+      law: '⚖️ 법·제도',
+      intl: '🌐 국제'
+    }[e.type] || e.type;
+
+    const tagHtml = e.tags.map(t => `<span class="event-tag">${t}</span>`).join('');
+
+    let detailContent = '';
+    if (e.spear) {
+      detailContent += `<div class="detail-block"><div class="detail-block-title spear">🗡️ 창 — 검열·차단</div><p>${e.spear}</p></div>`;
+    }
+    if (e.shield) {
+      detailContent += `<div class="detail-block"><div class="detail-block-title shield">🛡️ 방패 — 우회·암호화</div><p>${e.shield}</p></div>`;
+    }
+
+    const crosslinkHtml = e.crosslinks.map(slug => {
+      const titles = {
+        '08-esni-ech-censorship-arms-race': '글 #08: ESNI→ECH 최신 전선',
+        '02-wiretapping-and-privacy': '글 #02: 통신감청과 프라이버시',
+        '04-net-neutrality-korea': '글 #04: 망 중립성'
+      };
+      return `<a href="../${slug}/" class="crosslink">→ ${titles[slug] || slug}</a>`;
+    }).join(' ');
+
+    evEl.innerHTML = `
+      <div class="event-year-col">
+        <div class="event-year-label">${e.yearLabel}</div>
+      </div>
+      <div class="event-dot-col">
+        <div class="event-dot ${e.type}${e.landmark ? ' landmark' : ''}" onclick="toggleCard(this)"></div>
+      </div>
+      <div class="event-content-col">
+        <div class="event-card ${e.type}" onclick="toggleCard(this.querySelector('.event-dot') || this, true)">
+          <div class="event-card-header" onclick="toggleCard(this.closest('.event-card'))">
+            <span class="event-type-badge ${badgeClass}">${badgeText}</span>
+            <span class="event-title">${e.title}</span>
+            <span class="event-expand-icon">▾</span>
+          </div>
+          <div class="event-tags">${tagHtml}</div>
+          <div class="event-detail">
+            <div class="event-detail-grid">${detailContent}</div>
+            <p class="event-significance"><strong>의의:</strong> ${e.significance}</p>
+            ${crosslinkHtml ? `<div style="margin-top:8px">${crosslinkHtml}</div>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Fix: click on card header toggles
+    const cardHeader = evEl.querySelector('.event-card-header');
+    if (cardHeader) {
+      cardHeader.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        const card = this.closest('.event-card');
+        toggleEventCard(card);
+      });
+    }
+
+    container.appendChild(evEl);
+  });
+}
+
+function toggleEventCard(card) {
+  card.classList.toggle('expanded');
+}
+
+// Legacy helper kept for inline onclick
+function toggleCard(el, fromCard) {
+  // noop — handled by addEventListener
+}
+
+// ─── Filters ─────────────────────────────────────────────────────────────────
+function setFilter(btn, filter) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = filter;
+  renderTimeline();
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQuery = this.value.toLowerCase().trim();
+  renderTimeline();
+});
+
+function updateYearFilter() {
+  let s = parseInt(document.getElementById('yearStart').value);
+  let e = parseInt(document.getElementById('yearEnd').value);
+  if (s > e) { [s, e] = [e, s]; }
+  yearStart = s;
+  yearEnd = e;
+  document.getElementById('yearDisplay').textContent = `${s} — ${e}`;
+  renderTimeline();
+}
+
+// ─── Init ────────────────────────────────────────────────────────────────────
+renderTimeline();
+
+// Re-attach card toggle after render (event delegation)
+document.getElementById('timelineEvents').addEventListener('click', function(e) {
+  const header = e.target.closest('.event-card-header');
+  if (header) {
+    e.stopPropagation();
+    const card = header.closest('.event-card');
+    if (card) {
+      card.classList.toggle('expanded');
+      const dot = card.closest('.event-content-col')?.previousElementSibling?.querySelector('.event-dot');
+      if (dot) dot.classList.toggle('expanded', card.classList.contains('expanded'));
+    }
+  }
+});
+</script>
+
+</body>
+</html>

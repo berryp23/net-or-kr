@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESNI에서 ECH로 | net.or.kr</title>
+<meta name="description" content="검열과 우회의 군비경쟁, 그 최신 전선">
+<meta property="og:title" content="ESNI에서 ECH로">
+<meta property="og:description" content="검열과 우회의 군비경쟁, 그 최신 전선">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+  .prose pre{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;margin:0 0 16px;}
+  .prose pre code{background:none;color:#cbd5e1;padding:0;font-size:13px;line-height:1.6;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #08 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">ESNI에서 ECH로</h1>
+    <p class="article-subtitle">검열과 우회의 군비경쟁, 그 최신 전선</p>
+    <div class="article-meta">
+      <span>2026년 6월 13일 발행</span>
+      <span>약 11분 읽기</span>
+      <span class="tag">ECH</span><span class="tag">ESNI</span><span class="tag">SNI</span><span class="tag">TLS</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-1"><span>01</span> 들어가며</a></li><li><a href="#sec-2"><span>02</span> SNI라는 평문 단서</a></li><li><a href="#sec-3"><span>03</span> 2019년 2월 — 한국의 SNI 차단 사태</a></li><li><a href="#sec-4"><span>04</span> ESNI: 방패의 첫 설계, 그리고 한계</a></li><li><a href="#sec-5"><span>05</span> ECH: ClientHello 전체를 감추다</a></li><li><a href="#sec-6"><span>06</span> 배포 현황 — 표준이 현실이 되다</a></li><li><a href="#sec-7"><span>07</span> ECH가 한국 차단 체계에 던지는 함의</a></li><li><a href="#sec-8"><span>08</span> 국가의 대응 가능성 — 중국이 보여준 선택지</a></li><li><a href="#sec-9"><span>09</span> 군비경쟁의 다음 전선</a></li><li><a href="#sec-10"><span>10</span> 나가며 — 기술은 앞서고, 제도는 뒤따른다</a></li><li><a href="#sec-11"><span>11</span> 핵심 용어 간추리기</a></li><li><a href="#sec-12"><span>12</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">들어가며</h2>
+  <div class="prose">
+<p>글#3 「창과 방패의 역사」는 한국 인터넷 검열이 DNS 조작 → HTTP DPI → SNI 차단으로 계층을 내려가며 심화된 과정을 추적했다. 이 글은 그 이야기의 최신 장(章)을 깊이 들여다본다. <strong>SNI(Server Name Indication) 차단은 왜 기술적으로 한계에 부딪혔는가, ESNI와 ECH는 어떻게 작동하며 무엇이 다른가, 그리고 ECH의 보편화가 한국의 인터넷 차단 체계에 무엇을 의미하는가.</strong></p>
+<p>2026년 3월 IETF가 RFC 9849로 ECH(Encrypted Client Hello)를 공식 표준으로 확정하면서, 이 질문들은 이론의 영역을 벗어났다. 군비경쟁의 새 국면이 시작됐다.</p>
+  </div>
+</section>
+<section class="section" id="sec-2">
+  <h2 class="section-title">SNI라는 평문 단서</h2>
+  <div class="prose">
+<p>이야기는 TLS 핸드셰이크의 한 필드에서 시작된다.</p>
+<p>현대 웹 서버는 하나의 IP 주소에 수십 개, 때로는 수천 개의 도메인을 함께 올린다. CDN(콘텐츠 전송 네트워크)이나 클라우드 호스팅이 이런 구조의 전형이다. 사용자가 HTTPS로 어떤 사이트에 접속할 때, 브라우저는 먼저 서버와 TLS 핸드셰이크를 시작한다. 이 첫 메시지가 <code>ClientHello</code>다. 서버는 ClientHello를 보고 어느 도메인을 원하는지 파악해, 그에 맞는 TLS 인증서를 골라 내보내야 한다.</p>
+<p>이 목적을 위해 ClientHello에는 <strong>SNI(Server Name Indication)</strong> 확장 필드가 포함된다. 접속하려는 도메인 이름이 여기에 들어간다.</p>
+<p>문제는 이 필드가 <strong>암호화되지 않은 평문</strong>으로 전송된다는 점이다. TLS가 이후 통신 내용 전체를 암호화하더라도, 핸드셰이크를 시작하는 ClientHello의 SNI는 네트워크 경로에 있는 누구든 읽을 수 있다. ISP, CDN, 혹은 국가 수준의 감시 장비가 이 필드를 들여다보면 어느 도메인으로 가는 연결인지 정확히 알 수 있다. HTTPS가 도입되어 HTTP 패킷 내용이 암호화됐더라도, 도메인 정보만큼은 그대로 노출된 셈이었다.</p>
+  </div>
+</section>
+<section class="section" id="sec-3">
+  <h2 class="section-title">2019년 2월 — 한국의 SNI 차단 사태</h2>
+  <div class="prose">
+<p>이 구조적 공백을 겨눈 것이 <strong>2019년 2월 방송통신위원회의 SNI 기반 차단 도입</strong>이다.</p>
+<p>한국 주요 ISP(KT·SKT·LGU+)에 설치된 DPI(Deep Packet Inspection) 장비가 TLS ClientHello의 SNI 필드를 실시간으로 읽어 차단 목록과 대조하는 방식이었다. 불법 도박·음란물 사이트 수백 곳이 초기 차단 대상이었다. 이 방식은 이전의 DNS 변조나 HTTP 헤더 검사보다 우회가 훨씬 어려웠다. DNS를 바꿔도, 실제 IP를 알아도, SNI가 차단 목록에 있으면 연결 자체가 끊겼다.</p>
+<p>사회적 반발은 예상보다 컸다. 청와대 국민청원에 "SNI 차단 반대" 청원이 등장해 20만 명 이상의 서명을 받았다.^1 논쟁은 세 갈래로 전개됐다.</p>
+<p>첫째, <strong>통신비밀 침해 논란</strong>이다. 「통신비밀보호법」은 통신 내용의 감청에 법원 허가를 요구한다. SNI 필드는 통신 "내용"인가, 아니면 단순한 접속 메타데이터인가. 정부는 후자로 분류해 행정심의만으로 차단이 가능하다는 입장이었지만, 법학계 일각에서는 암호화 연결의 헤더 정보를 읽는 행위가 선을 넘는다는 반론을 제기했다.</p>
+<p>둘째, <strong>표현의 자유와 사법 통제</strong>다. 차단 목록을 법원이 아닌 행정기관이 결정하고, 차단된 측이 이를 다툴 실질적 절차가 부재하다는 비판이다. 글#5 「온라인 표현의 자유」에서 다룬 임시조치 제도의 문제와 구조적으로 닮아 있다.</p>
+<p>셋째, <strong>망 중립성</strong>이다. ISP가 목적지 도메인에 따라 패킷을 차별 처리하는 것이 글#4 「망 중립성」에서 논의된 비차별 원칙과 충돌한다는 주장이었다. 정부는 "불법 콘텐츠 차단은 규제 적용이지 상업적 차별이 아니다"라고 반박했다.</p>
+  </div>
+</section>
+<section class="section" id="sec-4">
+  <h2 class="section-title">ESNI: 방패의 첫 설계, 그리고 한계</h2>
+  <div class="prose">
+<p>SNI가 평문이기에 차단이 가능하다면, SNI를 암호화하면 된다. 이 발상이 <strong>ESNI(Encrypted SNI)</strong>로 구체화됐다.</p>
+<p>2018~2019년경 Cloudflare와 Mozilla는 ESNI를 실험적으로 지원하기 시작했다.^2 원리는 이렇다. 서버는 DNS에 공개키를 올려둔다. 클라이언트는 DNS를 통해 이 공개키를 받아 SNI 값을 암호화한 뒤 ClientHello에 담는다. 서버만이 대응하는 개인키로 복호화할 수 있으므로, 네트워크 중간의 누구도 목적지 도메인을 읽을 수 없게 된다.</p>
+<p>Cloudflare CDN을 통해 서비스되는 수많은 사이트가 ESNI를 지원하면서, 한국에서도 일부 차단된 사이트에 ESNI를 통해 접속이 되는 현상이 나타났다. SNI 차단의 기술적 허점이 빠르게 드러난 것이었다.</p>
+<p>그러나 ESNI에는 구조적 한계가 있었다. ESNI는 SNI 필드 하나만을 암호화한다. ClientHello에는 SNI 외에도 지원하는 암호화 알고리즘 목록, TLS 확장 목록 등 다른 메타데이터가 포함된다. 이 정보들은 여전히 평문으로 노출되어, 정교한 트래픽 분석으로 목적지를 추론하거나 ESNI 사용 자체를 탐지하는 것이 여전히 가능했다.^3 IETF는 이 한계를 인식하고 더 근본적인 해결책 설계에 착수했다. 이것이 ECH다.</p>
+  </div>
+</section>
+<section class="section" id="sec-5">
+  <h2 class="section-title">ECH: ClientHello 전체를 감추다</h2>
+  <div class="prose">
+<p><strong>ECH(Encrypted Client Hello)</strong> 는 이름 그대로 ClientHello 메시지 전체를 암호화하는 접근이다. 2019년부터 <code>draft-ietf-tls-esni</code>라는 이름으로 IETF 표준화 작업이 시작됐고, 수십 차례의 드래프트 수정을 거쳐 <strong>2026년 3월 RFC 9849로 최종 공표됐다.</strong></p>
+<p>작동 방식을 비기술적으로 설명하면 이렇다.</p>
+<p>ECH가 활성화되면 클라이언트는 ClientHello를 두 겹으로 구성한다. 겉에 보이는 <strong>'외부 ClientHello(outer ClientHello)'</strong> 는 실제 목적지 도메인이 아니라 CDN의 공개 도메인(예: Cloudflare 서버 주소)을 담는다. 네트워크를 지나가는 관찰자가 보는 것은 이것뿐이다. 실제 목적지 도메인과 접속 의도가 담긴 <strong>'내부 ClientHello(inner ClientHello)'</strong> 는 암호화된 채 외부 ClientHello 안에 캡슐화된다.</p>
+<p>암호화에 쓰이는 공개키는 어디서 오는가. 서버는 DNS의 HTTPS 또는 SVCB 레코드에 ECH 공개키를 게시한다. 클라이언트는 접속 전 DNS를 통해 이 키를 받아온다. 암호화 방식은 <strong>HPKE(Hybrid Public Key Encryption)</strong>라는 현대적 공개키 암호화 방식이다.^4</p>
+<p>결과적으로, 네트워크 경로에 있는 ISP나 DPI 장비는 "클라이언트가 Cloudflare 서버에 접속하려 한다"는 사실만 볼 수 있다. 실제로 어떤 도메인에 연결하는지는 알 수 없다. SNI 차단은 더 이상 작동하지 않는다.</p>
+<p>한 가지 중요한 전제가 있다. DNS 쿼리 자체도 암호화돼야 ECH가 온전히 효과를 발휘한다. 클라이언트가 ECH 공개키를 얻기 위해 하는 DNS 조회가 평문이라면, 그 조회를 보는 것만으로도 목적지를 추론할 수 있기 때문이다. 이 때문에 ECH는 <strong>DoH(DNS over HTTPS)</strong> 또는 <strong>DoT(DNS over TLS)</strong>와 함께 사용될 때 검열 우회 효과가 완전해진다.</p>
+  </div>
+</section>
+<section class="section" id="sec-6">
+  <h2 class="section-title">배포 현황 — 표준이 현실이 되다</h2>
+  <div class="prose">
+<p>ECH는 이미 일상 브라우징에 들어와 있다.</p>
+<p><strong>Firefox</strong>는 2023년 버전 118에서 ECH를 도입했고, <strong>버전 119부터 기본 활성화</strong>했다.^5 한국 이용자가 별도 설정 없이 Firefox 최신 버전을 사용하면 ECH가 적용된다. <strong>Google Chrome</strong>은 2023년 9월 Chromium 117에서 ECH를 기본 활성화했으며, 같은 Chromium 엔진을 쓰는 Edge·Opera 등 파생 브라우저에서도 광범위하게 적용됐다.</p>
+<p>서버 측에서는 <strong>Cloudflare가 2023년 말 모든 플랜에서 ECH 서버 지원을 개방</strong>했다. 세계 웹 트래픽의 상당 부분이 Cloudflare CDN을 거친다는 점에서, 이 결정은 ECH 보급의 분수령이었다. <strong>2025년 12월에는 NGINX가 ECH를 지원하기 시작했고, 2026년 3월 OpenSSL 4.0이 ECH를 공식 탑재</strong>하면서 서버 생태계의 기반 라이브러리 차원에서 ECH 지원이 자리를 잡았다.^6</p>
+<p>이 배포 경로를 따라가면 이야기의 무게가 드러난다. RFC 확정이 먼저가 아니었다. 브라우저 기본 탑재와 CDN 지원이 표준화보다 앞서 현실에 선착했고, 표준은 이미 작동하는 기술을 공식화하는 형태로 뒤따랐다.</p>
+  </div>
+</section>
+<section class="section" id="sec-7">
+  <h2 class="section-title">ECH가 한국 차단 체계에 던지는 함의</h2>
+  <div class="prose">
+<p>2026년 현재 한국의 HTTPS 차단은 SNI 기반 DPI에 의존한다. ECH가 보편화되면 이 메커니즘은 기술적으로 무력화된다. 함의를 구체적으로 짚어보자.</p>
+<p><strong>첫째, 차단 목록 자체가 효력을 잃는다.</strong> 방송통신심의위원회가 유지하는 수백만 건의 차단 URL 목록은 ISP가 SNI를 읽을 수 있다는 전제 위에 선다. Cloudflare CDN을 통해 서비스되는 사이트에 ECH가 활성화되면, ISP가 보는 것은 <code>cloudflare.com</code>에 대한 연결뿐이다. 실제 목적지 도메인은 암호화 안에 있다.</p>
+<p><strong>둘째, Cloudflare CDN 의무화 정책의 효과가 반감된다.</strong> 2025년 시행된 '불법정보 접근 차단 기술 의무화법'은 Cloudflare 같은 CDN 사업자에게도 차단 의무를 부과했다. Cloudflare는 이에 따라 2026년 5월부터 한국 이용자에 대한 차단을 시작했다. 그러나 ECH가 보편화되면 CDN이 목적지를 파악해 차단하는 데도 새로운 기술적 과제가 생긴다. CDN 서버는 복호화 과정에서 내부 ClientHello를 볼 수 있으므로 목적지를 알 수 있지만, 이는 CDN과의 협력을 전제로 한다. CDN이 정부 요청에 응하지 않거나, 사용자가 CDN을 거치지 않는 서버에 직접 접속하는 경우에는 차단이 더 어려워진다.</p>
+<p><strong>셋째, 검열 투명성 논의가 다시 수면 위로 올라온다.</strong> SNI 기반 차단의 핵심 비판 중 하나는, 차단 결정이 행정심의만으로 이루어지고 사법 심사가 실질적으로 작동하지 않는다는 점이었다. ECH로 기술적 차단이 어려워지면, 국가가 차단을 관철하려면 법적 강제 수단을 더 명시적으로 동원해야 한다. 이는 역설적으로 차단 과정의 사법 통제와 투명성 요구를 강화하는 압력이 될 수 있다.</p>
+  </div>
+</section>
+<section class="section" id="sec-8">
+  <h2 class="section-title">국가의 대응 가능성 — 중국이 보여준 선택지</h2>
+  <div class="prose">
+<p>ECH가 한국 검열 체계를 자동으로 무력화한다고 단정 짓는 것은 섣부르다. 국가에게는 다른 대응 수단이 있다. 중국의 사례가 참고점이 된다.</p>
+<p><strong>중국은 2020년 ESNI를 사용하는 TLS 1.3 연결 전체를 차단하기 시작했다.</strong> 특정 도메인을 겨누는 방식이 아니라, ESNI/ECH 기술 자체를 사용하는 연결을 식별해 끊어버리는 방식이다.^7 기술 특징에 따른 '프로토콜 지문(protocol fingerprinting)' 차단이다. ClientHello에 ECH 확장이 있다는 사실 자체를 탐지해 차단할 수 있다.</p>
+<p>이 선택지는 극단적이다. ECH를 사용하는 모든 연결을 차단한다는 것은, ECH를 기본 탑재한 Firefox·Chrome 이용자의 정상적인 웹 브라우징까지 방해할 수 있음을 의미한다. 2026년 현재 ECH가 Firefox와 Chromium에 기본 활성화됐다는 점을 감안하면, 이 방식은 전체 인터넷 사용 경험을 심각하게 훼손하는 대가를 치러야 한다.</p>
+<p>한국이 중국 방식을 채택할 가능성에 대한 평가는 엇갈린다. 한쪽에서는 "인터넷 사용이 사실상 불가능해지는 수준의 차단은 민주주의 국가에서 정치적으로 불가능하다"고 본다. 다른 쪽에서는 "경제적·무역적 대가를 고려하더라도 정치적 결정이 기술을 앞지를 수 있다"는 경계를 늦추지 않는다. 다만 한국 정부의 ECH 대응 관련 내부 논의는 공개된 자료가 없어, 이 평가는 정황에 기반한 것이다.</p>
+<p>또 다른 대응 가능성은 <strong>CDN 사업자와의 제도적 협력을 강화</strong>하는 방향이다. 앞서 언급했듯, Cloudflare 같은 CDN은 서버 측에서 내부 ClientHello를 복호화하므로 목적지 도메인을 알 수 있다. 정부가 CDN에 대한 법적 의무를 강화하고 실질적 협력을 끌어낸다면, ECH가 있더라도 CDN 레이어에서 차단이 가능하다. 다만 이 방식은 CDN이 협력을 거부하거나, 사용자가 자체 서버를 직접 운영하는 경우에는 효력이 없다.</p>
+  </div>
+</section>
+<section class="section" id="sec-9">
+  <h2 class="section-title">군비경쟁의 다음 전선</h2>
+  <div class="prose">
+<p>ECH와 DoH의 보급으로 검열이 참조할 수 있는 네트워크 메타데이터가 계속 줄고 있다. DNS도 암호화되고, ClientHello도 암호화되면, 패킷 레벨에서 남는 것은 IP 주소와 트래픽 패턴뿐이다.</p>
+<p><strong>IP 주소 기반 차단</strong>은 이미 오래된 도구이고, CDN이 수천 개의 도메인을 동일한 IP 주소로 서비스하는 현실에서는 과잉차단 부작용이 크다. 예컨대 Cloudflare의 IP를 차단하면 Cloudflare를 이용하는 수백만 개의 합법적 사이트도 함께 차단된다.</p>
+<p><strong>트래픽 패턴 분석</strong>은 더 정교한 접근이다. 연결 빈도, 패킷 크기, 타이밍 등을 분석하면 암호화된 연결에서도 어떤 서비스를 사용하는지 어느 정도 추론할 수 있다(머신러닝 기반 트래픽 분류). 그러나 이 방식은 오탐률이 높고 대규모 실시간 적용에 한계가 있으며, 개인 통신 패턴을 상시 분석한다는 점에서 프라이버시 침해 우려가 크다.</p>
+<p><strong>QUIC 프로토콜</strong>(HTTP/3의 기반) 대응도 과제다. UDP 기반의 QUIC은 TCP 기반 TLS와 다른 트래픽 특성을 가지며, ECH와 DoH가 결합된 환경에서의 QUIC 처리는 기존 DPI 장비가 재설계를 요구할 수 있다. 다만 한국 ISP의 QUIC 처리 현황에 관한 공개된 기술 자료는 없다.</p>
+  </div>
+</section>
+<section class="section" id="sec-10">
+  <h2 class="section-title">나가며 — 기술은 앞서고, 제도는 뒤따른다</h2>
+  <div class="prose">
+<p>ESNI에서 ECH로의 진화는 단순한 암호화 기술의 발전이 아니다. 이것은 <strong>인터넷 아키텍처 차원에서 '누가 당신의 접속 행위를 볼 수 있는가'라는 질문에 대한 답을 바꾸는 과정</strong>이다.</p>
+<p>2019년 한국의 SNI 차단 도입은 HTTPS 보편화라는 암호화 물결이 DNS와 HTTP 레이어의 차단을 무력화한 데 대한 대응이었다. ECH의 보급은 그 대응 자체를 다시 무력화하는 흐름이다. 검열 기술이 더 깊은 계층을 겨눌수록, 표준화된 암호화 기술은 그 계층을 차례로 덮어간다.</p>
+<p>이 군비경쟁에서 우리가 놓쳐서는 안 될 것은 기술적 숫자 게임이 아니다. <strong>SNI 차단을 정당화한 논리 — 사법 심사 없는 행정 차단, 불투명한 목록 관리, 망 중립성 예외 — 는 ECH가 차단을 무력화하더라도 사라지지 않는다.</strong> 기술 우회의 가능성이 열렸다고 해서 차단 제도의 법적 정당성 문제가 해결되지는 않는다.</p>
+<p>역으로, ECH가 보편화될수록 국가는 더 강력한 수단(프로토콜 자체 차단, CDN 협력 강제, IP 블로킹)으로 밀어붙일 유인도 생긴다. 기술이 앞서가면 제도가 따라오고, 제도가 앞서가면 기술이 우회한다. 이 반복의 끝이 어디인지는 아무도 모른다. 분명한 것은 <strong>그 싸움의 실질적 비용은 결국 평범한 인터넷 이용자가 치른다</strong>는 사실이다.</p>
+  </div>
+</section>
+<section class="section" id="sec-11">
+  <h2 class="section-title">핵심 용어 간추리기</h2>
+  <div class="prose">
+<div class="table-wrap"><table><thead><tr><th>용어</th><th>설명</th></tr></thead><tbody><tr><td><strong>SNI</strong></td><td>TLS 연결 시 접속 도메인을 서버에 알리는 평문 필드</td></tr><tr><td><strong>DPI</strong></td><td>패킷 내부를 실시간으로 분석하는 딥패킷인스펙션 장비</td></tr><tr><td><strong>ESNI</strong></td><td>SNI만을 암호화한 초기 표준. 현재 폐기됨</td></tr><tr><td><strong>ECH</strong></td><td>ClientHello 전체를 암호화하는 현행 표준 (RFC 9849)</td></tr><tr><td><strong>HPKE</strong></td><td>ECH가 사용하는 하이브리드 공개키 암호화 방식</td></tr><tr><td><strong>DoH/DoT</strong></td><td>DNS 쿼리를 암호화하는 방식. ECH와 함께 사용 시 완전한 메타데이터 보호</td></tr><tr><td><strong>outer/inner ClientHello</strong></td><td>ECH에서 외부(공개 CDN 정보)와 내부(실제 목적지, 암호화) 두 겹의 ClientHello</td></tr></tbody></table></div>
+  </div>
+</section>
+<section class="section" id="sec-12">
+  <h2 class="section-title">참고문헌</h2>
+  <div class="prose">
+<p>^1: 한국 SNI 차단 사태 및 국민청원 — 나무위키 「2019년 인터넷 검열 사건」. https://namu.wiki/w/2019%EB%85%84%20%EC%9D%B8%ED%84%B0%EB%84%B7%20%EA%B2%80%EC%97%B4%20%EC%82%AC%EA%B1%B4 ; 한국 인터넷 검열, 그리고 다가오는 끝 (박선우, 2026.1.11). https://ericswpark.com/ko/blog/2026/2026-01-11-korea-internet-censors/</p>
+<p>^2: ESNI 초기 배포 — Cloudflare, 「Encrypt it or lose it: how encrypted SNI works」(2018). https://www.cloudflare.com/ko-kr/learning/ssl/what-is-encrypted-sni/ ; Mozilla Blog, 「Encrypted SNI Comes to Firefox Nightly」(2018.10). https://blog.mozilla.org/security/2018/10/18/encrypted-sni-comes-to-firefox-nightly/</p>
+<p>^3: ESNI의 구조적 한계 및 ECH로의 전환 배경 — IETF <code>draft-ietf-tls-esni</code> 시리즈. https://datatracker.ietf.org/doc/draft-ietf-tls-esni/</p>
+<p>^4: ECH 기술 작동 원리 (outer/inner ClientHello, HPKE, DNS SVCB/HTTPS 레코드) — RFC 9849 전문. https://datatracker.ietf.org/doc/rfc9849/ ; Cisco Secure Firewall, 「Encrypted Client Hello Defense Strategies」. https://secure.cisco.com/secure-firewall/docs/encrypted-client-hello-defense-strategies-how-cisco-secure-firewall-tackles-ech</p>
+<p>^5: Firefox ECH 기본 활성화 — Mozilla, Firefox 119 릴리스 노트(2023.10.24, ECH 기본 활성화). https://www.firefox.com/en-US/firefox/119.0/releasenotes/ ; Mozilla, 「Understand Encrypted Client Hello (ECH)」. https://support.mozilla.org/en-US/kb/understand-encrypted-client-hello</p>
+<p>^6: ECH 서버 생태계 배포 현황 — OpenSSL 4.0 ECH 지원 발표(2026.3). https://openssl-library.org/post/2026-03-11-ech/index.html ; ECH 공식 표준 확정 및 SNI 차단 함의. https://cloudnews.tech/ech-is-now-an-official-standard-and-complicates-web-blockings-through-sni/</p>
+<p>^7: 중국의 ESNI/TLS 1.3 차단 — GFW Report, 「Exposing and Circumventing China's Censorship of ESNI」(2020.8). https://gfw.report/blog/gfw_esni_blocking/en/ ; ZDNet, 「China is now blocking all encrypted HTTPS traffic using TLS 1.3 and ESNI」(2020.8). https://www.zdnet.com/article/china-is-now-blocking-all-encrypted-https-traffic-using-tls-1-3-and-esni/</p>
+<p><em>이 글은 net.or.kr 디지털 권리 포털의 기술·정책 해설 시리즈 중 하나입니다. 사실 오류나 보완 의견은 포털 <a href="https://github.com/berryp23/net-or-kr/issues" target="_blank" rel="noopener">GitHub 이슈로 제보</a>해 주세요.</em> <em>함께 읽기: 글#3 창과 방패의 역사 — 한국 인터넷 검열·우회 군비경쟁 연대기 · 글#4 망 중립성 · 글#7 온라인 게시물 차단·삭제 메커니즘</em></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 13일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

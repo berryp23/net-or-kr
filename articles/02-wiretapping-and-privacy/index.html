@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>패킷 감청과 통신비밀보호법 — 합법적 감청은 어디까지인가 | net.or.kr</title>
+<meta name="description" content="통신비밀보호법 3단 구조 해부, 2018년 헌재 패킷감청 헌법불합치, HTTPS·ECH가 바꾼 감청 지형, 미국 CALEA와 EU 비교, 투명성 보고서 읽는 법.">
+<meta property="og:title" content="패킷 감청과 통신비밀보호법 — 합법적 감청은 어디까지인가">
+<meta property="og:description" content="통신비밀보호법 3단 구조, 2018년 헌재 헌법불합치, HTTPS·ECH의 영향, 해외 비교, 시민 실무.">
+<meta property="og:type" content="article">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --amber: #f59e0b;
+    --amber-light: #fcd34d;
+    --amber-dark: #d97706;
+    --cyan: #06b6d4;
+    --cyan-light: #67e8f9;
+    --cyan-dark: #0891b2;
+    --spear: #ef4444;
+    --spear-light: #fca5a5;
+    --spear-dark: #b91c1c;
+    --shield: #22c55e;
+    --shield-light: #86efac;
+    --shield-dark: #15803d;
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #334155;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber-dark); }
+
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--bg3);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--amber);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .site-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 20px;
+    transition: color 0.2s;
+  }
+
+  .site-nav a:hover { color: var(--text); }
+
+  .article-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .article-header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--bg3);
+  }
+
+  .article-series {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .article-title {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, var(--amber-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .article-subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+    font-weight: 400;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    align-items: center;
+  }
+
+  .article-meta .tag {
+    background: var(--bg3);
+    color: var(--text-muted);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    color: var(--amber);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--amber-dark), transparent);
+  }
+
+  .intro-text {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #cbd5e1;
+    margin-bottom: 32px;
+  }
+
+  .intro-questions {
+    background: var(--bg2);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .intro-questions h4 {
+    color: var(--amber);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  .intro-questions ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .intro-questions ol li { margin-bottom: 6px; }
+  .intro-questions ol li strong { color: var(--text); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .stat-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-box:hover {
+    border-color: var(--amber-dark);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .prose {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #cbd5e1;
+  }
+
+  .prose p { margin-bottom: 16px; }
+  .prose strong { color: var(--text); }
+
+  .prose a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose h3 {
+    font-size: 20px;
+    color: var(--text);
+    margin: 32px 0 12px;
+  }
+
+  .prose h4 {
+    font-size: 16px;
+    color: var(--amber-light);
+    margin: 24px 0 10px;
+  }
+
+  .prose ul {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  .prose ul li {
+    margin-bottom: 6px;
+    color: #cbd5e1;
+  }
+
+  .prose ol {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  .prose ol li {
+    margin-bottom: 6px;
+    color: #cbd5e1;
+  }
+
+  .law-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    transition: border-color 0.2s;
+  }
+
+  .law-card:hover { border-color: var(--amber-dark); }
+
+  .law-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .law-tier {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 4px;
+  }
+
+  .tier-strict {
+    background: rgba(239,68,68,0.15);
+    color: var(--spear-light);
+  }
+
+  .tier-medium {
+    background: rgba(245,158,11,0.15);
+    color: var(--amber-light);
+  }
+
+  .tier-loose {
+    background: rgba(34,197,94,0.15);
+    color: var(--shield-light);
+  }
+
+  .law-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .law-card-body {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .law-card-body strong { color: var(--text); }
+
+  .law-card-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .law-card-key {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  .law-card-val {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.5;
+  }
+
+  .blockquote-box {
+    background: var(--bg2);
+    border-left: 3px solid var(--cyan);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .blockquote-box strong { color: var(--text); }
+
+  .verdict-card {
+    background: linear-gradient(135deg, rgba(239,68,68,0.06) 0%, rgba(245,158,11,0.06) 100%);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .verdict-card h4 {
+    color: var(--spear-light);
+    font-size: 16px;
+    margin: 0 0 12px;
+  }
+
+  .verdict-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+
+  .verdict-card p:last-child { margin-bottom: 0; }
+  .verdict-card strong { color: var(--text); }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 640px) {
+    .comparison-grid { grid-template-columns: 1fr; }
+  }
+
+  .comparison-card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .comparison-card-flag {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .comparison-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .comparison-card-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .comparison-card-body strong { color: var(--text); }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist-icon {
+    color: var(--amber);
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .checklist li strong { color: var(--text); }
+
+  .tip-box {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+
+  .tip-box h4 {
+    color: var(--shield-light);
+    font-size: 14px;
+    margin: 0 0 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tip-box ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .tip-box ul li {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .tip-box ul li strong { color: var(--text); }
+
+  .conclusion-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(6,182,212,0.08) 100%);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 32px;
+  }
+
+  .conclusion-box h3 {
+    color: var(--amber);
+    font-size: 18px;
+    margin: 0 0 16px;
+  }
+
+  .conclusion-box p {
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .conclusion-box p:last-child { margin-bottom: 0; }
+
+  .ref-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ref-list li {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .ref-list li:last-child { border-bottom: none; }
+
+  .ref-num {
+    color: var(--amber);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 13px;
+    min-width: 28px;
+  }
+
+  .ref-list a {
+    color: var(--cyan-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+  }
+
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 48px;
+  }
+
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px;
+  }
+
+  .toc li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .toc li a:hover {
+    color: var(--amber);
+    background: rgba(245,158,11,0.05);
+  }
+
+  .toc li a span { font-size: 12px; }
+
+  .highlight {
+    background: rgba(245,158,11,0.15);
+    color: var(--amber-light);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .crosslink-nav {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .crosslink-nav-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .crosslink-nav a {
+    background: var(--bg3);
+    color: var(--cyan-light);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .crosslink-nav a:hover {
+    background: rgba(6,182,212,0.15);
+    color: #fff;
+  }
+
+  .site-footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--bg3);
+    padding: 32px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .footer-brand .logo { color: var(--amber); font-weight: 800; font-size: 15px; }
+  .footer-brand p { margin: 6px 0 0; line-height: 1.5; }
+
+  .footer-right { text-align: right; }
+  .footer-right p { margin: 0 0 4px; }
+
+  .license-badge {
+    display: inline-block;
+    background: var(--bg3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  sup a {
+    color: var(--amber);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  sup a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .article-container { padding: 24px 16px 60px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .comparison-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Site Header -->
+<header class="site-header">
+  <a href="../../" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../">홈</a>
+    <a href="../01-spear-and-shield-history/">← 글 #01 창과방패</a>
+    <a href="../08-esni-ech-censorship-arms-race/">→ 글 #08 ECH</a>
+  </nav>
+</header>
+
+<!-- Article -->
+<main class="article-container">
+
+  <!-- Article Header -->
+  <header class="article-header" id="top">
+    <div class="article-series">글 #02 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">패킷 감청과 통신비밀보호법</h1>
+    <p class="article-subtitle">합법적 감청은 어디까지인가 — 창이 공유하는 기술 스택과 법의 경계</p>
+    <div class="article-meta">
+      <span>2026년 6월 7일 발행</span>
+      <span>약 14분 읽기</span>
+      <span class="tag">법·제도</span>
+      <span class="tag">프라이버시</span>
+      <span class="tag">통신감청</span>
+      <span class="tag">암호화</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#intro"><span>0</span> 들어가며</a></li>
+      <li><a href="#lawstructure"><span>1</span> 통비법 3단 구조</a></li>
+      <li><a href="#technical"><span>2</span> 패킷감청의 기술과 헌재</a></li>
+      <li><a href="#encryption"><span>3</span> HTTPS·ECH가 바꾼 풍경</a></li>
+      <li><a href="#comparison"><span>4</span> 해외 비교</a></li>
+      <li><a href="#numbers"><span>5</span> 숫자로 보는 현재</a></li>
+      <li><a href="#practical"><span>6</span> 시민이 알아야 할 실무</a></li>
+      <li><a href="#conclusion"><span>7</span> 닫으며</a></li>
+      <li><a href="#references"><span>8</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+  <!-- Stats -->
+  <div class="stats-grid" style="margin-bottom: 64px;">
+    <div class="stat-box">
+      <div class="stat-number">6:3</div>
+      <div class="stat-label">패킷감청 헌법불합치<br>헌재 의견 (2018)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">5,278</div>
+      <div class="stat-label">감청(통신제한조치)<br>2024년 상반기 건수</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">3배↑</div>
+      <div class="stat-label">국정원 통신사실확인자료<br>2024 상반기 (전년비)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">136만</div>
+      <div class="stat-label">통신이용자정보 제공<br>2024년 상반기 건수</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">1994</div>
+      <div class="stat-label">미국 CALEA 제정<br>도청 인프라 의무화</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">2014</div>
+      <div class="stat-label">EU 데이터보존지침 무효<br>CJEU 판결</div>
+    </div>
+  </div>
+
+  <!-- 0: 들어가며 -->
+  <section class="section" id="intro">
+    <h2 class="section-title">들어가며 — 창은 하나, 표적은 둘</h2>
+    <div class="prose">
+      <p>
+        <a href="../01-spear-and-shield-history/">글#01 「창과 방패의 역사」</a>에서 우리는
+        DNS 변조 → HTTP DPI → SNI 차단으로 이어지는 한국 인터넷 검열의 계층적 진화를 살펴봤다.
+        그 이야기에는 언급은 됐지만 충분히 다루지 못한 레이어가 있다.
+        <strong>감청</strong>이다.
+      </p>
+      <p>
+        검열과 감청은 기술 스택을 공유한다. 패킷을 들여다보는 장비(DPI, 심층패킷분석)는
+        차단에도, 감청에도 똑같이 쓰인다. 방통위가 SNI를 읽어 특정 사이트 접속을 막을 때,
+        국정원이 패킷 전체를 복제해 내용을 분석할 때 — 둘 다 같은 회선, 같은 인프라 위에서 일어난다.
+        차이는 <strong>누가, 어떤 근거로, 무엇을 하느냐</strong>다.
+      </p>
+      <p>
+        이 글은 그 "근거"의 핵심인 「통신비밀보호법」(이하 통비법)의 구조를 해부하고,
+        2018년 헌법재판소가 패킷감청에 헌법불합치 판정을 내린 이유를 짚는다.
+        그리고 HTTPS 보편화와 ECH가 이 창의 실효성을 어떻게 무뎌뜨리고 있는지,
+        미국·EU의 비교 사례와 함께 살펴본다.
+        마지막으로 시민이 실제로 알아야 할 것 — 내 통신이 감청되는 조건,
+        사후 통지 제도, 투명성 보고서를 어떻게 읽어야 하는지 — 을 정리한다.
+      </p>
+    </div>
+
+    <div class="intro-questions">
+      <h4>이 글이 답하려는 질문</h4>
+      <ol>
+        <li><strong>통비법 구조</strong> — 감청·메타데이터·인적사항은 각각 얼마나 다른 요건으로 규율되는가?</li>
+        <li><strong>헌재의 논리</strong> — 패킷감청이 법원 영장을 받고도 헌법불합치 판정을 받은 이유는?</li>
+        <li><strong>기술의 역할</strong> — HTTPS와 ECH는 합법적 감청의 지형을 어떻게 바꾸는가?</li>
+        <li><strong>시민의 권리</strong> — 감청 사실을 사후에 어떻게 알 수 있는가?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 1: 통비법 3단 구조 -->
+  <section class="section" id="lawstructure">
+    <h2 class="section-title">통비법의 3단 구조 — 창의 세 가지 날</h2>
+    <div class="prose">
+      <p>
+        「통신비밀보호법」(1993년 제정)은 통신 감시 수단을 침해 강도에 따라 세 층위로 구분한다.
+        이 구분을 이해하는 것이 이 글 전체의 출발점이다.
+      </p>
+    </div>
+
+    <!-- 감청 -->
+    <div class="law-card">
+      <div class="law-card-header">
+        <span class="law-tier tier-strict">가장 강한 창</span>
+        <span class="law-card-title">통신제한조치(감청) — 법 제5·6·7조</span>
+      </div>
+      <div class="law-card-body">
+        <div class="law-card-row">
+          <span class="law-card-key">대상 정보</span>
+          <span class="law-card-val"><strong>통신 내용 자체</strong>를 실시간으로 취득 — 전화 녹음, 이메일 본문 복제, 인터넷 패킷 전체 캡처</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">적용 범위</span>
+          <span class="law-card-val">내란·외환·국가보안법 위반 등 <strong>중범죄로 엄격히 제한</strong></span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">집행 요건</span>
+          <span class="law-card-val">검사 청구 → <strong>법원 허가서 발부</strong>. 국가안보 목적(제7조)은 <strong>고등법원 수석부장판사 허가</strong> (내국인은 요건 더욱 까다로움)</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">허가 기간</span>
+          <span class="law-card-val">2개월 이내. 연장 가능하나 매번 법원 허가 필요</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 긴급감청 -->
+    <div class="law-card">
+      <div class="law-card-header">
+        <span class="law-tier tier-medium">예외적 창</span>
+        <span class="law-card-title">긴급통신제한조치 — 법 제8조</span>
+      </div>
+      <div class="law-card-body">
+        <div class="law-card-row">
+          <span class="law-card-key">구조</span>
+          <span class="law-card-val">법원 허가를 받을 시간적 여유가 없는 긴급 상황에서 <strong>먼저 집행, 이후 사후 법원 허가</strong></span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">시간 제한</span>
+          <span class="law-card-val"><strong>36시간 이내에 법원 허가를 받지 못하면 즉시 중지</strong></span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">안보 목적</span>
+          <span class="law-card-val">대통령 승인 필요. 36시간 내 승인 없으면 즉시 중지</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">비판</span>
+          <span class="law-card-val">"사전 영장 없는 36시간"이 남용의 온상이 될 수 있다는 지적은 오래된 논점</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 통신사실확인자료 -->
+    <div class="law-card">
+      <div class="law-card-header">
+        <span class="law-tier tier-medium">중간 강도 창</span>
+        <span class="law-card-title">통신사실확인자료 — 법 제2조 제11호·제13조</span>
+      </div>
+      <div class="law-card-body">
+        <div class="law-card-row">
+          <span class="law-card-key">대상 정보</span>
+          <span class="law-card-val">통신의 <strong>외형 정보(메타데이터)</strong>: 통화 상대방 번호, 통화 일시·시간, 인터넷 로그기록, 접속 IP, 발신 기지국 위치추적자료</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">집행 요건</span>
+          <span class="law-card-val"><strong>법원 허가 필요</strong>하나 중범죄 요건 없음</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">주의점</span>
+          <span class="law-card-val">"통화 내용은 몰라도 누가 누구와 언제 통화했는지만 알면 충분히 많은 것을 알 수 있다" — 메타데이터는 여전히 민감</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 통신이용자정보 -->
+    <div class="law-card" style="border-color: rgba(34,197,94,0.2);">
+      <div class="law-card-header">
+        <span class="law-tier tier-loose">가장 느슨한 창</span>
+        <span class="law-card-title">통신이용자정보 — 전기통신사업법 제83조</span>
+      </div>
+      <div class="law-card-body">
+        <div class="law-card-row">
+          <span class="law-card-key">대상 정보</span>
+          <span class="law-card-val">이름, 주민등록번호, 주소, 전화번호, 인터넷 아이디 등 <strong>인적사항</strong></span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">집행 요건</span>
+          <span class="law-card-val">통비법 영역 <strong>밖</strong>. 수사기관 <strong>공문 요청만</strong>으로 취득 가능</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">통지</span>
+          <span class="law-card-val">2023년 개정 전까지 당사자 통지 의무 없음. 개정 후 원칙적 30일 내 통지(유예 요건 광범위)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blockquote-box">
+      <strong>한 줄 요약:</strong> 내용 = 감청(가장 엄격) → 메타데이터 = 통신사실확인자료(중간) → 인적사항 = 통신이용자정보(가장 느슨).
+      법원 영장은 감청과 통신사실확인자료에 필요하지만, 인적사항은 공문 한 장으로 가능하다.
+    </div>
+  </section>
+
+  <!-- 2: 패킷감청 기술과 헌재 -->
+  <section class="section" id="technical">
+    <h2 class="section-title">패킷감청의 기술 원리 — 봉투를 뜯는 장비</h2>
+    <div class="prose">
+      <p>
+        <strong>패킷감청(인터넷회선 감청)</strong>은 인터넷 망에 흐르는 패킷 전체를 복제해 분석하는 방식이다.
+        기술적으로는 통신사 또는 ISP의 네트워크 중간 지점에 DPI(Deep Packet Inspection) 장비를 설치하고,
+        특정 회선의 트래픽을 미러링(복사)해 분석 서버로 보낸다.
+      </p>
+      <p>
+        전통적인 우편 감청이 "특정 편지봉투를 열어 읽는 것"이라면,
+        패킷감청은 <strong>우체국을 통과하는 모든 우편물을 일단 복사한 뒤, 원하는 것을 골라내는</strong>
+        구조에 가깝다. 개별성과 특정성을 유지하기가 구조적으로 어렵다.
+      </p>
+      <p>헌법재판소는 바로 이 점을 지적했다.</p>
+    </div>
+
+    <div class="verdict-card">
+      <h4>2018년 헌재 헌법불합치 결정 — 2016헌마263 (재판관 6:3)</h4>
+      <p>
+        2018년 8월 30일, 헌재는 통비법 제5조 제2항 중
+        <strong>인터넷회선 감청(패킷감청) 허용 부분에 헌법불합치</strong>를 선고했다.<sup><a href="#fn3" id="fnref3">[3]</a></sup>
+        결정 요지는 두 갈래다.
+      </p>
+      <p>
+        <strong>첫째, 과잉금지 원칙 위반.</strong>
+        패킷감청을 집행하면 감청 대상자의 통신뿐 아니라
+        <strong>같은 회선을 쓰는 제3자의 통신까지 함께 복제</strong>된다.
+        집행 이후 불필요한 정보를 선별·폐기하는 객관적 통제 수단이 법에 마련되지 않아 기본권 침해가 과도하다.
+      </p>
+      <p>
+        <strong>둘째, 영장주의 위반.</strong>
+        법원이 감청을 허가하더라도 패킷의 특성상 집행 단계에서
+        <strong>개별성·특정성을 유지할 수 없으므로, 법원의 허가는 실질적으로 포괄영장을 허용하는 것과 다름없다.</strong>
+      </p>
+      <p>
+        헌재는 즉각 위헌이 아닌 헌법불합치를 선택해 잠정 적용을 명하며 입법 개선을 촉구했다.
+        국회는 이후 통비법을 개정해 패킷감청 집행 시 취득 자료의 선별·보관·폐기에 관한 규정을 추가했다.<sup><a href="#fn4" id="fnref4">[4]</a></sup>
+        그러나 "개선이 충분한가"라는 논쟁은 지금도 이어진다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3: HTTPS·ECH -->
+  <section class="section" id="encryption">
+    <h2 class="section-title">HTTPS·ECH가 바꾼 풍경 — 창이 무뎌지다</h2>
+    <div class="prose">
+      <p>
+        글#01에서 살펴봤듯, 2010년대 중후반 HTTPS의 보편화는 검열의 표적을 SNI로 좁혀버렸다.
+        감청 세계에서도 같은 일이 벌어지고 있다.
+      </p>
+
+      <h3>HTTPS 이전: 내용을 읽는 창</h3>
+      <p>
+        DPI 장비는 HTTP 패킷의 URL, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;font-size:14px;">Host</code> 헤더,
+        이메일 본문까지 평문으로 읽어 분류·추출할 수 있었다.
+        패킷감청은 문자 그대로 '내용'을 복제하는 것이었다.
+      </p>
+
+      <h3>HTTPS 이후: 메타데이터만 남은 창</h3>
+      <p>
+        TLS가 HTTP 헤더를 포함한 페이로드 전체를 암호화하면서, DPI는 내용을 읽지 못한다.
+        남은 평문은 IP 주소, 포트 번호, 그리고 TLS 핸드셰이크의 SNI 필드뿐이었다.
+      </p>
+
+      <h3>ECH 이후(현재 진행 중): IP 주소만 남는 창</h3>
+      <p>
+        2023년 Firefox 119부터 기본 활성화된 ECH(Encrypted Client Hello)는
+        SNI를 포함한 ClientHello 전체를 암호화한다.
+        ECH가 보편화되면 DPI가 읽을 수 있는 평문 식별자는 목적지 IP 주소와 포트만 남는다.
+        다수의 사이트가 같은 CDN(Cloudflare 등)에 수용된 현실에서,
+        IP 주소만으로는 어떤 사이트에 접속했는지조차 특정하기 어려워진다.
+      </p>
+
+      <p>
+        즉 암호화의 진보는 감청의 대상을 <strong>'내용'에서 '메타데이터'로 강제로 이동</strong>시키고 있다.
+        국가기관이 원하든 원치 않든, 합법적 감청조차 "내용을 읽는 행위"에서
+        "누가 언제 어디에 접속했는가"를 보는 행위로 점차 이행하고 있다.
+      </p>
+    </div>
+
+    <div class="blockquote-box">
+      <strong>군비경쟁의 역설:</strong>
+      국가가 강한 암호화를 막으면 범죄자·적성국도 그 빈틈을 이용한다.
+      강한 암호화를 허용하면 합법적 감청이 어려워진다.
+      암호화는 이중 용도 기술(dual-use)이며,
+      방패를 무너뜨리는 창은 다른 적의 창도 막아준 방패를 함께 무너뜨린다.
+    </div>
+  </section>
+
+  <!-- 4: 해외 비교 -->
+  <section class="section" id="comparison">
+    <h2 class="section-title">해외 비교 — 미국 CALEA와 EU의 실패</h2>
+    <div class="prose">
+      <p>
+        한국의 통비법 체계를 이해하려면 국제적 맥락이 필요하다.
+        미국과 EU는 각자의 방식으로 감청과 프라이버시의 충돌을 다뤘고,
+        두 경로 모두 중요한 교훈을 남겼다.
+      </p>
+    </div>
+
+    <div class="comparison-grid">
+      <div class="comparison-card">
+        <div class="comparison-card-flag">🇺🇸</div>
+        <div class="comparison-card-title">미국 CALEA (1994)</div>
+        <div class="comparison-card-body">
+          <strong>Communications Assistance for Law Enforcement Act.</strong>
+          통신사와 장비 제조사가 법 집행 기관의 합법적 감청을 기술적으로 지원할 수 있도록
+          네트워크 아키텍처를 설계해야 한다는 의무.<sup><a href="#fn5" id="fnref5">[5]</a></sup>
+          달리 말하면 도청 가능성(backdoor)을 통신 인프라에 사전 내장하라는 요구다.
+          <br><br>
+          2004년 FCC는 CALEA를 <strong>VoIP와 광대역 인터넷</strong>으로 확장 적용했다.
+          그러나 <strong>합법적 백도어는 불법적 침입자에게도 열린 문</strong>이다.
+          2009년 그리스 정부 휴대전화 도청 스캔들("Athens Affair")은
+          통신사가 법 집행 목적으로 설치한 도청 기능이 해커에게 악용된 사례다.<sup><a href="#fn6" id="fnref6">[6]</a></sup>
+        </div>
+      </div>
+
+      <div class="comparison-card">
+        <div class="comparison-card-flag">🇪🇺</div>
+        <div class="comparison-card-title">EU 데이터 보존 지침 (2006→2014 무효)</div>
+        <div class="comparison-card-body">
+          2006년 <strong>데이터 보존 지침(Data Retention Directive, 2006/24/EC)</strong>은
+          회원국 통신사가 통화기록·이메일·인터넷 접속 기록을
+          6개월~2년간 의무 보관하도록 했다.
+          <br><br>
+          2014년 4월 8일, <strong>CJEU는 Digital Rights Ireland 사건에서 이 지침을 무효</strong>로 선언했다.<sup><a href="#fn8" id="fnref8">[8]</a></sup>
+          판결 논리: 일괄 데이터 보존은 "사실상 전체 유럽 인구의 기본권에 간섭"하는 대규모 감시이며,
+          유럽 기본권 헌장의 프라이버시권·표현의 자유를 비례성 원칙 위반으로 침해한다.
+          <br><br>
+          핵심 교훈: <strong>메타데이터도 기본권 보호 대상이다</strong>.
+        </div>
+      </div>
+    </div>
+
+    <div class="blockquote-box">
+      두 사례 모두 같은 질문으로 귀결된다:
+      <strong>합법적 감청 능력을 유지하기 위해 어디까지 보안을 희생할 것인가?</strong>
+      미국은 인프라에 백도어를 내장했고, 그 문은 악의적 행위자에게도 열렸다.
+      EU는 메타데이터 일괄 수집을 시도했고, 법원이 무효화했다.
+    </div>
+  </section>
+
+  <!-- 5: 숫자로 보는 현재 -->
+  <section class="section" id="numbers">
+    <h2 class="section-title">숫자로 보는 현재 — 투명성 보고서 읽는 법</h2>
+    <div class="prose">
+      <p>
+        한국에서는 <strong>과학기술정보통신부</strong>가 반기별로 통신 감시 통계를 발표한다.
+        통신사들이 제출한 집계를 취합해 공개하는 방식이다.
+        공개 내용은 세 범주다:
+        통신이용자정보 제공 건수 / 통신사실확인자료 제공 건수 / 통신제한조치 협조 건수(감청).
+      </p>
+      <p>
+        2024년 상반기 과기부 발표 수치에 따르면,<sup><a href="#fn9" id="fnref9">[9]</a></sup>
+        통신이용자정보는 <span class="highlight">136만 1,118건</span> (전년 동기 대비 43.7% 감소),
+        통신사실확인자료는 <span class="highlight">29만 3,112건</span> (15.3% 증가),
+        통신제한조치(감청)는 <span class="highlight">5,278건</span> (전년 동기 4,845건 대비 8.9% 증가)였다.
+      </p>
+      <p>
+        주목할 점은 국가정보원 관련 수치다.
+        같은 기간 <strong>국정원에 제공된 통신사실확인자료가 3,088건</strong>으로,
+        2023년 상반기 993건 대비 <strong>약 3배 이상</strong> 증가했다.<sup><a href="#fn10" id="fnref10">[10]</a></sup>
+        2024년 1월 국정원의 수사권이 폐지되었음에도 오히려 수치가 급등한 점에 대해
+        시민단체들은 투명한 해명을 요구하고 있다.
+      </p>
+      <p>
+        또한 2022년 하반기 발표분부터 통신수단별 감청 세부 통계(유선·이동전화·인터넷 구분)가
+        발표에서 사라졌다. 이 통계는 2000년 첫 공개 이후 24년간 누락된 적이 없었다.
+        특히 이동전화 감청 건수가 갑자기 빠진 이유에 대한 설명이 없다.
+      </p>
+
+      <h3>투명성 보고서를 읽을 때 체크리스트</h3>
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <span class="checklist-icon">◆</span>
+        <span><strong>기관별 세분화가 있는가?</strong> 국정원·검찰·경찰·공수처 각각의 수치가 나뉘어 있어야 의미 있는 비교가 가능하다.</span>
+      </li>
+      <li>
+        <span class="checklist-icon">◆</span>
+        <span><strong>통신수단별 세분화가 있는가?</strong> 이동전화 감청이 얼마인지는 시민의 일상과 직결된다.</span>
+      </li>
+      <li>
+        <span class="checklist-icon">◆</span>
+        <span><strong>법원 허가 없는 긴급감청 비율이 나오는가?</strong> 사법 통제의 실효성을 가늠하는 지표다.</span>
+      </li>
+      <li>
+        <span class="checklist-icon">◆</span>
+        <span><strong>전년 동기 대비 증감 추세가 일관되는가?</strong> 급격한 변화는 설명이 필요하다.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 6: 시민 실무 -->
+  <section class="section" id="practical">
+    <h2 class="section-title">시민이 알아야 할 실무 — 내 통신이 감청되는 조건</h2>
+
+    <div class="prose">
+      <h3>감청 대상이 되려면</h3>
+      <p>
+        통신제한조치(감청)는 법 제5조 제1항에 열거된 중범죄 —
+        내란·외환·국가보안법·군사기밀보호법 위반, 마약, 살인, 약취유인, 폭발물 관련 범죄 등 —
+        에 한정된다. <strong>일반 형사사건의 감청은 원칙적으로 불가능하다.</strong>
+      </p>
+    </div>
+
+    <div class="law-card" style="margin: 16px 0 32px;">
+      <div class="law-card-body">
+        <div class="law-card-row">
+          <span class="law-card-key">범죄 수사</span>
+          <span class="law-card-val">대상 범죄 해당 + 범죄 실행 또는 실행 혐의 존재 → 검사 청구 → 법원 허가서 발부 → 통신사 협조</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">국가안보</span>
+          <span class="law-card-val">내국인: 고등법원 수석부장판사 허가 / 외국인·북한 관련: 대통령 승인</span>
+        </div>
+        <div class="law-card-row">
+          <span class="law-card-key">메타데이터</span>
+          <span class="law-card-val">통신사실확인자료는 요건이 완화되나 여전히 법원의 허가 필요. 실무에서 비교적 관대하게 발부된다는 비판 있음</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>사후 통지 — 알 권리의 최소한</h3>
+      <p>
+        법 제9조의2는 통신제한조치 집행 후 <strong>당사자에게 서면 통지할 의무</strong>를 규정한다.
+        집행 사실, 집행 기관, 기간 등을 통보해야 한다.
+        그러나 수사에 지장이 있거나 국가안보를 해칠 우려가 있으면 통지를 유예할 수 있어,
+        사실상 상당수 감청에서 통지가 상당 기간 지연되거나 생략된다는 지적이 이어진다.
+      </p>
+      <p>
+        통지를 받았다면: 해당 통신제한조치가 적법하게 발부된 것인지 법원에서 확인하고,
+        위법한 요소가 있으면 헌법소원이나 손해배상 청구의 근거가 된다.
+      </p>
+
+      <h3>실천적 팁 — 기술적 자기 보호</h3>
+      <p>
+        법이 감청을 규제하더라도, 기술적 보호 조치를 병행하는 것이 현명하다.
+      </p>
+    </div>
+
+    <div class="tip-box">
+      <h4>▸ 종단간 암호화(E2EE) 메신저 사용</h4>
+      <ul>
+        <li>Signal 등은 서버가 메시지 내용을 보관하지 않으며, 법원 명령이 와도 제공할 내용이 없다.</li>
+        <li>단, 발신·수신 메타데이터(누가 누구와 언제)는 여전히 노출될 수 있다.</li>
+      </ul>
+    </div>
+
+    <div class="tip-box" style="margin-top: 12px;">
+      <h4>▸ VPN 또는 Tor 활용</h4>
+      <ul>
+        <li>접속 IP 주소와 목적지를 감추지만, VPN 제공사가 로그를 보관하면 의미가 반감된다.</li>
+        <li>Tor는 출구 노드 감청 위험이 있으므로 HTTPS와 병행해야 한다.</li>
+      </ul>
+    </div>
+
+    <div class="tip-box" style="margin-top: 12px;">
+      <h4>▸ ECH 지원 브라우저 사용</h4>
+      <ul>
+        <li>Firefox 119 이상, Chrome 117 이상에서 ECH 지원. CDN과 서버가 함께 지원해야 동작한다.</li>
+        <li>SNI를 기반으로 한 감청·차단의 실효성을 크게 낮춘다.</li>
+      </ul>
+    </div>
+
+    <div class="blockquote-box" style="margin-top: 24px;">
+      <strong>주의:</strong>
+      암호화 도구는 합법적 사용을 전제로 한다.
+      범죄 수사나 국가안보 목적의 합법적 감청에서 기술적 수단이 증거 인멸이나 수사 방해의 도구로 악용되면
+      별도의 죄책이 따를 수 있다.
+    </div>
+  </section>
+
+  <!-- 7: 닫으며 -->
+  <section class="section" id="conclusion">
+    <h2 class="section-title">닫으며 — 합법적 감청은 어디까지인가</h2>
+    <div class="conclusion-box">
+      <h3>세 층위의 답</h3>
+      <p>
+        <strong>기술적으로:</strong>
+        HTTPS의 보편화와 ECH의 도입은 "내용을 읽는" 감청의 실효성을 빠르게 약화시키고 있다.
+        국가가 무엇을 보든 점점 더 메타데이터 — 누가 언제 어디에 접속했는가 — 만 볼 수 있게 된다.
+      </p>
+      <p>
+        <strong>법적으로:</strong>
+        한국 헌재가 2018년 보여준 것은, 영장이 있어도
+        <strong>집행 단계의 통제 장치가 설계되지 않으면 위헌</strong>이라는 원칙이다.
+        창이 얼마나 날카로운가보다, 그 창을 어떻게 통제하는가가 법의 관심사다.
+        EU 사법재판소가 데이터 보존 지침을 무너뜨린 것도 같은 논리다.
+      </p>
+      <p>
+        <strong>제도적으로:</strong>
+        감청은 표적에게 알리지 않는다는 점에서 다른 어떤 수사보다 무거운 정당화 부담을 진다.
+        그 부담을 법원 영장으로만 충족하면 충분한가,
+        아니면 독립적 감시 기구·사후 통지 의무·투명성 보고서 같은 제도적 보완이 필수인가?
+        CJEU의 대답은 분명했다. 한국의 대답은 아직 충분히 완성되지 않았다.
+      </p>
+      <p>
+        창은 계속 진화한다. 방패도 마찬가지다.
+        그 사이에서 중요한 것은 —
+        창이 누구를 향하든 법과 제도라는 또 다른 방패가 시민 편에 서 있어야 한다는 것이다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 8: 참고문헌 -->
+  <section class="section" id="references">
+    <h2 class="section-title">참고문헌</h2>
+    <ol class="ref-list">
+      <li id="fn1">
+        <span class="ref-num">[1]</span>
+        <span>
+          통신비밀보호법 제5조·제6조·제7조 (국가법령정보센터).
+          <a href="https://www.law.go.kr/LSW/lsInfoP.do?urlMode=lsInfoP&lsId=000036" target="_blank" rel="noopener">law.go.kr</a>
+          <a href="#fnref1">↑</a>
+        </span>
+      </li>
+      <li id="fn2">
+        <span class="ref-num">[2]</span>
+        <span>
+          통신비밀보호법 제8조(긴급통신제한조치).
+          <a href="https://www.law.go.kr/LSW/lsRvsDocListP.do?chrClsCd=010102&lsId=000036" target="_blank" rel="noopener">law.go.kr</a>
+          <a href="#fnref2">↑</a>
+        </span>
+      </li>
+      <li id="fn3">
+        <span class="ref-num">[3]</span>
+        <span>
+          헌법재판소 2018.8.30. 선고 2016헌마263 결정 [통신제한조치 허가 위헌확인 등].
+          <a href="https://casenote.kr/헌법재판소/2016헌마263" target="_blank" rel="noopener">casenote.kr</a>
+          <a href="#fnref3">↑</a>
+        </span>
+      </li>
+      <li id="fn4">
+        <span class="ref-num">[4]</span>
+        <span>
+          헌재 2016헌마263 해설 (슬로우뉴스).
+          <a href="https://slownews.kr/71448" target="_blank" rel="noopener">slownews.kr/71448</a>
+          <a href="#fnref4">↑</a>
+        </span>
+      </li>
+      <li id="fn5">
+        <span class="ref-num">[5]</span>
+        <span>
+          CALEA (Communications Assistance for Law Enforcement Act, 1994).
+          Wikipedia;
+          <a href="https://www.eff.org/issues/calea" target="_blank" rel="noopener">EFF CALEA overview</a>
+          <a href="#fnref5">↑</a>
+        </span>
+      </li>
+      <li id="fn6">
+        <span class="ref-num">[6]</span>
+        <span>
+          "Athens Affair" — 그리스 도청 스캔들 (2004~2005년 발생, 2009년 보도). IEEE Spectrum 등 보도.
+          <a href="#fnref6">↑</a>
+        </span>
+      </li>
+      <li id="fn7">
+        <span class="ref-num">[7]</span>
+        <span>
+          FCC, "FCC Expands Scope of CALEA Obligations" (2025.1).
+          <a href="https://www.lermansenter.com/fcc-expands-scope-of-calea-obligations/" target="_blank" rel="noopener">lermansenter.com</a>
+          <a href="#fnref7">↑</a>
+        </span>
+      </li>
+      <li id="fn8">
+        <span class="ref-num">[8]</span>
+        <span>
+          CJEU, 사건 C-293/12 Digital Rights Ireland Ltd v Minister for Communications (2014.4.8).
+          <a href="https://curia.europa.eu/site/upload/docs/application/pdf/2014-04/cp140054en.pdf" target="_blank" rel="noopener">curia.europa.eu</a>
+          <a href="#fnref8">↑</a>
+        </span>
+      </li>
+      <li id="fn9">
+        <span class="ref-num">[9]</span>
+        <span>
+          과학기술정보통신부, "2024년 상반기 통신이용자정보 및 통신사실확인자료 제공 등 현황 발표" (2024.12.27).
+          <a href="https://www.gov.kr/portal/ntnadmNews/4123925" target="_blank" rel="noopener">gov.kr 원문</a>;
+          <a href="https://www.hani.co.kr/arti/economy/economy_general/1175153.html" target="_blank" rel="noopener">한겨레 보도</a>
+          <a href="#fnref9">↑</a>
+        </span>
+      </li>
+      <li id="fn10">
+        <span class="ref-num">[10]</span>
+        <span>
+          정보공개센터(cfoi), "[논평] 윤석열 정부 국정원의 통신감시 증가 이유 밝혀져야" (2025.1.2).
+          <a href="https://cfoi.or.kr/17524" target="_blank" rel="noopener">cfoi.or.kr/17524</a>
+          <a href="#fnref10">↑</a>
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Cross-links -->
+  <div class="crosslink-nav">
+    <span class="crosslink-nav-label">관련 글</span>
+    <a href="../01-spear-and-shield-history/">← 글#01 창과 방패의 역사</a>
+    <a href="../../drafts/13-telecom-data-provision-warrant.md">글#13 통신자료 제공과 영장주의</a>
+    <a href="../../drafts/08-esni-ech-encrypted-sni.md">글#08 ECH·ESNI 최전선</a>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털<br>망 중립성 · 통신감청 · 표현의 자유</p>
+    </div>
+    <div class="footer-right">
+      <p>글 #02 · 창과방패 시리즈</p>
+      <p>2026년 6월 7일 발행</p>
+      <span class="license-badge">CC-BY-4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

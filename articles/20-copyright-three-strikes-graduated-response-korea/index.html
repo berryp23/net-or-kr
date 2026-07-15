@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세 번이면 계정을 끊는다 — 세계 최초 저작권 '삼진아웃제'와 행정 차단의 구조 | net.or.kr</title>
+<meta name="description" content="한국은 2009년 세계 최초로 저작권 삼진아웃제(단계적 대응)를 법제화했다. 행정명령으로 계정을 정지·게시판을 폐쇄하는 구조, 적법절차 비판, 국제 동향과 실효성 의문을 디지털 권리 관점에서 짚는다.">
+<meta property="og:title" content="세 번이면 계정을 끊는다 — 세계 최초 저작권 '삼진아웃제'와 행정 차단의 구조">
+<meta property="og:description" content="한국은 2009년 세계 최초로 저작권 삼진아웃제(단계적 대응)를 법제화했다. 행정명령으로 계정을 정지·게시판을 폐쇄하는 구조, 적법절차 비판, 국제 동향과 실효성 의문을 디지털 권리 관점에서 짚는다.">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+  .prose pre{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;margin:0 0 16px;}
+  .prose pre code{background:none;color:#cbd5e1;padding:0;font-size:13px;line-height:1.6;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .prose .footnote-def{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 8px;}
+  .prose .footnote-def sup{color:var(--amber);font-weight:700;margin-right:4px;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #20 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">세 번이면 계정을 끊는다 — 세계 최초 저작권 '삼진아웃제'와 행정 차단의 구조</h1>
+    <p class="article-subtitle">경고 3회로 계정을 끊는 단계적 대응 — 명문과 실제 운용의 간극</p>
+    <div class="article-meta">
+      <span>2026년 6월 12일 발행</span>
+      <span>약 13분 읽기</span>
+      <span class="tag">저작권법</span><span class="tag">삼진아웃제</span><span class="tag">단계적대응</span><span class="tag">계정정지</span><span class="tag">표현의자유</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-1"><span>01</span> 들어가며</a></li>
+      <li><a href="#sec-2"><span>02</span> 삼진아웃제는 어떻게 작동하나</a></li>
+      <li><a href="#sec-3"><span>03</span> 세계 최초라는 타이틀 — 2009년의 한국</a></li>
+      <li><a href="#sec-4"><span>04</span> 비판의 세 갈래</a></li>
+      <li><a href="#sec-5"><span>05</span> 잊혀진 칼 — 한국에서의 실제 운용</a></li>
+      <li><a href="#sec-6"><span>06</span> 국제 비교 — 모두가 칼을 거두는 중</a></li>
+      <li><a href="#sec-7"><span>07</span> 무엇을 손봐야 하나</a></li>
+      <li><a href="#sec-8"><span>08</span> 마치며</a></li>
+      <li><a href="#sec-9"><span>09</span> 핵심 용어 간추리기</a></li>
+      <li><a href="#sec-10"><span>10</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">들어가며</h2>
+  <div class="prose">
+<p>야구에서 스트라이크 셋이면 아웃이다. 한국 저작권법에는 이 야구 규칙을 그대로 옮겨 놓은 조항이 있다. 같은 이용자가 불법복제물을 올려 경고를 세 번 받으면, 문화체육관광부장관이 온라인서비스제공자(OSP)에게 <strong>그 사람의 계정을 최대 6개월간 정지하라고 명령</strong>할 수 있다. 한 게시판에 삭제 명령이 세 번 쌓이면 <strong>게시판 자체를 닫으라고</strong> 명할 수도 있다. 법조문이 아니라 스포츠 중계에서 따온 이름, 이른바 <strong>'삼진아웃제'(graduated response)</strong>다.</p>
+<p>이 글이 다루는 것은 저작권 보호 그 자체가 아니다. 침해에 책임을 묻는 일은 정당하다. 문제는 그 수단이다 — 법원의 판결이 아니라 <strong>행정기관의 명령</strong> 한 번으로, 인터넷에서 한 사람의 발언 통로(계정)나 한 공간(게시판) 전체를 멈추게 하는 구조. [글#7 「임시조치 제도」]가 명예훼손 신고로 게시물 하나를 30일 가리는 메커니즘을, [글#13 「매개자 책임」]이 플랫폼의 면책 부재를 다뤘다면, 이 글은 그보다 무거운 단위 — <em>계정과 게시판 전체</em>를 행정 절차로 끊는 가장 오래된 제도를 해부한다. 그리고 묻는다. 세계 최초로 이 칼을 뽑아 든 나라는, 지금 그 칼을 어떻게 쥐고 있는가.</p>
+  </div>
+</section>
+<section class="section" id="sec-2">
+  <h2 class="section-title">삼진아웃제는 어떻게 작동하나</h2>
+  <div class="prose">
+<h3>두 개의 트랙 — 명령과 권고</h3>
+<p>한국의 그래듀에이티드 리스폰스(단계적 대응)는 강도가 다른 두 트랙으로 굴러간다.</p>
+<p><strong>① 시정명령(저작권법 제133조의2).</strong> 강제력 있는 행정명령이다. 문화체육관광부장관은 정보통신망을 통해 저작권을 침해하는 복제물이 전송되는 경우, <strong>저작권보호심의위원회의 심의를 거쳐</strong> OSP에게 다음을 명할 수 있다.<sup>1</sup></p>
+<ul><li>복제·전송자에 대한 <strong>경고</strong></li><li>불법복제물의 <strong>삭제 또는 전송 중단</strong></li><li>불법복제물에 대한 <strong>접속차단</strong> (앞의 두 조치로 목적을 달성할 수 없는 경우에 한정)</li></ul>
+<p>그리고 핵심 두 조항이 여기 붙는다.</p>
+<ul><li><strong>계정 정지:</strong> 경고를 <strong>3회 이상</strong> 받은 복제·전송자가 다시 불법복제물을 전송하면, 심의를 거쳐 OSP에게 <strong>6개월 이내</strong>의 계정 정지를 명할 수 있다.</li><li><strong>게시판 폐쇄:</strong> 삭제·전송 중단 명령이 <strong>3회 이상</strong> 내려진 게시판이 이용질서를 심각하게 훼손한다고 판단되면, <strong>6개월 이내</strong>로 그 게시판 서비스의 전부 또는 일부를 정지하도록 명할 수 있다.</li></ul>
+<p><strong>② 시정권고(제133조의3).</strong> 강제력 없는 부드러운 트랙이다. <strong>한국저작권보호원</strong>이 OSP에게 경고·삭제·계정 정지를 <em>권고</em>하고, OSP가 따르지 않으면 보호원이 장관에게 ①의 시정명령을 요청하는 단계로 넘어간다.<sup>2</sup> 실무에서 압도적 다수는 이 권고 단계에서 처리된다.</p>
+<p>정리하면, 경고가 쌓일수록 제재의 강도가 한 칸씩 올라가는 '계단식'(graduated) 구조다. 마지막 칸에 계정 정지와 게시판 폐쇄라는 가장 무거운 두 제재가 놓여 있다.</p>
+<h3>누가 칼자루를 쥐는가</h3>
+<p>주목할 점은 이 모든 절차에 <strong>법원이 없다</strong>는 것이다. 침해 여부의 1차 판단은 한국저작권보호원, 심의는 <strong>저작권보호심의위원회</strong>, 최종 명령은 <strong>문화체육관광부장관</strong>이 한다. 보호원은 2016년 9월 한국저작권위원회의 보호 기능과 저작권보호센터를 통합해 설립된 공공기관으로, 침해 실태조사부터 수사 지원, 시정권고·심의까지 보호 집행을 한 손에 쥐고 있다.<sup>3</sup> 즉 삼진아웃은 민사 소송(권리자 vs. 침해자)이 아니라, <strong>행정처분</strong>(국가 → OSP → 이용자)으로 작동한다. 계정을 끊는 결정에 판사의 영장도, 정식 재판도 개입하지 않는다. 바로 이 지점이 디지털 권리 논쟁의 핵심이다.</p>
+  </div>
+</section>
+<section class="section" id="sec-3">
+  <h2 class="section-title">세계 최초라는 타이틀 — 2009년의 한국</h2>
+  <div class="prose">
+<p>한국은 <strong>2009년 4월 22일</strong> 저작권법 개정으로 제133조의2를 신설하고 그해 7월 시행했다. 단계적 대응에 기반한 계정 정지·게시판 폐쇄를 법제화한 것은 <strong>세계 최초</strong>였다.<sup>1</sup> 같은 해 프랑스가 아도피(HADOPI)법을 만들며 뒤따랐고, 영국(디지털경제법 2010)·뉴질랜드(2011)·대만 등이 줄을 이었다.</p>
+<p>배경에는 2000년대 한국의 P2P·웹하드 불법 공유 폭발이 있었다. 소리바다 사건([글#13 「매개자 책임」]에서도 등장한다)으로 상징되는 대량 침해 앞에서, 개별 소송으로는 속도를 맞출 수 없다는 권리자 측의 압박이 강했다. 정부는 '신속한 행정 집행'을 답으로 내놓았다. 한미 FTA 등 통상 협상에서 강한 저작권 집행을 요구받던 맥락도 작용했다.</p>
+<p>문제는 '세계 최초'가 곧장 '세계의 우려 대상 1호'가 됐다는 점이다.</p>
+  </div>
+</section>
+<section class="section" id="sec-4">
+  <h2 class="section-title">비판의 세 갈래</h2>
+  <div class="prose">
+<h3>① 적법절차 — 판사 없이 끊는 권리</h3>
+<p>UN 표현의 자유 특별보고관 <strong>프랭크 라 뤼(Frank La Rue)</strong>는 2011년 보고서(A/HRC/17/27)에서 단계적 대응을 정면으로 겨냥했다. 그는 반복된 <em>주장</em>만으로 이용자를 인터넷에서 끊는 제도가 <strong>사법적 통제를 거의 또는 전혀 거치지 않아 적법절차를 박탈</strong>하며, 그 결과 표현의 자유·결사의 자유·혁신을 위협한다고 경고했다. 그러면서 한국을 <strong>2009년 7월 단계적 대응을 도입한 최초의 국가</strong>로 명시했다.<sup>4</sup> 인터넷 접속 차단은 어떤 경우에도 비례 원칙에 어긋난다는 것이 그의 결론이었다.</p>
+<h3>② 비례성 — 표현·생계 수단을 통째로 끊는 것</h3>
+<p>계정과 게시판은 단순한 파일 저장소가 아니다. 한 사람의 계정에는 저작권과 무관한 글·인맥·기록이 함께 묶여 있고, 게시판에는 침해와 무관한 다수 이용자의 발언이 공존한다. 침해물 몇 건을 이유로 계정이나 게시판 <em>전체</em>를 멈추는 것은, 합법적 표현까지 함께 잘라내는 [글#13 「매개자 책임」]에서 본 <strong>오버블로킹</strong>의 가장 강력한 형태다. 특히 게시판 폐쇄는 일부의 침해를 빌미로 그 공간을 쓰는 모든 이용자를 함께 제재한다는 점에서 '연좌제'라는 비판을 받았다.</p>
+<h3>③ 실효성 — 칼은 정말 듣는가</h3>
+<p>가장 근본적인 의문은 "효과가 있느냐"다. 저작권법학자 레베카 기블린(Rebecca Giblin)은 프랑스·뉴질랜드·대만·한국·영국·아일랜드·미국의 단계적 대응을 비교 분석한 뒤, 이 제도가 <strong>목표(침해 감소·합법 시장 성장)를 달성했다는 증거가 거의 없다</strong>고 결론지었다.<sup>5</sup> 이용자는 VPN([글#9 「우회의 합법성」])·암호화·해외 서버로 빠져나가고, 단속은 '두더지 잡기'가 된다. 강한 제재일수록 실효는 낮고 권리 침해 위험만 크다는 역설이다.</p>
+  </div>
+</section>
+<section class="section" id="sec-5">
+  <h2 class="section-title">잊혀진 칼 — 한국에서의 실제 운용</h2>
+  <div class="prose">
+<p>여기서 한국 제도의 독특한 풍경이 드러난다. 법전에는 세계에서 가장 센 조항이 박혀 있지만, <strong>계정 정지와 게시판 폐쇄 명령은 실제로는 거의 발동되지 않는다.</strong> 실무의 대부분은 강제력 없는 <strong>시정권고</strong>와 <strong>삭제·전송 중단</strong> 단계에서 끝난다. 가장 무거운 두 제재는 법조문 안에서 '잠자는 칼'로 남아 있는 셈이다.</p>
+<p>이 사실은 양가적이다. 한편으로는 — 다행히 — 행정기관이 계정을 끊는 극단적 권한을 자제하며 써 왔다는 뜻이다. 다른 한편으로는, <strong>위헌 다툼의 실익이 흐려진 채 가장 강한 권한이 여전히 법에 살아 있다</strong>는 뜻이기도 하다. 발동되지 않으니 헌법소원이나 행정소송으로 다퉈 무효화할 계기도 좀처럼 생기지 않는다. 칼은 칼집에 있을 뿐, 사라지지 않았다. 정권과 정책 기조가 바뀌면 언제든 다시 뽑힐 수 있는 상태로.</p>
+  </div>
+</section>
+<section class="section" id="sec-6">
+  <h2 class="section-title">국제 비교 — 모두가 칼을 거두는 중</h2>
+  <div class="prose">
+<p>흥미롭게도, '세계 최초'를 따라 했던 나라들은 줄줄이 후퇴했다.</p>
+<ul><li><strong>프랑스:</strong> 단계적 대응의 상징이던 아도피(HADOPI)는 가장 강한 제재인 <strong>인터넷 접속 차단(disconnection)을 2013년 폐지</strong>했다 — 비례 원칙 위반이라는 이유였다. 기구 자체도 2022년 방송규제기관과 합쳐져 <strong>ARCOM</strong>으로 재편됐다. 벌금 등 약한 제재만 남았다.<sup>6</sup></li><li><strong>뉴질랜드:</strong> 2011년 도입한 저작권 삼진아웃에서 <strong>접속 정지 조항은 끝내 발효되지 않았고</strong>, 저작권심판소를 통한 소액 배상(최대 NZ$15,000)만 작동하다 사실상 사문화됐다.<sup>6</sup></li><li><strong>미국·영국:</strong> 강제적 법제 대신 ISP들의 자율적 '경고 시스템'으로 후퇴했고, 그마저 대부분 종료됐다.</li></ul>
+<p>세계가 "효과는 없고 권리 침해만 크다"는 결론으로 수렴하며 단계적 대응을 거두는 동안, 한국은 가장 강한 조항을 <strong>법에 그대로 남겨 둔 채 발동만 자제하는</strong> 독특한 위치에 서 있다. 명문 규정의 강도와 실제 운용의 절제 사이의 간극 — 이것이 한국 삼진아웃제의 현주소다.</p>
+  </div>
+</section>
+<section class="section" id="sec-7">
+  <h2 class="section-title">무엇을 손봐야 하나</h2>
+  <div class="prose">
+<p>방향은 '저작권 무책임'이 아니다. 핵심은 <strong>제재의 강도와 절차적 보호를 비례시키는 것</strong>이다.</p>
+<ol><li><strong>사법적 통제의 복원.</strong> 계정 정지·게시판 폐쇄처럼 표현의 통로를 통째로 끊는 중대한 제재는, 행정명령이 아니라 법원의 판단을 거치도록 해야 한다. 적어도 사전 통지와 충분한 이의제기·반론 절차가 보장돼야 한다.</li><li><strong>비례성의 명문화.</strong> 게시판 폐쇄 같은 집단적 제재는 침해의 규모·고의성에 엄격히 비례하도록 요건을 좁히고, 합법 콘텐츠에 대한 피해를 최소화하는 안전장치를 둬야 한다.</li><li><strong>잠자는 조항의 정리.</strong> 거의 발동되지 않는 가장 강한 제재를 법에 무한정 방치하는 것은 법적 불확실성을 키운다. 국제적 흐름과 실효성 평가에 비추어, 접속 차단형 제재의 존치 여부를 입법적으로 재검토할 때가 됐다.</li></ol>
+  </div>
+</section>
+<section class="section" id="sec-8">
+  <h2 class="section-title">마치며</h2>
+  <div class="prose">
+<p>한국의 저작권 삼진아웃제는 '세계 최초'라는 타이틀과 '세계가 거둔 칼'이라는 평가를 동시에 짊어지고 있다. 법전에는 계정과 게시판을 행정명령으로 끊는 가장 강한 권한이 살아 있지만, 실무는 그 권한을 거의 쓰지 않는다. 이 절제는 다행이되, 제도의 정당성을 자동으로 보증하지는 않는다.</p>
+<p>[글#7 「임시조치」]의 신고 기반 차단, [글#13 「매개자 책임」]의 면책 부재, [글#5 「온라인 표현의 자유」]의 행정 심의가 모두 그렇듯, 삼진아웃제 역시 <strong>'먼저 끊고 나중에 따진다'는 한국 인터넷 거버넌스의 오래된 문법</strong> 안에 있다. 저작권 보호라는 정당한 목적이, 표현의 통로를 행정 권한으로 끊는 수단과 만날 때 — 그 경계를 어디에 그을 것인가. 세계가 칼을 거두는 지금, 세계 최초로 칼을 뽑았던 나라가 답해야 할 질문이다.</p>
+  </div>
+</section>
+<section class="section" id="sec-9">
+  <h2 class="section-title">핵심 용어 간추리기</h2>
+  <div class="prose">
+<div class="table-wrap"><table><thead><tr><th>용어</th><th>뜻</th></tr></thead><tbody><tr><td><strong>삼진아웃제 / 단계적 대응(graduated response)</strong></td><td>경고가 누적될수록 제재 강도가 단계적으로 높아지는 저작권 집행 방식. 마지막 단계가 계정 정지·접속 차단</td></tr><tr><td><strong>시정명령(저작권법 §133의2)</strong></td><td>문화체육관광부장관이 심의를 거쳐 OSP에 내리는 강제력 있는 행정명령. 경고·삭제·접속차단·계정 정지·게시판 폐쇄</td></tr><tr><td><strong>시정권고(§133의3)</strong></td><td>한국저작권보호원이 OSP에 내리는 강제력 없는 권고. 실무 대부분이 여기서 처리됨</td></tr><tr><td><strong>계정 정지</strong></td><td>경고 3회 이상 누적 시 6개월 이내로 이용자 계정을 정지하도록 명하는 가장 강한 제재 중 하나</td></tr><tr><td><strong>게시판 폐쇄</strong></td><td>삭제 명령 3회 이상 누적된 게시판을 6개월 이내로 정지. 집단적 제재라는 비판</td></tr><tr><td><strong>오버블로킹</strong></td><td>침해물 차단을 노린 조치가 합법적 표현까지 함께 차단하는 현상</td></tr></tbody></table></div>
+  </div>
+</section>
+<section class="section" id="sec-10">
+  <h2 class="section-title">참고문헌</h2>
+  <div class="prose">
+<p class="footnote-def"><sup>1</sup>저작권법 제133조의2(정보통신망을 통한 불법복제물등의 삭제명령 등) — 2009. 4. 22. 신설, 같은 해 7. 23. 시행 — 국가법령정보센터 https://www.law.go.kr/lsEfInfoP.do?lsiSeq=148848 ; 찾기 쉬운 생활법령정보 「불법복제물의 폐기, 삭제 및 계정 정지명령 등」 https://easylaw.go.kr/CSP/CnpClsMainBtr.laf?popMenu=ov&amp;csmSeq=695&amp;ccfNo=2&amp;cciNo=2&amp;cnpClsNo=2</p>
+<p class="footnote-def"><sup>2</sup>저작권법 제133조의3(시정권고 등) — CaseNote https://casenote.kr/법령/저작권법/제133조의3 ; 저작권법 시행령 제72조의3(계정 정지 명령의 절차와 방법) — LBOX 법령 https://lbox.kr/v2/statute/저작권법시행령</p>
+<p class="footnote-def"><sup>3</sup>한국저작권보호원(2016. 9. 30. 설립) 및 저작권보호심의위원회 — 저작권법 제122조의2·제122조의6 — 위키백과 https://ko.wikipedia.org/wiki/한국저작권보호원 ; 한국저작권보호원 https://www.kcopa.or.kr/</p>
+<p class="footnote-def"><sup>4</sup>Frank La Rue, <em>Report of the Special Rapporteur on the promotion and protection of the right to freedom of opinion and expression</em>, A/HRC/17/27 (2011. 5.) — 단계적 대응·접속 차단의 적법절차·비례성 비판, 한국을 2009년 7월 최초 도입국으로 명시 — OHCHR https://www2.ohchr.org/english/bodies/hrcouncil/docs/17session/A.HRC.17.27_en.pdf</p>
+<p class="footnote-def"><sup>5</sup>Rebecca Giblin, "Evaluating Graduated Response" — 프랑스·뉴질랜드·대만·한국·영국·아일랜드·미국 단계적 대응의 실효성 검증, 목표 달성 증거 미약 결론 — SSRN https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2198116</p>
+<p class="footnote-def"><sup>6</sup>프랑스 HADOPI 접속 차단 제재 2013년 폐지 및 2022년 ARCOM 재편 — Wikipedia, "HADOPI law" https://en.wikipedia.org/wiki/HADOPI_law ; 뉴질랜드 등 단계적 대응의 쇠퇴 — Wikipedia, "Graduated response" https://en.wikipedia.org/wiki/Graduated_response ; Electronic Frontier Foundation, "Korea Stands Against Three Strikes" (2013) https://www.eff.org/deeplinks/2013/03/korea-stands-against-three-strikes</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 12일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

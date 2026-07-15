@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>온라인 표현의 자유와 임시조치 제도 | net.or.kr</title>
+<meta name="description" content="한국의 게시물 삭제 메커니즘은 누구를 보호하는가">
+<meta property="og:title" content="온라인 표현의 자유와 임시조치 제도">
+<meta property="og:description" content="한국의 게시물 삭제 메커니즘은 누구를 보호하는가">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+  .prose pre{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;margin:0 0 16px;}
+  .prose pre code{background:none;color:#cbd5e1;padding:0;font-size:13px;line-height:1.6;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #07 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">온라인 표현의 자유와 임시조치 제도</h1>
+    <p class="article-subtitle">한국의 게시물 삭제 메커니즘은 누구를 보호하는가</p>
+    <div class="article-meta">
+      <span>2026년 6월 13일 발행</span>
+      <span>약 9분 읽기</span>
+      <span class="tag">임시조치</span><span class="tag">표현의자유</span><span class="tag">정보통신망법</span><span class="tag">notice-and-takedown</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-1"><span>01</span> 들어가며</a></li><li><a href="#sec-2"><span>02</span> 연대기 한눈에</a></li><li><a href="#sec-3"><span>03</span> 1장 — 임시조치 제도의 구조: 법조문 뒤에 숨은 메커니즘</a></li><li><a href="#sec-4"><span>04</span> 2장 — 과잉차단과 표현의 자유 위축</a></li><li><a href="#sec-5"><span>05</span> 3장 — 헌법재판소의 판단: 합헌, 그러나 5:4</a></li><li><a href="#sec-6"><span>06</span> 4장 — 해외 비교: 한국만의 특수성</a></li><li><a href="#sec-7"><span>07</span> 5장 — 실무 가이드: 내 게시물이 임시조치 당했을 때</a></li><li><a href="#sec-8"><span>08</span> 나가며 — 누구를 보호하는 제도인가</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">들어가며</h2>
+  <div class="prose">
+<p>글#5 「온라인 표현의 자유」에서 우리는 임시조치(블라인드) 제도를 표현 규제의 핵심 구조 중 하나로 소개했다. 글#3 「창과 방패의 역사」는 국가가 불법 콘텐츠를 막기 위해 어떤 기술을 동원해 왔는지를 네트워크 계층으로 추적했다. 이 글은 그 연장선에서, 플랫폼이 <strong>법적 의무</strong>에 따라 어떤 게시물을 어떻게 지우는지를 집중 해부한다.</p>
+<p>시나리오는 단순하다. 당신이 대기업 제품의 결함을 고발하는 글을 올렸다. 며칠 뒤 해당 게시물은 "블라인드" 처리돼 사라진다. 이유는 모른다. 언제 돌아올지도 모른다. 이의를 제기하는 방법도 불분명하다. 이것이 한국에서 2007년부터 제도화된 <strong>임시조치(notice-and-takedown)</strong> 의 일상적 풍경이다.</p>
+<p>정보통신망법 제44조의2는 시민의 표현을 플랫폼 수준에서 조용히 지우는 강력한 메커니즘이다. 신청자의 일방적 주장만으로 게시물은 30일간 차단되고, 피해를 입을 수 있는 게재자는 사전에 방어할 기회조차 얻지 못한다. 이 제도가 <strong>피해자 보호 장치인지, 과잉차단 도구인지</strong>, 이 글은 그 경계를 면밀히 들여다본다.</p>
+  </div>
+</section>
+<section class="section" id="sec-2">
+  <h2 class="section-title">연대기 한눈에</h2>
+  <div class="prose">
+<div class="table-wrap"><table><thead><tr><th>시기</th><th>사건</th><th>쟁점</th><th>결과</th></tr></thead><tbody><tr><td>2007.1.26</td><td><strong>정보통신망법 제44조의2 신설</strong></td><td>임시조치 제도 도입</td><td>권리침해 주장만으로 30일 차단</td></tr><tr><td>2007</td><td><strong>사업자 자율규제 KISO 출범</strong></td><td>임시조치 자율 기준 마련</td><td>법적 강제력 없음</td></tr><tr><td>2012</td><td><strong>국회 개정안 논의 시작</strong></td><td>이의신청(재개시) 절차 도입 논의</td><td>통과 실패, 계속 계류</td></tr><tr><td>2020.4.23</td><td><strong>헌법재판소 합헌 결정</strong></td><td>임시조치 위헌 여부</td><td>재판관 5:4 합헌, 강한 위헌 반대의견</td></tr><tr><td>2022</td><td><strong>국가인권위원회 권고</strong></td><td>공인·공익 정보 임시조치 대상 제외, 재게시 요구권 법제화</td><td>정부·국회 수용 여부 미확정</td></tr><tr><td>2024</td><td><strong>EU DSA 본격 시행</strong></td><td>신뢰할 수 있는 신고자·투명성 의무</td><td>한국 제도와 큰 격차 드러남</td></tr><tr><td>2025</td><td><strong>22대 국회 개정안 재발의</strong></td><td>이의신청·재개시 절차 명문화</td><td>국회 계류 중</td></tr></tbody></table></div>
+  </div>
+</section>
+<section class="section" id="sec-3">
+  <h2 class="section-title">1장 — 임시조치 제도의 구조: 법조문 뒤에 숨은 메커니즘</h2>
+  <div class="prose">
+<h3>제44조의2의 작동 원리</h3>
+<p>정보통신망법 제44조의2는 인터넷 게시물 삭제를 둘러싼 권리관계를 규율한다. 핵심은 두 개의 경로다.</p>
+<p><strong>경로 1 — 삭제 요청(제1항):</strong> 자신의 권리가 침해됐다고 주장하는 자는 정보통신서비스 제공자에게 해당 정보의 <strong>삭제·차단을 요청</strong>할 수 있다. 플랫폼은 지체 없이 삭제·차단 여부를 결정하고 결과를 요청자에게 알려야 한다.</p>
+<p><strong>경로 2 — 임시조치(제4항):</strong> 플랫폼이 권리침해 여부를 판단하기 어렵거나 당사자 간 다툼이 예상되는 경우, 해당 정보에 대한 접근을 <strong>최대 30일간 임시적으로 차단</strong>할 수 있다. 이 기간 동안 플랫폼은 삭제요청자로부터의 법적 책임에서 <strong>면책</strong>된다.</p>
+<p>핵심 문제는 실무에서 두 경로가 사실상 하나로 수렴한다는 점이다. <strong>플랫폼은 권리침해 여부를 독자적으로 판단할 유인이 없다.</strong> 분쟁에 휘말릴 위험을 피하려면 임시조치(경로 2)를 선택하는 것이 합리적이다. 면책이 보장되기 때문이다. 그 결과 신청자가 권리침해를 "주장"하는 것만으로 사실상 자동에 가까운 30일 차단이 이루어진다.</p>
+<h3>신청 절차 — 신청자에게만 쉬운 문</h3>
+<p>임시조치 신청 절차는 신청자에게 매우 낮은 문턱을 세운다. 플랫폼별로 차이가 있지만 일반적으로는 다음 정도면 충분하다.</p>
+<ol><li>피해를 주장하는 정보의 URL 특정</li><li>침해 유형 선택 (명예훼손·사생활침해·저작권 등)</li><li>피해 사실의 간략한 기술</li><li>연락처 제출</li></ol>
+<p>반면 <strong>게재자(정보 작성자)</strong> 의 위치는 비대칭적이다. 자신의 게시물이 차단됐다는 사실을 알게 되는 것 자체가 우연에 기대야 하는 경우가 많다. 법은 플랫폼에게 게재자에게 통보할 의무를 명시적으로 규정하지 않으며, 이의신청 절차도 자율 규약에 맡겨져 있다. KISO(한국인터넷자율정책기구)가 자율 기준으로 재게시 요구 창구를 운영하지만, 법적 강제력이 없어 플랫폼별 대응이 불균일하다.</p>
+  </div>
+</section>
+<section class="section" id="sec-4">
+  <h2 class="section-title">2장 — 과잉차단과 표현의 자유 위축</h2>
+  <div class="prose">
+<h3>누가 임시조치를 요청하는가</h3>
+<p>임시조치 신청 통계를 살펴보면 구조적 문제가 선명해진다. 국내 주요 포털의 임시조치 현황에서 반복적으로 등장하는 패턴이 있다.</p>
+<ul><li><strong>기업 대 소비자:</strong> 제품 결함, 서비스 불만, 내부 고발성 폭로 — "명예훼손" 명목으로 신청</li><li><strong>공인 대 시민:</strong> 공직자·기업인의 의혹을 제기한 게시물 — "사실적시 명예훼손" 명목으로 신청</li><li><strong>전 연인 대 전 연인:</strong> 이별 후 분쟁, 일방적 주장 — 내용 검증 없이 30일 차단</li></ul>
+<p>이중 상당 비율은 게시물 내용이 사실이거나 공익적임에도 신청된다. 그리고 현행법은 사전 검증 절차가 없다 — 신청자의 일방적 주장만으로 게재자의 표현은 30일간 사라진다.</p>
+<h3>위축효과(Chilling Effect) — 보이지 않는 검열</h3>
+<p>임시조치의 더 깊은 문제는 <strong>가시적 차단보다 가시적이지 않은 억제</strong>에 있다. 한 번이라도 임시조치를 경험한 시민은, 다음 번에는 아예 글을 쓰지 않는다. 공인 비판, 기업 고발, 의혹 제기 — 이 모두가 선제적 자기검열의 대상이 된다.</p>
+<p>글#3 「창과 방패의 역사」에서 국가 수준의 DNS·SNI 차단이 표현의 공간을 기술적으로 좁혀 왔다고 분석했다면, 임시조치는 <strong>법적 메커니즘으로 같은 결과</strong>를 만든다. 차이는 투명성이다 — 국가가 IP를 차단하면 차단 사실이라도 보이지만, 임시조치는 신청자와 플랫폼 사이의 조용한 거래로 게재자 모르게 진행된다.</p>
+<p>학계에서는 이를 "<strong>사적 검열(private censorship)</strong>"의 공적 제도화라고 부른다. 국가가 직접 콘텐츠를 삭제하지 않고, 면책이라는 인센티브를 통해 플랫폼이 자발적으로 지우도록 유도하는 구조다.</p>
+  </div>
+</section>
+<section class="section" id="sec-5">
+  <h2 class="section-title">3장 — 헌법재판소의 판단: 합헌, 그러나 5:4</h2>
+  <div class="prose">
+<h3>2020년 결정 — 합헌의 논리</h3>
+<p>2020년 4월 헌법재판소는 정보통신망법 제44조의2의 임시조치 조항에 대해 <strong>합헌</strong> 결정을 내렸다. 재판관 9인 중 5인이 합헌 의견을 냈다. 다수 의견의 핵심 논리는 다음과 같다.</p>
+<p>첫째, 임시조치는 <strong>영구 삭제가 아닌 30일의 한시적 차단</strong>이다. 표현의 자유에 대한 제한이 있으나, 그 제한은 일시적이며 회복 가능하다. 둘째, 플랫폼에게 차단 여부의 <strong>재량</strong>이 주어진다 — 의무적 차단이 아니므로 과잉금지 원칙 위반이 아니다. 셋째, 온라인 명예훼손 피해는 확산 속도가 빠르고 회복이 어렵다는 점에서, 피해자 보호를 위한 <strong>신속한 임시 조치의 필요성</strong>이 인정된다.</p>
+<h3>반대의견 — 4인의 위헌론</h3>
+<p>그러나 4인 재판관의 반대의견은 강렬했다. 그 요지는 이렇다.</p>
+<blockquote><p>"권리침해의 주장만으로 게시물을 차단하는 것은, 아직 침해 여부가 확정되지 않은 표현에 대해 사실상의 처벌을 가하는 것과 같다. 피해 주장자의 일방적 신청에 따라 게재자의 표현이 30일간 소멸되는 구조는 당사자 대립 구조의 기본 원칙에 반하며, 과잉금지 원칙을 위반한다."</p></blockquote>
+<p>4인의 위헌 반대의견이 존재한다는 사실은 제도의 취약성을 법률적으로도 공인한다. 5:4의 합헌은 합헌이되, 그것이 '이 제도가 옳다'는 의미는 아니다.</p>
+  </div>
+</section>
+<section class="section" id="sec-6">
+  <h2 class="section-title">4장 — 해외 비교: 한국만의 특수성</h2>
+  <div class="prose">
+<h3>미국 DMCA — 역신청(counter-notice)의 균형추</h3>
+<p>미국 저작권법 제512조(DMCA)의 notice-and-takedown 제도는 한국 임시조치와 자주 비교된다. 구조적 유사성이 있지만, 결정적 차이가 하나 있다: <strong>counter-notice(역신청) 제도</strong>.</p>
+<p>미국에서 저작권 침해를 이유로 게시물이 삭제되면, 게재자는 counter-notice를 제출해 자신의 표현이 정당하다고 주장할 수 있다. 플랫폼은 이를 원래 신청자에게 통보하고, <strong>10~14일 내에 신청자가 소송을 제기하지 않으면 게시물을 복원</strong>해야 한다. 즉, 원저자의 방어권이 법에 명시돼 있다.</p>
+<p>한국 임시조치 제도에는 이 역신청 메커니즘이 없다. 게재자가 법적 으로 보장된 이의신청 경로를 갖지 못한다.</p>
+<p>물론 DMCA에도 한계가 있다. 대상이 저작권 침해에 국한되고, 명예훼손·사생활 침해에는 적용되지 않는다. 또한 자동화 봇(bot)을 이용한 대량 takedown 남용 문제가 미국에서도 심각하다. 다만 <strong>counter-notice</strong>라는 최소한의 균형추가 존재한다는 점이 한국과의 결정적 차이다.</p>
+<h3>EU DSA — 시스템 수준의 투명성 의무</h3>
+<p>2024년부터 본격 시행된 EU의 <strong>디지털서비스법(Digital Services Act, DSA)</strong>은 notice-and-takedown을 더 고도화된 틀로 다룬다.</p>
+<p>DSA의 핵심 혁신은 두 가지다.</p>
+<p>첫째, <strong>신뢰할 수 있는 신고자(trusted flagger) 제도.</strong> 테러 콘텐츠, 아동 성착취, 증오 발언 등 특정 유형의 불법 콘텐츠 탐지에 전문성을 가진 단체를 국가기관이 인증하고, 이들의 신고는 일반 신고보다 우선 처리된다. 한국의 임시조치처럼 누구나 주장만으로 차단을 요청하는 것이 아니라, 신고자의 <strong>전문성과 책임</strong>이 제도의 신뢰를 뒷받침한다.</p>
+<p>둘째, <strong>투명성 의무.</strong> 2024년 2월부터 모든 중개 서비스 사업자는 콘텐츠 조정 현황 — 수신한 삭제 명령 수, 조치 건수, 자동화 시스템 오류율 — 을 연 1회 이상 공개해야 한다. 2025년 7월부터는 표준화된 기계판독 가능 포맷으로 보고가 의무화됐다. 2026년 2월에는 첫 번째 표준화 보고서가 공개됐다.</p>
+<p>한국에서는 이런 투명성 의무가 없다. 플랫폼은 임시조치 건수를 자율적으로 공개하거나 하지 않을 수 있고, 공개하더라도 포맷이 제각각이다.</p>
+<h3>비교 요약</h3>
+<div class="table-wrap"><table><thead><tr><th>요소</th><th>한국(임시조치)</th><th>미국(DMCA 512)</th><th>EU(DSA)</th></tr></thead><tbody><tr><td>신청 요건</td><td>권리침해 "주장"</td><td>권리침해 + 선서 진술</td><td>불법 콘텐츠 신고 + 이유</td></tr><tr><td>게재자 방어권</td><td>법적 보장 없음</td><td>counter-notice 제도</td><td>플랫폼 내부 불복 절차 의무</td></tr><tr><td>차단 기간</td><td>최대 30일</td><td>복원 전까지(10~14일)</td><td>처리 기간 명시</td></tr><tr><td>투명성 의무</td><td>없음(자율)</td><td>없음(자율)</td><td>연간 보고 의무</td></tr><tr><td>신뢰된 신고자</td><td>없음</td><td>없음</td><td>국가 인증 체계</td></tr><tr><td>면책 요건</td><td>임시조치 시 자동 면책</td><td>safe harbor 조건부</td><td>신속·비중립적 처리</td></tr></tbody></table></div>
+<p>글#4 「망 중립성」에서 다뤘듯, 한국의 인터넷 규제는 종종 <strong>사업자 편의(면책)와 속도</strong>를 우선시하고, 이용자 권리의 절차적 보호는 후순위로 밀리는 경향이 있다. 임시조치 제도는 그 경향의 가장 선명한 사례다.</p>
+  </div>
+</section>
+<section class="section" id="sec-7">
+  <h2 class="section-title">5장 — 실무 가이드: 내 게시물이 임시조치 당했을 때</h2>
+  <div class="prose">
+<h3>Step 1 — 차단 사실과 이유를 확인한다</h3>
+<p>게시물이 갑자기 보이지 않는다면, 먼저 해당 플랫폼의 고객센터나 콘텐츠 관리 페이지에서 <strong>임시조치 여부와 사유</strong>를 확인한다. 대부분의 플랫폼은 임시조치 시 게재자에게 이메일·알림으로 통보하도록 자율 기준을 운영하지만 그렇지 않은 경우도 있다.</p>
+<p>확인할 사항:</p>
+<ul><li>임시조치 신청일</li><li>차단 사유(명예훼손·사생활침해·저작권 등)</li><li>차단 기간(30일 이내)</li></ul>
+<h3>Step 2 — 플랫폼에 재게시 요청을 한다</h3>
+<p>30일이 경과하기 전에 <strong>플랫폼 고객센터에 재게시(재개시) 요청</strong>을 할 수 있다. 이 절차는 법적 의무가 아닌 자율 운영이므로 플랫폼마다 응답이 다르지만, KISO 회원사(네이버·카카오 등)는 이의신청 접수 경로를 운영한다.</p>
+<p>요청 시 도움이 되는 내용:</p>
+<ul><li>게시물이 사실에 기반했음을 뒷받침하는 증거</li><li>게시물이 공익 목적임을 설명하는 진술</li><li>신청자의 주장이 과장·허위임을 보여주는 반박 자료</li></ul>
+<h3>Step 3 — 방심위 명예훼손분쟁조정부 조정 신청</h3>
+<p>방송통신심의위원회(방심위) 산하 <strong>명예훼손분쟁조정부</strong>에 분쟁조정을 신청할 수 있다. 임시조치 남용으로 자신의 표현이 부당하게 차단됐다고 주장하는 경우, 조정 결과에 따라 재게시 또는 보상이 이루어질 수 있다. 조정은 소송보다 신속하고 비용이 적게 드는 장점이 있다.</p>
+<h3>Step 4 — 법적 대응</h3>
+<p>임시조치가 부당하다고 판단되면 민사·형사 양 방향의 법적 대응이 가능하다.</p>
+<ul><li><strong>민사:</strong> 신청자를 상대로 <strong>불법행위에 기한 손해배상</strong> 청구. 허위 사실을 주장해 임시조치를 남용한 경우, 신청자에게 위자료 청구가 가능하다.</li><li><strong>형사:</strong> 허위 사실로 임시조치를 남용한 경우 <strong>무고</strong> 또는 <strong>업무방해</strong>로 고소할 수 있는 여지가 있으나, 실제 기소로 이어지는 사례는 드물다.</li><li><strong>가처분:</strong> 법원에 게시물 복원을 구하는 가처분을 신청할 수 있다. 긴급성이 인정되는 경우 임시조치 기간 내 복원을 명할 수 있다.</li></ul>
+<h3>예방: 글을 올리기 전에</h3>
+<ul><li><strong>공인 비판은 사실에 근거</strong>해 작성하고, 주요 사실을 뒷받침하는 자료를 보관한다.</li><li><strong>의혹 제기 시 추정임을 명시</strong>한다 — "~로 보인다", "~는 의혹이 있다"와 같은 표현이 법적 다툼에서 유리하게 작용할 수 있다.</li><li>원문 게시물의 <strong>스크린샷·캡처본</strong>을 별도로 보관한다. 임시조치 후 플랫폼에서 원본을 확인하기 어렵게 되는 경우가 있다.</li></ul>
+  </div>
+</section>
+<section class="section" id="sec-8">
+  <h2 class="section-title">나가며 — 누구를 보호하는 제도인가</h2>
+  <div class="prose">
+<p>임시조치 제도는 설계 의도 자체는 정당하다. 온라인 명예훼손·사생활침해는 확산 속도가 빠르고 피해 회복이 어렵다. 피해자가 법원 판결을 기다리는 동안 게시물이 수만 명에게 공유되는 현실을 무시할 수 없다.</p>
+<p>그러나 설계된 메커니즘은 그 의도를 배반한다. 주장만으로 차단이 가능하고, 게재자에게 사전 방어 기회가 없으며, 플랫폼은 면책 인센티브로 적극적 차단을 선택한다. 결과적으로 임시조치는 <strong>강자가 약자의 목소리를 지우는 도구</strong>로 전용되기에 최적화된 구조가 됐다.</p>
+<p>글#6 「AI 기본법」에서 살펴봤듯, 한국은 디지털 규제에서 "산업 진흥과 이용자 보호의 균형"을 자주 선언하지만, 구체적인 절차권은 늘 후순위다. 임시조치도 같은 패턴이다 — 피해자 보호를 명분으로 설계됐으나, 정작 그것이 억압할 수 있는 표현을 보호하는 절차는 빠져 있다.</p>
+<p>헌법재판소의 5:4 합헌은 이 제도가 위태로운 균형 위에 서 있음을 보여준다. 4인의 위헌 반대의견은 사라진 것이 아니라, 다음 개정 논의에서 언제든 소환될 수 있는 법리적 자원이다.</p>
+<p>22대 국회에 계류 중인 개정안 — 이의신청·재개시 절차 명문화, 공인·공익 사안의 임시조치 요건 강화 — 이 어떤 형태로든 통과되려면, 시민이 이 제도의 구조를 이해하고 그 개혁을 요구해야 한다. 침묵은 동의가 아니지만, 이 제도는 침묵을 제도화한다.</p>
+<p><em>다음 글에서는 잊힐 권리 — 검색 결과 삭제 요청과 개인정보 자기결정권의 현실을 다룰 예정입니다.</em></p>
+<p><strong>참고 자료</strong></p>
+<ul><li>정보통신망 이용촉진 및 정보보호 등에 관한 법률 제44조의2</li><li>KISO저널: 「정보통신망법상 임시조치 개정안의 문제점」</li><li>국가인권위원회 보도자료: 「정보통신망법상 임시조치 규정 개정 권고」(2022)</li><li>EU 디지털서비스법(DSA) 제22조 — Trusted Flaggers</li><li>미국 저작권법 제512조(DMCA) — 역신청(counter-notice) 절차</li><li>방송통신심의위원회 명예훼손분쟁조정부 운영 현황</li></ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 13일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

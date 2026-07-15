@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>패킷을 들여다보는 기계 — DPI의 작동 원리와 영장 없는 검열의 구조 | net.or.kr</title>
+<meta name="description" content="2019년 HTTPS SNI 차단 이후 한국의 DPI(심층 패킷 검사) 기술이 어떻게 작동하는지, 통신비밀보호법상 '감청'과의 경계는 어디인지, 그리고 ECH·QUIC 이후 검열의 다음 수는 무엇인지를 기술·법·제도 세 층위에서 분석한다.">
+<meta property="og:title" content="패킷을 들여다보는 기계 — DPI의 작동 원리와 영장 없는 검열의 구조">
+<meta property="og:description" content="'헤더만 본다'는 방통위 해명, 통비법상 감청 해당 여부, 미국 Smith/Carpenter 판례와의 비교, ECH 이후의 군비경쟁까지 DPI 논쟁 전체를 짚는다.">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+  .prose pre{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;margin:0 0 16px;}
+  .prose pre code{background:none;color:#cbd5e1;padding:0;font-size:13px;line-height:1.6;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .prose .footnote-def{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 8px;}
+  .prose .footnote-def sup{color:var(--amber);font-weight:700;margin-right:4px;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #11 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">패킷을 들여다보는 기계 — DPI의 작동 원리와 영장 없는 검열의 구조</h1>
+    <p class="article-subtitle">'헤더만 본다'는 해명, 통비법상 감청 경계, 그리고 ECH 이후 검열의 다음 수</p>
+    <div class="article-meta">
+      <span>2026년 6월 17일 발행</span>
+      <span>약 15분 읽기</span>
+      <span class="tag">DPI</span><span class="tag">심층패킷검사</span><span class="tag">SNI차단</span><span class="tag">HTTPS차단</span><span class="tag">통신비밀</span><span class="tag">감청</span><span class="tag">영장주의</span><span class="tag">검열</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-1"><span>01</span> 들어가며</a></li>
+      <li><a href="#sec-2"><span>02</span> DPI란 무엇인가 — 봉투와 내용물</a></li>
+      <li><a href="#sec-3"><span>03</span> 한국에서 DPI는 어떻게 쓰이나</a></li>
+      <li><a href="#sec-4"><span>04</span> 감청인가 아닌가 — 법의 회색지대</a></li>
+      <li><a href="#sec-5"><span>05</span> 비교법 — 다른 나라는 어디까지 허용하나</a></li>
+      <li><a href="#sec-6"><span>06</span> 암호화의 진화와 검열의 다음 수</a></li>
+      <li><a href="#sec-7"><span>07</span> 앞으로의 과제 — 투명성과 통제</a></li>
+      <li><a href="#sec-8"><span>08</span> 마치며</a></li>
+      <li><a href="#sec-9"><span>09</span> 핵심 용어 간추리기</a></li>
+      <li><a href="#sec-10"><span>10</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">들어가며</h2>
+  <div class="prose">
+<p>2019년 2월, 어떤 사이트들에 접속하려던 이용자들의 브라우저에 갑자기 "연결이 재설정되었습니다"라는 오류가 떴다. 주소창에는 분명 <code>https://</code>가 붙어 있었고, 암호화된 보안 접속이었는데도 그랬다. 방송통신위원회가 불법 도박·성인물 사이트 895곳을 대상으로 HTTPS 접속 차단을 시작한 날이었다.<sup><a href="#fn1" id="fnref1">1</a></sup></p>
+<p>이전까지의 차단은 단순했다. 도메인 이름을 IP로 바꿔주는 DNS 단계에서 막거나(DNS 차단), 암호화되지 않은 HTTP 요청의 주소를 읽어 경고 페이지로 돌리는(HTTP 차단) 방식이었다. 그런데 HTTPS는 통신 내용을 암호화한다. 봉투를 뜯지 않고 어떻게 차단할까. 답은 봉투에 적힌, 아직 암호화되지 않은 한 줄 — <strong>SNI(Server Name Indication)</strong> — 을 읽는 것이었다. 그리고 패킷의 그 한 줄을 실시간으로 읽어내는 기술이 바로 <strong>DPI(Deep Packet Inspection, 심층 패킷 검사)</strong>다.</p>
+<p>당시 청와대 국민청원에는 "감청 기법을 동원한 인터넷 검열의 시초"라며 반대하는 서명이 20만 명을 넘어 25만 명을 돌파했다.<sup><a href="#fn1" id="fnref1b">1</a></sup> 방통위는 "암호화되지 않고 공개된 SNI 필드만 보는 것이므로, 통신 내용을 들여다보는 감청과는 무관하다"고 해명했다.<sup><a href="#fn2" id="fnref2">2</a></sup> 이 한 문장의 공방 — <em>"헤더만 본다" 대 "그것도 감청이다"</em> — 이 이 글이 다루려는 전체 쟁점을 압축한다.</p>
+<p><a href="../02-wiretapping-and-privacy/">글#2 「감청과 프라이버시」</a>가 통신의 <em>내용</em>을 들여다보는 감청을, <a href="../22-telecom-data-provision-warrant-korea/">글#22 「통신자료 제공」</a>이 통신의 <em>주체</em>를 특정하는 가입자 정보 수집을 다뤘다면, 이 글은 그 사이 — 통신이 <em>어디로 향하는지</em>를 패킷 차원에서 읽어내는 기술과 그 법적 공백을 다룬다. <a href="../08-esni-ech-censorship-arms-race/">글#8 「ESNI/ECH 이후의 검열 군비경쟁」</a>이 암호화의 진화를 따라갔다면, 이 글은 그 암호화를 뚫으려는 검사 장치 쪽의 이야기다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-2">
+  <h2 class="section-title">DPI란 무엇인가 — 봉투와 내용물</h2>
+  <div class="prose">
+
+<h3>얕은 검사와 깊은 검사</h3>
+<p>네트워크를 흐르는 데이터는 '패킷(packet)'이라는 작은 단위로 쪼개져 전송된다. 각 패킷은 <strong>헤더(header)</strong>와 <strong>페이로드(payload)</strong>로 나뉜다. 헤더는 편지 겉봉투에, 페이로드는 봉투 안 내용물에 해당한다.</p>
+<p>검사의 깊이는 무엇을 볼 수 있는지를 결정한다.</p>
+<ul>
+  <li><strong>얕은 패킷 검사(Shallow Packet Inspection, L3/L4):</strong> IP 헤더(출발지·목적지 IP 주소)와 TCP/UDP 헤더(포트 번호, 플래그)만 본다. 방화벽의 기본 접근제어목록(ACL)이 여기에 해당한다. <em>누가 어느 IP의 어느 포트로 접속했는가</em>는 알 수 있지만, <em>무엇을 보냈는가</em>는 알 수 없다.</li>
+  <li><strong>심층 패킷 검사(Deep Packet Inspection, L7):</strong> 페이로드, 즉 응용 계층(application layer)의 실제 데이터까지 들여다본다. HTTP의 URL·Host 헤더·쿠키, TLS ClientHello의 SNI 필드, DNS 쿼리의 도메인명 등이 검사 대상이 된다. 포트 번호만으로는 구별되지 않는 응용 프로토콜을 식별하고, 내용 기반 정책을 적용할 수 있다.</li>
+</ul>
+<p>핵심 구분은 이것이다. 얕은 검사가 봉투의 받는 주소만 본다면, 심층 검사는 봉투를 열어 내용물까지 본다. 다만 TLS(HTTPS)가 적용되면 페이로드 자체는 암호화돼 읽을 수 없다. 그럼에도 <strong>암호화가 시작되기 전 협상 과정에서 오가는 평문 메타데이터</strong> — 대표적으로 SNI — 는 여전히 노출된다. DPI가 HTTPS 시대에도 무력해지지 않는 이유가 여기에 있다.</p>
+
+<h3>무엇을 근거로 판단하나 — 탐지의 세 층위</h3>
+<p>DPI가 트래픽을 분류·차단하는 방식은 대략 세 층위로 나뉜다.</p>
+<p><strong>시그니처 매칭(signature matching).</strong> 알려진 프로토콜·애플리케이션의 특징적 바이트 패턴을 데이터베이스로 보유하고 패킷에서 그 패턴을 찾는다. 예컨대 BitTorrent 핸드셰이크는 <code>\x13BitTorrent protocol</code>이라는 고정된 바이트 시퀀스로 시작한다. 정확하고 빠르지만, 새롭거나 의도적으로 변형된 프로토콜에는 취약하다.</p>
+<p><strong>휴리스틱 분석(heuristic analysis).</strong> 특정 패턴이 아니라 트래픽의 통계적 특성 — 패킷 크기 분포, 방향별 바이트 비율, 패킷 간 도착 시간, 세션 지속시간 — 을 종합해 프로토콜을 추정한다. 시그니처가 없거나 암호화된 트래픽에도 어느 정도 적용되지만 오탐(false positive)이 늘어난다.</p>
+<p><strong>머신러닝 기반 분류(ML-based classification).</strong> 대량의 트래픽 샘플을 학습해 분류 모델을 만든다. 암호화된 Tor 트래픽과 일반 HTTPS의 통계적 차이, VPN 프로토콜 식별, 스트리밍과 파일 전송의 구분 등에 쓰인다. 학술 연구에서는 암호화된 트래픽도 상당한 정확도로 분류할 수 있다는 보고가 이어진다. 다만 고속 네트워크에서 실시간 처리에 드는 컴퓨팅 비용과, 프로토콜이 업데이트되면 학습 데이터의 특성이 변하는 '드리프트(drift)' 문제가 현실적 제약으로 남는다.</p>
+<p>이 세 층위는 검열·차단의 진화 방향을 예고한다. SNI 같은 평문 식별자가 사라지면(시그니처가 무력화되면), 검사는 자연히 통계·기계학습 쪽으로 이동한다.</p>
+
+<h3>누가 만드나 — DPI 시장</h3>
+<p>DPI 장비는 통신사와 기업 네트워크에서 트래픽 관리, 보안, 정책 집행 용도로 광범위하게 판매되는 성숙한 상용 시장이다. Sandvine(구 Procera Networks 합병)은 글로벌 ISP 시장에서 점유율이 높은 솔루션으로 꼽히며, 일부 권위주의 국가의 인터넷 차단·셧다운에 자사 장비가 동원됐다는 시민단체·연구기관의 보고가 반복돼 인권 논란의 중심에 서기도 했다. Cisco, Nokia(구 Alcatel-Lucent) 등도 통신사 코어 네트워크용 DPI·트래픽 분석 플랫폼을 공급한다.</p>
+<p>국내 통신 3사(SKT·KT·LGU+)가 어떤 벤더의 어떤 장비를 어디에 배치했는지는 공개 정보가 제한적이다. 망 운영의 영업비밀로 다뤄지기 때문이다. 바로 이 <strong>불투명성</strong> 자체가 뒤에서 다룰 제도적 쟁점의 한 축이다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-3">
+  <h2 class="section-title">한국에서 DPI는 어떻게 쓰이나</h2>
+  <div class="prose">
+
+<h3>트래픽 관리에서 차단으로</h3>
+<p>한국의 통신사는 DPI를 오래전부터 '트래픽 관리' 목적으로 도입해 왔다. 망 혼잡 구간 식별, P2P 트래픽 대역폭 제한, 기업 고객 서비스 품질(QoS) 보장 같은, 표면적으로 중립적인 용도가 먼저였다. 이 지점은 <a href="../03-net-neutrality-korea/">글#3 「망 중립성」</a>과 맞닿아 있다 — 같은 장비가 '관리'에도 '차단'에도 쓰일 수 있다는 사실이 핵심이다.</p>
+<p>차단 목적의 사용이 가시화된 첫 계기는 HTTP Host 헤더 기반 차단이었다. HTTPS가 보편화되기 전, 통신사는 방송통신심의위원회의 차단 목록에 오른 도메인에 대해 HTTP 패킷의 Host 헤더를 읽어 차단하거나 경고 페이지(이른바 'warning.or.kr')로 리다이렉트했다. 이는 헤더를 넘어 응용 계층을 읽는 L7 검사 없이는 불가능한 방식이다.</p>
+<p>2019년 SNI 차단은 이 검사가 <strong>TLS 계층까지 확장</strong>됐음을 뜻한다. SNI 필드는 TLS 핸드셰이크의 ClientHello 메시지 안에서 — 아직 암호화 채널이 수립되기 전이라 — 평문으로 전송된다. DPI 장비는 TCP 세그먼트를 재조합하고 ClientHello를 파싱해 SNI를 추출한 뒤, 차단 목록과 대조해 일치하면 연결을 끊는다. 이것이 동작한다는 사실 자체가, 트래픽이 실제 통과하는 경로 위에 <strong>인라인(inline) DPI 장비</strong>가 놓여 있음을 기술적으로 함의한다.</p>
+
+<h3>결정과 집행의 분리 — 책임은 어디에</h3>
+<p>차단의 법적·기술적 수발신 구조는 이렇게 정리된다.</p>
+<pre><code>방심위(심의·결정) → 방통위(행정 처리) → 통신사(기술 집행)</code></pre>
+<p>방송통신심의위원회는 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」(정보통신망법) 제44조의7에 열거된 불법정보 — 음란물, 명예훼손, 도박, 국가보안법 위반 정보 등 — 를 심의하고, 사업자에게 처리 거부·정지·제한을 명하거나 접속차단을 요구한다.<sup><a href="#fn3" id="fnref3">3</a></sup> 심의는 행정기관(또는 그 위탁을 받은 민간위원회)의 판단이지 법원의 결정이 아니다. 그리고 그 집행은 DPI 장비를 소유·운영하는 통신사에 위탁된다.</p>
+<p>이 분업 구조의 핵심은 <strong>책임의 분산</strong>이다. 차단 목록과 정책은 행정기관이 정하고, 패킷을 실제로 들여다보는 장비는 사기업이 돌린다. '누가 검열을 결정했는가'와 '누가 패킷을 읽었는가'가 분리되면서, 책임 소재가 흐려진다.</p>
+
+<h3>2019년, "헤더만 본다"는 해명</h3>
+<p>2019년 2월 차단 당시 방통위의 핵심 논리는 "패킷의 내용이 아니라 헤더(SNI)만 본다"는 것이었다.<sup><a href="#fn2" id="fnref2b">2</a></sup> SNI가 TLS 핸드셰이크 메시지의 확장 필드에 해당한다는 기술적 사실 자체는 맞다. 그러나 그것이 <strong>법적 의미의 '통신 내용'인지 아닌지는 전혀 다른 문제</strong>다. 헤더라고 부른다고 해서 자동으로 '내용이 아닌 것'이 되지는 않는다. 방문하려는 웹사이트의 도메인명은, 그 사람이 무엇에 관심을 갖는지를 직접 드러내는 정보이기 때문이다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-4">
+  <h2 class="section-title">감청인가 아닌가 — 법의 회색지대</h2>
+  <div class="prose">
+
+<h3>통신비밀보호법이 정의하는 '감청'</h3>
+<p>「통신비밀보호법」(통비법) 제2조는 핵심 개념을 정의한다.</p>
+<ul>
+  <li><strong>제2조 제3호 "전기통신":</strong> "전화·전자우편·회원제정보서비스·모사전송·무선호출 등과 같이 유선·무선·광선 및 기타의 전자적 방식에 의하여 모든 종류의 음향·문언·부호 또는 영상을 송신하거나 수신하는 것."<sup><a href="#fn4" id="fnref4">4</a></sup></li>
+  <li><strong>제2조 제7호 "감청":</strong> "전기통신에 대하여 당사자의 동의 없이 전자장치·기계장치 등을 사용하여 통신의 음향·문언·부호·영상을 청취·공독하여 그 <strong>내용을 지득</strong> 또는 채록하거나 전기통신의 송·수신을 방해하는 것."<sup><a href="#fn4" id="fnref4b">4</a></sup></li>
+</ul>
+<p>DPI가 감청에 해당하느냐는, 결국 SNI를 읽는 행위가 "통신의 <strong>내용을 지득</strong>"하는 것인지에 달려 있다. 패킷 헤더와 SNI 같은 메타데이터를 읽는 것이 '내용 지득'인가, 아니면 통신의 외형적 속성만 보는 것인가. 이것이 2019년 이래 풀리지 않은 핵심 쟁점이다.</p>
+<p>여기에 한 가지 기술적 단서가 더해진다. 대법원은 통비법상 감청을 "전기통신의 <strong>송·수신과 동시에</strong>" 이루어지는 행위로 좁게 해석해 왔다. 이미 수신이 완료돼 저장된 통신을 들여다보는 것은 감청이 아니라는 것이다.<sup><a href="#fn5" id="fnref5">5</a></sup> SNI 차단은 패킷이 실시간으로 통과하는 순간에 이루어지므로 '동시성' 요건은 충족하는 셈인데, 그렇다면 남는 쟁점은 다시 '그것이 내용인가'로 수렴한다.</p>
+
+<h3>헤더는 메타데이터인가, 내용인가 — 미국의 두 판례</h3>
+<p>같은 논쟁을 먼저 겪은 미국 판례가 참고가 된다.</p>
+<p><strong>제3자 원칙(Smith v. Maryland, 1979).</strong> 미 연방대법원은 통화번호 기록장치(pen register)가 수집하는 전화번호에 대해, 이용자가 통화 연결을 위해 전화회사에 자발적으로 넘긴 정보이므로 프라이버시의 합리적 기대가 없고 따라서 수정헌법 제4조의 보호를 받지 않는다고 보았다.<sup><a href="#fn6" id="fnref6">6</a></sup> SNI도 "접속 목적지를 알리기 위해 네트워크에 자발적으로 노출하는 정보"라는 논리로, 보호 대상이 아니라고 주장할 여지가 여기서 나온다.</p>
+<p><strong>기술로 강화된 감시(Carpenter v. United States, 2018).</strong> 그러나 같은 대법원은 휴대폰 기지국 위치정보에 대해 정반대 결론을 냈다. 위치 기록이 누적되면 개인의 행동 전체를 재구성하는 "기술적으로 강화된 감시"가 되므로, 제3자가 보유한 정보라 해도 영장이 필요하다고 본 것이다.<sup><a href="#fn7" id="fnref7">7</a></sup> 어떤 웹사이트에 접속했는지의 목록 — SNI 기록의 집적 — 은 개인의 종교·정치 성향·건강 상태를 직접 드러낼 수 있다는 점에서, Carpenter의 논리가 유추 적용될 여지가 크다.</p>
+<p>요컨대 같은 미국 안에서도 '메타데이터는 보호 대상이 아니다'(Smith)와 '메타데이터의 집적은 내용만큼 위험하다'(Carpenter)가 충돌한다. 한국 통비법은 내용과 메타데이터의 구분을 명시적 조문으로 두고 있지 않아, 해석의 여지가 특히 넓다는 점이 구조적 약점이다.</p>
+
+<h3>행정 심의와 영장주의의 충돌</h3>
+<p>여기서 제도적 긴장이 또렷해진다.</p>
+<ol>
+  <li>통비법은 전기통신 감청에 <strong>법원 영장</strong>을 요구한다(제5조).</li>
+  <li>만약 SNI 기반 차단이 '감청'에 해당한다면, 영장 없이 방통위 행정 처리만으로 시행된 차단은 통비법 위반이 된다.</li>
+  <li>그러나 정보통신망법 제44조의7은 영장 없이 <strong>행정 심의·요구</strong>만으로 불법정보 접속차단이 가능하도록 규정한다.<sup><a href="#fn3" id="fnref3b">3</a></sup></li>
+  <li>두 법이 충돌하는 지점에서, DPI 차단의 정당성은 결국 헌법적 해석의 문제가 된다.</li>
+</ol>
+<p>차단을 다툰 헌법소원·소송에서 법원은 표현의 자유나 알 권리 측면을 주로 검토했을 뿐, <strong>'SNI 검사가 통비법상 감청인가'라는 핵심 물음에 대한 확정 판례는 아직 비어 있다.</strong> 기술은 앞서가는데 법은 아직 그 행위를 무엇이라 부를지조차 정하지 못한 상태다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-5">
+  <h2 class="section-title">비교법 — 다른 나라는 어디까지 허용하나</h2>
+  <div class="prose">
+<p><strong>유럽연합.</strong> ePrivacy Directive(전자통신 프라이버시 지침)와 GDPR이 결합된 체계에서, 통신의 내용은 물론 메타데이터도 엄격한 보호를 받는다. 네트워크 사업자가 트래픽 관리 외의 목적으로 패킷 내용을 읽으려면 명시적 동의나 별도의 법적 근거가 필요하다. ePrivacy 규정의 개정 논의는 메타데이터 처리 기준을 더 강화하는 방향으로 진행돼 왔다. 망 중립성 규정(Regulation 2015/2120) 또한 DPI를 동원한 차별적 트래픽 처리를 원칙적으로 제한한다.</p>
+<p><strong>미국.</strong> 전자통신프라이버시법(ECPA, 1986)은 통신의 내용(content)과 비내용(non-content) 정보를 구분해, 내용 취득에는 감청 영장을, 메타데이터에는 더 완화된 법원 명령을 요구한다. 1986년의 이 법이 현대 인터넷을 거의 고려하지 못했다는 비판이 미국 내에서도 끊이지 않는다. 그럼에도 내용/비내용의 명시적 구분이라는 골격은 한국 통비법에 없는 해석 기준을 제공한다.</p>
+<p><strong>한국의 위치.</strong> 한국의 DPI 기반 차단은 <em>법원의 개입이 전혀 없는 행정 심의</em>로 운용된다는 점에서 비교법적으로 장벽이 낮은 편이다. 내용/메타데이터 구분이 법문에 없어 'SNI 검사가 무엇인가'라는 질문 자체가 미결로 남아 있고, 차단 결정에 사법적 통제가 닿지 않는다. <a href="../22-telecom-data-provision-warrant-korea/">글#22</a>에서 본 가입자 정보 제도와 마찬가지로, 한국 시민이 자신의 트래픽 검사에 맞설 수 있는 법적 도구는 상대적으로 성기다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-6">
+  <h2 class="section-title">암호화의 진화와 검열의 다음 수</h2>
+  <div class="prose">
+<p>SNI 차단은 등장과 거의 동시에 무력화되기 시작했다. 암호화 기술이 SNI라는 평문 식별자 자체를 지워가고 있기 때문이다. 이 군비경쟁의 기술적 디테일은 <a href="../08-esni-ech-censorship-arms-race/">글#8</a>에서 깊이 다뤘으므로, 여기서는 DPI의 관점에서만 짚는다.</p>
+<p><strong>ECH(Encrypted Client Hello).</strong> TLS의 ClientHello 메시지 전체를 서버 공개키로 암호화해, SNI를 포함한 협상 정보를 외부에서 볼 수 없게 만든다. ECH가 보편화되면 SNI 시그니처 매칭은 근본적으로 무력해진다.</p>
+<p><strong>QUIC / HTTP/3.</strong> HTTP/3는 TCP 대신 UDP 기반의 QUIC 위에서 동작하며, QUIC은 TLS 1.3 암호화를 전송 계층에 통합한다. 페이로드 검사는 불가능해지고, 일부 차단 시스템은 아예 UDP 443 포트(QUIC)를 막아 브라우저가 TCP 기반 HTTP/2로 폴백하도록 유도하는 식으로 대응한다.</p>
+<p>그렇다면 DPI는 끝나는가. 그렇지 않다. 검열의 무기는 <strong>콘텐츠 식별에서 패턴 분석으로</strong> 이동한다.</p>
+<ul>
+  <li><strong>트래픽 지문화(traffic fingerprinting):</strong> 내용을 못 읽어도 패킷의 크기·방향·타이밍의 패턴은 노출된다. 이 통계적 지문으로 어떤 사이트·서비스에 접속했는지를 추정하는 연구가 학계에 꾸준히 쌓여 있다. 앞서 본 휴리스틱·머신러닝 층위가 바로 이 영역이다.</li>
+  <li><strong>IP 기반 차단:</strong> SNI가 암호화돼도 목적지 IP는 평문이다. 다만 Cloudflare·Fastly 같은 CDN이 다수 사이트를 같은 IP로 묶어 서비스하는 구조 때문에, IP 차단은 무관한 사이트까지 함께 막는 과잉 차단(overblocking)을 낳는다.</li>
+  <li><strong>DNS 단 차단:</strong> ECH 설정은 DNS의 HTTPS 레코드(type 65)로 배포된다. 이 DNS 조회를 DoH/DoT로 보호하지 않으면, ECH가 활성화되기 전에 DNS 단계에서 끊어버릴 수 있다.</li>
+</ul>
+<p>도메인 프론팅(domain fronting) — CDN의 같은 IP를 경유해 차단되지 않은 도메인으로 위장하던 우회 기법 — 은 2018년 구글과 아마존이 자사 클라우드에서 정책적으로 차단하면서 사실상 막혔다. 기술적으로 불가능해진 것이 아니라 <strong>사업자의 정책 결정</strong>으로 닫혔다는 점이 중요하다. 검열과 우회의 향방이 기술만이 아니라 소수 거대 플랫폼의 선택에 좌우된다는 사실을 보여주기 때문이다.</p>
+<p>이후 검열 저항 도구들은 Tor의 obfs4·meek·Snowflake 같은 '플러거블 트랜스포트(pluggable transport)'로 옮겨갔다. 이들은 Tor 트래픽이 DPI에서 Tor로 식별되지 않도록 외형을 변조한다 — 즉, <strong>DPI의 패턴 분석에 맞서 패턴 자체를 위장하는</strong> 단계로 군비경쟁이 올라선 것이다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-7">
+  <h2 class="section-title">앞으로의 과제 — 투명성과 통제</h2>
+  <div class="prose">
+<p>DPI를 둘러싼 진짜 문제는 "차단이 옳은가 그른가"가 아니라 "<strong>그 결정을 누가, 어떤 절차로, 어떤 감시 아래 내리는가</strong>"다. 현재 한국의 구조에는 세 가지 공백이 있다.</p>
+<p><strong>① 차단 통계의 불투명성.</strong> 방심위가 차단한 도메인·URL의 수, 심의 분류, 갱신 빈도는 체계적으로 공개되지 않는다. 통신사도 차단 관련 투명성 보고서를 별도로 내지 않는다. 비교하자면 구글·클라우드플레어는 정부의 콘텐츠 차단 요청 건수와 이행 비율을 정기적으로 공개한다. 차단 대상·기준·절차·통계의 정기 공개를 법제화하는 것은 남용 방지의 최소 요건이다.</p>
+<p><strong>② DPI 운영에 대한 독립 감사의 부재.</strong> DPI 장비가 어디에 놓여 있고 어떤 정책이 적용되며 수집 데이터가 어떻게 처리되는지는 사실상 통신사 내부 사안으로 남아 있다. 독립된 기술 전문가 집단이나 개인정보보호위원회·국가인권위원회 같은 기관이 운영 범위와 방식을 정기 감사하고 결과를 공개하는 구조가 필요하다.</p>
+<p><strong>③ 사법적 통제의 결여.</strong> 차단 결정이 행정 심의에 머무는 한, '내용 지득인가'라는 통비법 쟁점도, 표현의 자유·알 권리 침해 여부도 사전에 법원의 판단을 거치지 못한다. 차단의 사법적 통제 — 적어도 사후적 다툼의 실질적 경로 — 를 제도화하는 일이 남는다.</p>
+<p>2019년의 SNI 차단 청원은 DPI를 처음으로 대중적 논쟁의 장으로 끌어냈다. 그러나 기술이 진보해 SNI 차단의 효력이 약해지자 공론화의 동력도 함께 식었다. 다음 국면은 더 어렵다. ECH·QUIC·플러거블 트랜스포트가 평문 식별자를 지워가면, 당국은 더 고도화된 트래픽 분석과 통계적 추정으로 대응할 것이고, 그 작동은 일반 이용자가 눈으로 확인하기 더 어려워진다. 검열이 보이지 않을수록, 그것을 보이게 만드는 제도 — 투명성·감사·사법 통제 — 의 무게는 더 커진다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-8">
+  <h2 class="section-title">마치며</h2>
+  <div class="prose">
+<p>DPI는 망 중립성, 통신 비밀, 표현의 자유라는 세 가지 헌법적 긴장이 한 점에서 교차하는 기술이다. 한국에서 이 기술은 영장 없는 행정 심의와 결합해 운용되고 있으며, 그 법적 정당성 — 특히 'SNI 검사가 통비법상 감청인가'라는 핵심 물음 — 은 아직 충분히 답해지지 않았다.</p>
+<p>특정 차단 방식의 효력이 기술 발전으로 떨어지는 것은, 어느 쪽에도 영구적 승리가 없는 군비경쟁의 일부다. 중요한 것은 그 경쟁의 규칙을 누가 어떤 절차로 정하느냐다. 차단 기술의 고도화가 법적 통제와 투명성 요구를 앞서가는 지금의 구조는, 기술적 논쟁 이전에 민주주의적 통제의 문제다. 패킷을 들여다보는 기계가 망 한가운데에 놓여 있다는 사실 자체보다, 그 기계를 누가 어떤 감시 아래 작동시키는지를 시민이 알 수 없다는 사실이 더 무겁다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-9">
+  <h2 class="section-title">핵심 용어 간추리기</h2>
+  <div class="prose">
+<div class="table-wrap"><table>
+<thead><tr><th>용어</th><th>설명</th></tr></thead>
+<tbody>
+<tr><td><strong>DPI (심층 패킷 검사)</strong></td><td>패킷의 헤더를 넘어 페이로드(응용 계층 데이터)까지 검사하는 기술. L7 검사라고도 한다</td></tr>
+<tr><td><strong>헤더 / 페이로드</strong></td><td>패킷의 겉봉투(주소 등) / 내용물. 얕은 검사는 헤더만, 심층 검사는 페이로드까지 본다</td></tr>
+<tr><td><strong>SNI (Server Name Indication)</strong></td><td>TLS ClientHello에 평문으로 담기는 접속 목적지 도메인명. HTTPS에서도 노출돼 차단의 표적이 된다</td></tr>
+<tr><td><strong>ECH (Encrypted Client Hello)</strong></td><td>ClientHello 전체를 암호화해 SNI까지 가리는 TLS 확장. SNI 차단을 근본적으로 무력화한다</td></tr>
+<tr><td><strong>인라인 DPI</strong></td><td>트래픽이 실제 통과하는 경로에 놓여 실시간 검사·차단하는 장비. SNI 차단의 동작이 이를 전제한다</td></tr>
+<tr><td><strong>트래픽 지문화</strong></td><td>내용을 못 읽어도 패킷 크기·타이밍·방향 패턴으로 접속처를 추정하는 기법. ECH 이후 검열의 다음 무기</td></tr>
+<tr><td><strong>통비법상 감청</strong></td><td>통신의 <em>내용을 지득</em>하는 행위(제2조 제7호). 법원 영장 필요. DPI가 이에 해당하는지가 미결 쟁점</td></tr>
+<tr><td><strong>정보통신망법 §44조의7</strong></td><td>불법정보 접속차단의 행정적 근거. 방심위 심의→방통위 요구→통신사 집행 구조</td></tr>
+<tr><td><strong>시그니처 매칭</strong></td><td>알려진 프로토콜의 바이트 패턴으로 트래픽을 식별하는 DPI 방식. 암호화로 무력화될 수 있다</td></tr>
+<tr><td><strong>플러거블 트랜스포트</strong></td><td>Tor 등 우회 도구의 트래픽이 DPI에 식별되지 않도록 외형을 변조하는 기술(obfs4, Snowflake 등)</td></tr>
+</tbody>
+</table></div>
+  </div>
+</section>
+
+<section class="section" id="sec-10">
+  <h2 class="section-title">참고문헌</h2>
+  <div class="prose">
+<p class="footnote-def"><sup><a href="#fnref1" id="fn1">1</a></sup> 2019년 2월 방통위의 HTTPS(SNI) 접속차단 시행(불법사이트 895곳)과 '인터넷 검열 반대' 청와대 국민청원 25만 명 돌파 — 뉴시스 「불법 음란물 막는 新기술, '인터넷 검열' 시초? 논란 확산」(2019. 2. 15.); YTN 「'https 차단 반대' 청와대 국민청원 21만 명 돌파… 방통위 "문제없다"」(2019. 2. 16.); 나무위키 「2019년 인터넷 검열 사건」</p>
+<p class="footnote-def"><sup><a href="#fnref2" id="fn2">2</a></sup> 방통위의 "암호화되지 않은 SNI 필드만 활용하므로 감청과 무관" 해명 — ZDNet Korea 「[기자수첩] 'SNI 감청' 억울하다는 방통위, '국민 의혹' 해소해야」(2019. 2. 15.); 「정부 HTTPS 불법사이트 차단 논란 4대 쟁점 분석」(2019. 2. 14.)</p>
+<p class="footnote-def"><sup><a href="#fnref3" id="fn3">3</a></sup> 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제44조의7(불법정보의 유통금지 등) 및 방송통신심의위원회 심의·방송통신위원회 시정요구·접속차단 구조 — 국가법령정보센터(law.go.kr)</p>
+<p class="footnote-def"><sup><a href="#fnref4" id="fn4">4</a></sup> 「통신비밀보호법」 제2조 제3호(전기통신)·제7호(감청) 정의 — 국가법령정보센터 「통신비밀보호법」; CaseNote 「통신비밀보호법 제2조」</p>
+<p class="footnote-def"><sup><a href="#fnref5" id="fn5">5</a></sup> 통비법상 '감청'은 전기통신의 송·수신과 동시에 이루어지는 경우에 한하고 이미 수신 완료된 통신의 내용 지득은 포함되지 않는다는 대법원 해석 — 나무위키 「통신비밀보호법」(판례 정리)</p>
+<p class="footnote-def"><sup><a href="#fnref6" id="fn6">6</a></sup> <em>Smith v. Maryland</em>, 442 U.S. 735 (1979) — pen register가 수집하는 통화번호에 대한 제3자 원칙(third-party doctrine). 수정헌법 제4조 보호 적용 불인정</p>
+<p class="footnote-def"><sup><a href="#fnref7" id="fn7">7</a></sup> <em>Carpenter v. United States</em>, 585 U.S. 296 (2018) — 휴대폰 기지국 위치정보(CSLI) 7일 이상 확보 시 영장 필요. '기술로 강화된 감시(comprehensive surveillance)' 논리로 제3자 원칙 한계 설정</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 17일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

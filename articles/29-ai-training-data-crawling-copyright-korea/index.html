@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 학습 데이터 크롤링과 저작권 — 한국의 TDM 예외 논쟁 | net.or.kr</title>
+<meta name="description" content="생성형 AI가 수십억 개의 저작물로 학습하는 동안 창작자는 동의도 보상도 받지 못했다. 한국 TDM 면책 입법 논쟁, 뉴스 퍼블리셔의 반격, robots.txt의 법적 공백, 일본·EU 비교.">
+<meta property="og:title" content="AI 학습 데이터 크롤링과 저작권 — 한국의 TDM 예외 논쟁">
+<meta property="og:description" content="생성형 AI가 수십억 개의 저작물로 학습하는 동안, 창작자는 동의도 보상도 받지 못했다 — TDM 면책 논쟁, 뉴스 퍼블리셔의 반격, robots.txt의 법적 공백, 일본·EU 비교">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .callout{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--amber);margin-bottom:8px;}
+  .callout p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .scenario-box{display:grid;gap:16px;margin:24px 0;}
+  .scenario{background:var(--bg2);border-radius:10px;padding:18px;border-left:3px solid var(--amber-dark);}
+  .scenario h4{font-size:15px;color:var(--amber-light);margin:0 0 10px;}
+  .scenario p{font-size:14px;color:#cbd5e1;margin:0;line-height:1.6;}
+
+  .verdict-box{background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .verdict-box .verdict-label{font-size:11px;font-weight:700;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--cyan-light);margin-bottom:8px;}
+  .verdict-box p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #29 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">AI 학습 데이터 크롤링과 저작권 — 한국의 TDM 예외 논쟁</h1>
+    <p class="article-subtitle">생성형 AI가 수십억 개의 저작물로 학습하는 동안, 창작자는 동의도 보상도 받지 못했다 — TDM 면책 입법 논쟁, 뉴스 퍼블리셔의 반격, robots.txt의 법적 공백, 일본·EU와의 비교</p>
+    <div class="article-meta">
+      <span>2026년 6월 27일 발행</span>
+      <span>약 40분 읽기</span>
+      <span class="tag">TDM</span><span class="tag">AI 학습 데이터</span><span class="tag">저작권</span><span class="tag">크롤링</span><span class="tag">robots.txt</span><span class="tag">뉴스 퍼블리셔</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-0"><span>00</span> 인트로 — AI가 읽은 모든 책의 저작권 청구서</a></li>
+      <li><a href="#sec-1"><span>01</span> 생성형 AI와 학습 데이터의 구조</a></li>
+      <li><a href="#sec-2"><span>02</span> 저작권법의 기본 — 복제권·데이터베이스권</a></li>
+      <li><a href="#sec-3"><span>03</span> 한국의 TDM 면책 논쟁</a></li>
+      <li><a href="#sec-4"><span>04</span> 뉴스 퍼블리셔 vs AI 분쟁</a></li>
+      <li><a href="#sec-5"><span>05</span> robots.txt와 AI 크롤러 차단</a></li>
+      <li><a href="#sec-6"><span>06</span> 비교법 — 일본의 광범위 TDM 예외</a></li>
+      <li><a href="#sec-7"><span>07</span> EU AI Act의 학습데이터 투명성 의무</a></li>
+      <li><a href="#sec-8"><span>08</span> 공정이용 vs TDM 면책의 법리</a></li>
+      <li><a href="#sec-9"><span>09</span> 디지털 권리 관점 — 세 권리의 충돌</a></li>
+      <li><a href="#sec-10"><span>10</span> 한국의 현황</a></li>
+      <li><a href="#sec-11"><span>11</span> 결론</a></li>
+      <li><a href="#sec-12"><span>12</span> 참고 자료</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-0">
+  <h2 class="section-title">인트로 — AI가 읽은 모든 책의 저작권 청구서</h2>
+  <div class="prose">
+<p>ChatGPT가 시 한 편을 써달라는 요청에 막힘없이 응답하고, 이미지 생성 AI가 특정 화가의 화풍을 완벽하게 재현한다. 이 능력의 원천은 수백억 개의 웹 문서, 뉴스 기사, 소설, 시, 코드, 이미지 — 대부분 저작권으로 보호받는 저작물들이다. 그리고 이 대규모 학습 과정에서 AI 기업들은 저작권자의 허락을 구하지 않았다.</p>
+<p>2023년 미국의 작가·예술가·음악가들이 줄줄이 소송을 제기하면서 논쟁이 본격화됐다. <em>뉴욕타임스</em>는 OpenAI와 Microsoft를 상대로 "내 기사를 무단으로 학습에 사용했다"며 소장을 냈다. 한국에서도 문화체육관광부가 AI 학습 목적의 <strong>'텍스트·데이터 마이닝(TDM)'</strong> 면책 조항 신설을 시도하자, 작가·언론사·음악 단체들이 강하게 반발했다.</p>
+<p>이 논쟁은 기술 vs 법의 충돌이 아니다. 창작자의 경제적 생존권, 공공의 정보 접근권, AI 혁신의 공공 이익, 그리고 자신의 데이터가 어떻게 쓰이는지 알고 선택할 권리 — 네 개의 정당한 이해가 충돌하는 정책 설계의 문제다.</p>
+<p>이 글은 생성형 AI 학습 데이터 문제를 법적·정책적으로 해부한다. TDM 면책의 법리, 한국의 입법 논쟁, 뉴스 퍼블리셔의 반격, robots.txt의 법적 효력, 일본·EU 비교법, 그리고 공정이용 vs 창작자 권리의 균형을 차례로 살펴본다. <a href="../06-ai-basic-act-korea/">글 #06(AI 기본법)</a>과 <a href="../20-copyright-three-strikes-graduated-response-korea/">글 #20(저작권 삼진아웃)</a>이 다루지 않은, AI 학습 데이터와 저작권 면책이라는 신규 쟁점을 집중 조명한다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">생성형 AI와 학습 데이터의 구조</h2>
+  <div class="prose">
+
+<h3>AI는 왜 대규모 데이터를 필요로 하는가</h3>
+<p>GPT, Claude, Gemini, LLaMA 같은 대형 언어 모델(LLM)은 수십억~수천억 개의 매개변수를 최적화하는 과정에서 방대한 텍스트 데이터를 학습한다. 학습 데이터의 규모와 질은 모델 성능에 직접 영향을 미치며, 현재 수준의 AI 능력은 인터넷 전체에 가까운 분량의 텍스트 없이는 구현되지 않는다.</p>
+<p>주요 학습 데이터 출처:</p>
+<ul>
+  <li><strong>Common Crawl</strong> — 매달 수십억 개 웹 페이지를 자동 수집하는 비영리 공개 데이터셋. GPT·LLaMA 등 대부분의 LLM이 활용한다.</li>
+  <li><strong>Books3, BookCorpus</strong> — 저작권 저서를 포함한 대규모 도서 데이터셋. 현재 복수의 저작권 소송에서 무단 이용 여부가 다투어지고 있다.</li>
+  <li><strong>뉴스 아카이브</strong> — 수십 년치 언론사 기사 전문. 뉴스 퍼블리셔의 주요 반발 대상이다.</li>
+  <li><strong>GitHub 코드</strong> — 오픈소스 라이선스 코드. 라이선스 조건 위반 여부도 논쟁 중이다.</li>
+  <li><strong>Wikipedia, 학술 논문</strong> — 비교적 이용 허락이 명확한 편이지만, 논문 전문 데이터셋은 출판사와 갈등을 빚는다.</li>
+</ul>
+
+<h3>크롤링이 저작권법에서 의미하는 것</h3>
+<p>AI 학습을 위한 웹 크롤링은 기술적으로 웹 콘텐츠를 자동으로 수집·복제하는 행위다. 저작권법 관점에서 이는 '복제'에 해당할 수 있다. 복제권은 저작자의 배타적 권리이므로, 허락 없는 복제는 원칙적으로 침해다.</p>
+
+<div class="callout">
+  <div class="callout-label">AI 기업의 항변 — 변환적 이용</div>
+  <p>"학습 과정에서 원문을 일시적으로 처리했지만, AI가 생성하는 출력은 원문의 복제가 아닌 새로운 창작물이다. 이는 사람이 책을 읽고 글쓰기를 배우는 것과 같다 — 배움 자체에 저작권 침해는 없다."<br><br>
+  이 <strong>변환적 이용(transformative use)</strong> 논리가 공정이용 판단의 핵심 쟁점이며, 법원이 아직 명확한 결론을 내리지 못한 영역이다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-2">
+  <h2 class="section-title">저작권법의 기본 — 복제권·데이터베이스권</h2>
+  <div class="prose">
+
+<h3>한국 저작권법의 구조</h3>
+<p>한국 저작권법은 저작자에게 복제권(제16조), 전송권(제18조) 등 배타적 권리를 부여한다. AI 학습 데이터와 가장 직접 연관된 조항은 다음과 같다.</p>
+
+<h4>복제권(제16조)</h4>
+<p>저작물을 유형물에 고정하거나 다시 제작하는 권리. 웹 크롤러가 콘텐츠를 서버에 저장하는 행위는 복제에 해당한다고 볼 여지가 크다.</p>
+
+<h4>공정이용(제35조의5)</h4>
+<p>"저작물의 통상적인 이용 방법과 충돌하지 아니하고 저작자의 정당한 이익을 부당하게 해치지 아니하는 경우에는 저작물을 이용할 수 있다"는 포괄적 공정이용 조항. 2011년 도입됐다. AI 학습이 이 조항에 해당하는지에 대해서는 학계에서도 견해가 갈린다.</p>
+
+<h3>데이터베이스 제작자 권리 (제93조~제96조)</h3>
+<p>한국 저작권법은 독자적인 데이터베이스 보호 규정을 두고 있다. 언론사 기사 모음, 음악 데이터베이스 등은 개별 저작물 저작권과 별도로 데이터베이스 제작자 권리의 보호를 받을 수 있다. AI 학습에 이러한 DB를 통째로 활용한다면 이 권리 침해도 쟁점이 될 수 있다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>저작권 관련 행위</th>
+      <th>적용 가능 조항</th>
+      <th>현황</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>웹 크롤링 → 서버 저장</td>
+      <td>복제권(제16조)</td>
+      <td>복제 해당 가능성 높음, 판례 없음</td>
+    </tr>
+    <tr>
+      <td>AI 모델 학습에 텍스트 활용</td>
+      <td>제35조의5(공정이용), 개정안 TDM</td>
+      <td>해석 미확립, 논쟁 중</td>
+    </tr>
+    <tr>
+      <td>언론사 DB 전체 수집</td>
+      <td>데이터베이스 제작자 권리(제93조)</td>
+      <td>침해 가능성, 소송 거의 없음</td>
+    </tr>
+    <tr>
+      <td>AI 출력이 원저작물 대체</td>
+      <td>저작재산권 전반</td>
+      <td>핵심 쟁점, 결론 없음</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-3">
+  <h2 class="section-title">한국의 TDM 면책 논쟁</h2>
+  <div class="prose">
+
+<h3>TDM이란 무엇인가</h3>
+<p>TDM(텍스트·데이터 마이닝, Text and Data Mining)은 대규모 텍스트·데이터 집합에서 통계적 패턴, 상관관계, 정보를 자동으로 추출·분석하는 기법이다. 학술 연구·감염병 역학 분석·금융 예측 등에 폭넓게 쓰여왔다. 생성형 AI 등장 이후 TDM의 규모와 상업적 활용이 폭발적으로 늘면서 면책 범위가 핵심 쟁점이 됐다.</p>
+
+<h3>문화체육관광부의 개정 시도</h3>
+<p>2023~2024년 문화체육관광부는 저작권법 개정을 통해 AI 학습 목적 TDM에 면책 조항을 신설하는 논의를 진행했다. 논의된 방향은 대략 <strong>"정보 분석을 위한 TDM은 영리 목적이더라도 저작권 침해로 보지 않는다"</strong>는 광범위 면책이었다. 이는 일본 저작권법 제30조의4와 유사한 방향이었다.</p>
+
+<h3>권리자 진영의 강력 반발</h3>
+<p>한국작가협회, 한국음악저작권협회, 한국신문협회, 사진작가협회 등 권리자 단체들은 강하게 반발했다. 반대 논거는 네 갈래다.</p>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>① 보상 없는 상업적 이용</h4>
+    <p>AI 기업은 저작물로 수익을 창출하면서 창작자에게는 아무런 대가도 지불하지 않는다. 플랫폼이 콘텐츠 창작자에게 수익을 나누는 것처럼, AI 기업도 학습 데이터 제공자에게 보상해야 한다.</p>
+  </div>
+  <div class="scenario">
+    <h4>② 동의권 침해</h4>
+    <p>창작자는 자신의 저작물이 어떤 목적으로 사용되는지 알고 선택할 권리가 있다. AI 학습에 쓰이는 것을 거부할 수 있어야 한다.</p>
+  </div>
+  <div class="scenario">
+    <h4>③ 대안의 존재</h4>
+    <p>전면 면책 대신 집중 라이선스 제도나 개별 협약을 통해 AI 기업과 권리자가 협상할 수 있다. 면책이 아니라 공정한 시장을 만들면 된다.</p>
+  </div>
+  <div class="scenario">
+    <h4>④ 창작 생태계 위협</h4>
+    <p>AI가 저작물을 무단 학습하고, 그 결과로 생성된 AI 콘텐츠가 창작자의 시장을 대체한다면, 장기적으로 새로운 창작물이 생산되는 생태계 자체가 위축된다.</p>
+  </div>
+</div>
+
+<div class="verdict-box">
+  <div class="verdict-label">2026년 6월 현재 상황</div>
+  <p>한국 저작권법의 TDM 면책 조항은 <strong>입법이 확정되지 않은 상태</strong>다. 문체부의 개정 논의는 권리자 단체의 반발과 이해관계자 간 견해 차이로 진전이 더딘 것으로 알려져 있다. <em>"개정 시도 중, 논쟁 진행 중"</em>이 현재 상태다 — 면책 조항이 신설됐다고 단정할 수 없으며, 최신 상황은 원문 법령·국회 심의 진행 상황을 반드시 확인해야 한다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-4">
+  <h2 class="section-title">뉴스 퍼블리셔 vs AI 분쟁</h2>
+  <div class="prose">
+
+<h3>국내 — 네이버·언론사 데이터 이용대가</h3>
+<p>국내에서는 AI 플랫폼의 뉴스 콘텐츠 학습·요약 서비스에 대한 이용대가 문제가 지속적으로 제기되고 있다. 한국신문협회, 한국방송협회 등 언론 단체들은 AI가 뉴스 기사를 학습·요약하면서 독자를 원문 기사 대신 AI 요약으로 유도해 언론사의 트래픽과 광고 수익을 빼앗는다고 주장한다.</p>
+<p>2024~2025년 네이버와 일부 언론사 사이에서 데이터 이용 협약 논의가 진행됐으나, 구체적 조건과 체결 여부는 대부분 공개되지 않거나 협상이 진행 중인 것으로 알려져 있다. AI 검색·요약 기능이 확대될수록 이 갈등은 구조화될 전망이다.</p>
+
+<h3>글로벌 — NYT v. OpenAI (2023~)</h3>
+<p>2023년 12월 뉴욕타임스(NYT)는 OpenAI와 Microsoft를 상대로 미국 남부 뉴욕지방법원에 저작권 침해 소송을 제기했다(1:23-cv-11195). NYT는 ChatGPT가 NYT 기사를 거의 그대로 재현하는 사례를 다수 증거로 제시하며, GPT 모델 학습에 NYT 기사가 무단 사용됐다고 주장했다.</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">NYT v. OpenAI 현황</div>
+  <p><strong>1:23-cv-11195 (S.D.N.Y., 2023년 12월 제기)</strong><br>
+  이 소송은 2026년 현재 진행 중이다. 핵심 쟁점: (1) AI 학습 과정에서의 저작물 복제가 공정이용에 해당하는가, (2) ChatGPT 출력이 저작물의 '시장 대체' 효과를 발생시켜 저작권자의 이익을 부당하게 침해하는가. 결론에 따라 AI 학습 데이터 법리가 근본적으로 재편될 수 있어 글로벌 AI 업계가 주시하고 있다.</p>
+</div>
+
+<p>미국에서는 NYT 외에도 시카고 트리뷴 발행사, AP 통신, 여러 도서 작가·음악가 단체가 AI 기업을 상대로 유사한 소송을 제기했거나 준비 중인 것으로 알려져 있다.</p>
+
+<h3>이미지 AI — Getty Images v. Stability AI</h3>
+<p>이미지 생성 AI 분야에서 Getty Images는 Stability AI(Stable Diffusion 개발사)를 상대로 영국 고등법원과 미국 델라웨어 지방법원에서 소송을 제기했다. Getty의 사진 수백만 장이 허락 없이 AI 학습에 사용됐다는 주장이다. 이 소송들도 진행 중이며, 학습 데이터 내 이미지 저작권의 법적 판단을 기다리고 있다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-5">
+  <h2 class="section-title">robots.txt와 AI 크롤러 차단의 법적 효력</h2>
+  <div class="prose">
+
+<h3>robots.txt란 무엇인가</h3>
+<p>robots.txt는 웹사이트 운영자가 검색엔진·크롤러에게 수집 허용/거부 범위를 알리는 텍스트 파일이다. 1994년 처음 제안된 비공식 인터넷 관행(Robots Exclusion Protocol)으로, 30년 이상 검색엔진 업계의 자발적 규범으로 준수됐다. 그러나 법적 표준이 아니기 때문에, 이를 무시한 크롤링에 법적 책임이 따르는지는 불분명하다.</p>
+
+<h3>AI 크롤러 식별자와 opt-out의 등장</h3>
+<p>2023년 OpenAI는 GPTBot이라는 자체 AI 학습 크롤러를 공개하고, <code>robots.txt</code>에 <code>User-agent: GPTBot / Disallow: /</code>를 추가하면 크롤링에서 제외하겠다고 밝혔다. 이후 주요 AI 기업들이 유사한 opt-out 메커니즘을 발표했다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>AI 기업</th>
+      <th>크롤러 식별자</th>
+      <th>opt-out 방식</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>OpenAI</strong></td>
+      <td>GPTBot</td>
+      <td>robots.txt에 GPTBot Disallow</td>
+    </tr>
+    <tr>
+      <td><strong>Google</strong></td>
+      <td>Google-Extended</td>
+      <td>robots.txt에 Google-Extended Disallow</td>
+    </tr>
+    <tr>
+      <td><strong>Anthropic</strong></td>
+      <td>ClaudeBot</td>
+      <td>robots.txt에 ClaudeBot Disallow</td>
+    </tr>
+    <tr>
+      <td><strong>Common Crawl</strong></td>
+      <td>CCBot</td>
+      <td>robots.txt에 CCBot Disallow</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>법적 효력의 공백</h3>
+<p>robots.txt를 무시한 크롤링의 법적 책임은 여러 이유로 불명확하다.</p>
+<ul>
+  <li>robots.txt는 법령이 아닌 자발적 관행이다. 이를 위반했다고 해서 자동으로 저작권 침해나 불법행위가 되지 않는다.</li>
+  <li>미국에서는 hiQ Labs v. LinkedIn 사건(9th Cir. 2022)에서 퍼블릭 데이터 스크래핑이 CFAA(컴퓨터 사기법) 위반이 아닐 수 있다고 판단했지만, 저작권 맥락에서의 판단은 다르다.</li>
+  <li>한국에서 robots.txt를 무시한 AI 크롤링이 저작권법 위반으로 이어지는지에 대한 명시적 판례는 없다.</li>
+</ul>
+
+<div class="callout">
+  <div class="callout-label">opt-out 구조의 근본적 한계</div>
+  <p><strong>기본값이 '학습 허용'이다.</strong> 저작권자가 적극적으로 opt-out을 선언하지 않으면 학습 대상이 된다. 권리자에게 부담을 전가하는 구조다.<br><br>
+  <strong>과거 데이터에는 소급 적용되지 않는다.</strong> 오늘 robots.txt를 갱신해도 이미 수집된 데이터를 학습에서 제거하도록 강제할 수단이 없다.<br><br>
+  <strong>소규모 창작자는 사실상 대응이 불가능하다.</strong> 개인 블로그·소규모 언론·커뮤니티 사이트는 robots.txt를 능동적으로 관리할 기술·인력이 없다. '동의 없는 이용 후 이의 제기' 구조는 데이터 자기결정권의 실질을 형해화한다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-6">
+  <h2 class="section-title">비교법 — 일본의 광범위 TDM 예외</h2>
+  <div class="prose">
+
+<h3>일본 저작권법 제30조의4 (2018년 개정)</h3>
+<p>일본은 2018년 저작권법 개정으로 제30조의4를 신설했다. 이 조항은 <strong>"저작물에 표현된 사상 또는 감정의 향수를 목적으로 하지 아니하는 경우"</strong>에는 필요한 한도에서 저작물을 이용할 수 있다고 규정한다. '정보 해석(데이터 마이닝·기계학습)'을 위한 저작물 이용이 대표적 적용 사례다.</p>
+
+<p>이 조항의 핵심 특징:</p>
+<ul>
+  <li><strong>영리 목적을 묻지 않는다.</strong> 상업적 AI 기업도 면책 혜택을 받는다.</li>
+  <li><strong>사전 허락이 필요 없다.</strong> 저작권자의 opt-out 의사 표시를 존중할 법적 의무도 원칙적으로 없다.</li>
+  <li><strong>예외 조항이 있다.</strong> 저작물의 "표현에 대한 향수"를 목적으로 한 이용 — 예컨대 AI가 특정 작가 스타일을 학습해 그 작가를 대체하는 상품을 만드는 경우 — 은 면책에서 제외된다는 해석이 있다.</li>
+</ul>
+
+<p>일본 문화청은 2024년 생성 AI와 저작권에 관한 가이드라인을 발표해 면책 범위를 부분적으로 명확화했다.</p>
+
+<div class="callout">
+  <div class="callout-label">일본 모델의 현재 한계</div>
+  <p>일본 모델은 AI 학습 데이터 측면에서 세계에서 가장 넓은 면책을 제공한다는 평가를 받는다. 그러나 최근 일본 창작자 단체에서도 비판이 커지고 있다. "AI 기업이 일본 창작물을 자유롭게 학습하면서 일본 창작자가 아무런 보상을 받지 못한다"는 문제 제기가 이루어지고 있으며, 면책 범위 재검토 논의가 진행 중이다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-7">
+  <h2 class="section-title">EU AI Act의 학습데이터 투명성 의무</h2>
+  <div class="prose">
+
+<h3>EU 저작권 지침의 TDM 면책 (2019/790)</h3>
+<p>EU는 2019년 '디지털 단일 시장 저작권 지침'(Copyright Directive 2019/790)을 통해 TDM 면책 구조를 법제화했다.</p>
+<ul>
+  <li><strong>제3조 (비영리 연구·교육 TDM):</strong> 학술 연구 등 비영리 목적 TDM은 광범위하게 허용된다.</li>
+  <li><strong>제4조 (영리적 TDM):</strong> 영리 목적 TDM은 원칙적으로 허용되지만, 저작권자가 기계 판독 가능한 방식으로 opt-out 의사를 표시한 경우 그 의사를 존중해야 한다. robots.txt를 명시적 opt-out 수단의 하나로 볼 수 있다.</li>
+</ul>
+
+<h3>EU AI Act — GPAI 투명성 의무 (2024)</h3>
+<p>2024년 8월 발효된 EU AI Act(Regulation 2024/1689) 제53조는 GPAI(범용 AI 모델 — GPT·Claude·Gemini 등)에 대해 다음을 의무화한다.</p>
+<ul>
+  <li>학습에 사용된 데이터의 종류, 출처, 범위를 기술 문서에 포함</li>
+  <li>EU 저작권 지침 준수 — 특히 제4조의 opt-out 존중 의무</li>
+  <li>저작권법 준수를 위한 내부 정책 마련 및 공개</li>
+</ul>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>국가/지역</th>
+      <th>TDM 면책 범위</th>
+      <th>저작권자 opt-out</th>
+      <th>투명성 의무</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>한국</strong></td>
+      <td>미확정 (논쟁 중)</td>
+      <td>법적 근거 없음</td>
+      <td>없음</td>
+    </tr>
+    <tr>
+      <td><strong>일본</strong></td>
+      <td>광범위 (영리 포함)</td>
+      <td>법적 의무 없음</td>
+      <td>없음</td>
+    </tr>
+    <tr>
+      <td><strong>EU</strong></td>
+      <td>조건부 (opt-out 존중)</td>
+      <td>법적 의무 있음</td>
+      <td>AI Act 제53조</td>
+    </tr>
+    <tr>
+      <td><strong>미국</strong></td>
+      <td>공정이용 (판례 미확립)</td>
+      <td>법적 의무 없음</td>
+      <td>없음 (입법 논의 중)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <div class="callout-label">EU 방식의 특징</div>
+  <p>EU 모델은 일본 모델과 달리 "영리 TDM도 허용하되 투명성과 opt-out 존중 의무를 부과"하는 절충 구조다. 전면 금지도, 전면 허용도 아닌 조건부 허용이다. 이 방식은 AI 혁신과 저작권 보호를 함께 추구하지만, 집행의 복잡성이 높다는 비판도 있다. EU AI Act의 투명성 의무는 EU 시장에 서비스하는 모든 GPAI에 적용되므로, 글로벌 AI 기업들도 이 기준을 맞춰야 한다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-8">
+  <h2 class="section-title">공정이용 vs TDM 면책의 법리</h2>
+  <div class="prose">
+
+<h3>미국의 공정이용 (Fair Use) — 4요소 분석</h3>
+<p>미국 저작권법(17 U.S.C. §107)의 공정이용은 4가지 요소로 판단된다.</p>
+<ol>
+  <li><strong>이용의 목적과 성격:</strong> 변환적 이용인가, 상업적인가</li>
+  <li><strong>저작물의 성격:</strong> 사실적 정보인가, 창작적 표현인가</li>
+  <li><strong>이용된 부분의 양과 질:</strong> 전체에서 얼마나, 얼마나 핵심적인 부분인가</li>
+  <li><strong>잠재적 시장에 미치는 영향:</strong> 저작물의 시장을 대체하는가</li>
+</ol>
+<p>AI 학습에서 가장 논쟁적인 요소는 1번과 4번이다. AI 기업들은 학습이 '변환적'이라 주장하고, 창작자들은 AI 출력이 자신들의 시장을 대체한다고 주장한다.</p>
+
+<h3>주요 참고 판례 — Authors Guild v. Google (2015)</h3>
+<p>자주 인용되는 <strong>Authors Guild v. Google, 804 F.3d 202 (2d Cir. 2015)</strong>에서 미국 제2항소법원은 Google Books의 전문 스캔·인덱싱을 공정이용으로 인정했다. 핵심 논거는 검색 기능이 원저작물의 새로운 정보(메타데이터, 검색 결과)를 제공하는 변환적 이용이라는 것이었다.</p>
+
+<div class="callout">
+  <div class="callout-label">Google Books 판례의 한계</div>
+  <p>이 판결이 AI 학습에 그대로 적용되는지는 별개 문제다. AI는 검색 인덱스가 아니라 인간이 읽는 것과 유사한 방식으로 저작물의 '내용'을 학습하고, 그 학습 결과를 바탕으로 원저작물을 대체할 수 있는 새로운 콘텐츠를 생성한다. 특히 4번 요소 — 시장 대체 효과 — 에서 AI와 Google Books는 근본적으로 다른 상황에 있다.</p>
+</div>
+
+<h3>한국의 공정이용 조항 — 두 견해의 대립</h3>
+<p>한국 저작권법 제35조의5는 미국 공정이용과 유사한 포괄적 조항으로, 아직 AI 학습에 적용된 판례가 없다. 학계에서는 다음과 같은 견해가 대립한다.</p>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>면책 가능론</h4>
+    <p>AI 학습은 저작물의 '표현'이 아닌 '정보·패턴'을 추출하는 행위이므로, 저작권이 보호하는 '표현의 복제'가 아니다. 학습 완료 후 원본 데이터를 삭제하면 복제물이 남지 않는다. 학습 행위 자체는 인간이 책을 읽고 배우는 것과 본질적으로 다르지 않다.</p>
+  </div>
+  <div class="scenario">
+    <h4>침해 가능론</h4>
+    <p>학습을 위해 원문을 서버에 저장하는 행위 자체가 복제다. AI 출력이 저작물 수요를 대체하면 시장 피해가 발생한다. 상업적 이용은 공정이용 판단에서 불리하게 작용하며, 대규모 무단 복제를 공정이용으로 정당화하는 것은 법의 취지에 반한다.</p>
+  </div>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-9">
+  <h2 class="section-title">디지털 권리 관점 — 세 권리의 충돌</h2>
+  <div class="prose">
+
+<h3>창작자의 권리</h3>
+<p>저작자는 자신의 창작물에 대한 경제적·도덕적 권리를 갖는다. 수년간의 노력이 담긴 소설이 AI 학습 데이터가 되고, 그 AI가 그 소설과 유사한 스타일의 텍스트를 대량 생산해 작가의 시장을 위협한다면, 이는 창작자 생태계의 지속가능성 문제다.</p>
+<p>특히 한국 작가·삽화가·번역가 등 <em>'개인 창작자'</em>들은 대형 플랫폼이나 콘텐츠 기업에 비해 협상력이 없다. AI 기업과 개별 협상을 할 수 없는 이들이 사실상 무방비 상태에 놓여 있다.</p>
+
+<h3>공공의 정보 접근권과 AI 혁신</h3>
+<p>AI 기술의 발전은 의학 진단, 교육 접근성, 장애인 보조, 언어 번역 등 공공 이익과 연결된다. 지나치게 엄격한 저작권 규제는 AI 혁신을 제약하고, 결과적으로 시민의 정보 접근 기회와 공공 이익에도 부정적 영향을 미칠 수 있다.</p>
+<p>공개된 인터넷 정보를 연구·분석하는 행위 자체를 금지하거나 지나치게 비용화하면, 소규모 연구자·대학·비영리 기관이 가장 먼저 타격을 받는다. '허락 없는 연구 금지'는 지식 생산 자체를 위협할 수 있다.</p>
+
+<h3>데이터 거버넌스와 자기결정권</h3>
+<p>핵심 권리는 '알 권리'와 '선택할 권리'다. 창작자는 자신의 저작물이 어떤 AI 모델 학습에 사용됐는지 알아야 하고, 동의하지 않을 경우 실질적으로 거부할 수 있어야 한다.</p>
+<p>현재 opt-out 구조는 이 요건을 충족하지 못한다. 저작권자가 직접 robots.txt를 설정해야 하고, 이미 수집된 데이터는 소급 삭제가 어려우며, 소규모 창작자는 사실상 대응 수단이 없다.</p>
+
+<h3>집중 라이선스 — 대안의 가능성과 한계</h3>
+<p>일부 학자와 단체는 TDM 전면 면책이냐 전면 금지냐의 이분법 대신 <strong>집중 라이선스(Collective Licensing)</strong> 제도를 대안으로 제시한다.</p>
+<p>저작권 집중관리단체(CMO)를 통해 AI 기업이 일괄 라이선스를 구입하고, 그 수익을 창작자에게 분배하는 구조다. 음악 스트리밍(멜론·Spotify가 한국음악저작권협회·ASCAP에 내는 라이선스)의 유사 모델이다.</p>
+
+<div class="callout">
+  <div class="callout-label">집중 라이선스의 과제</div>
+  <p>집중 라이선스도 어려운 문제를 안고 있다: '얼마를 낼 것인가', '어떻게 추적하고 분배할 것인가'. 이미 수억 개의 문서가 혼재된 학습 데이터에서 개별 저작물의 기여도를 측정하는 것은 기술적으로 극도로 어렵다. 창작자 중에서도 누가 더 많이 기여했는지를 공정하게 산정하는 방법론이 아직 확립돼 있지 않다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-10">
+  <h2 class="section-title">한국의 현황</h2>
+  <div class="prose">
+
+<h3>2026년 6월의 교착 상태</h3>
+<p>한국은 AI 학습 데이터 관련 저작권법 개정이 이루어지지 않은 상태다. TDM 면책 조항 신설 논의는 이해관계자 간 견해 차이가 좁혀지지 않아 진전이 더딘 것으로 알려져 있다. 권리자 단체는 "AI 기업에 면죄부를 주는 입법"이라고 반발하고, AI 업계는 "불확실성이 AI 혁신을 저해한다"고 호소한다.</p>
+
+<h4>실무 현황</h4>
+<ul>
+  <li>국내 AI 기업들은 저작권 불확실성 속에서 학습 데이터 수집을 계속하고 있다.</li>
+  <li>일부 기업은 공개 데이터셋 위주로 학습 데이터를 구성하거나, 자체 라이선스 계약을 체결하는 방식을 택하고 있다.</li>
+  <li>언론사·음악·출판 업계를 중심으로 AI 이용대가 요구가 높아지고 있다.</li>
+</ul>
+
+<h3>AI 기본법(제6조)과의 관계</h3>
+<p>2026년 시행된 AI 기본법(<a href="../06-ai-basic-act-korea/">글 #06에서 다룸</a>)은 AI 개발·활용의 기본 원칙을 규정하지만, 학습 데이터 저작권에 대한 구체적 조항은 포함하지 않는다. 저작권법과 AI 기본법의 교차 영역에서 발생하는 규제 공백이 현재의 불확실성을 만들고 있다.</p>
+
+<h3>글로벌 AI 기업의 한국 저작물 이용</h3>
+<p>OpenAI·Anthropic·Google 등 글로벌 AI 기업들이 한국어 웹 콘텐츠를 Common Crawl 등을 통해 학습에 활용하고 있으나, 한국 저작물의 이용 범위와 방식은 대부분 공개되지 않는다. EU AI Act의 투명성 의무가 글로벌 기업에 적용되면 한국 저작물 이용 현황도 일부 공개될 수 있으며, 이것이 향후 논의의 출발점이 될 수 있다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-11">
+  <h2 class="section-title">결론 — '허용이냐 금지냐'가 아닌 '어떤 조건이냐'</h2>
+  <div class="prose">
+
+<p>AI 학습 데이터 저작권 논쟁을 <em>'전면 허용 vs 전면 금지'</em>의 이분법으로 보는 것은 오류다. 사실상 모든 나라에서 TDM을 완전히 금지하는 방식을 택하지 않았다 — 차이는 면책의 범위와 조건이다.</p>
+
+<h3>세 갈래의 해결 방향</h3>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>일본 방식 — 광범위 면책</h4>
+    <p>영리 목적 포함 광범위 면책. AI 혁신에 유리하지만 창작 생태계 위협 우려가 크다. 최근 일본 내에서도 재검토 논의가 진행 중이다.</p>
+  </div>
+  <div class="scenario">
+    <h4>EU 방식 — 조건부 면책</h4>
+    <p>투명성 의무 + opt-out 존중. 절충적이나 집행이 복잡하다. 글로벌 AI 기업에 EU 기준을 강제하는 사실상의 글로벌 표준 역할을 한다.</p>
+  </div>
+  <div class="scenario">
+    <h4>집중 라이선스 — 보상 병행</h4>
+    <p>면책을 부여하되 창작자 보상 기금을 병행. 이상적이지만 기여도 측정과 분배가 어렵다. 장기적 지속가능성 측면에서 가장 균형적인 대안으로 평가된다.</p>
+  </div>
+</div>
+
+<div class="callout">
+  <div class="callout-label">입법 설계의 4가지 원칙</div>
+  <p><strong>투명성 의무 우선:</strong> AI 기업은 학습 데이터 출처를 공개해야 한다. 알 수 없으면 논의 자체가 불가능하다.<br><br>
+  <strong>opt-out의 실질적 효력 보장:</strong> robots.txt 이상의 법적 구속력 있는 opt-out 메커니즘이 필요하다. 소규모 창작자도 이용할 수 있도록 집중관리단체가 대행할 수 있어야 한다.<br><br>
+  <strong>소급 문제 해결:</strong> 이미 학습된 데이터에 대한 소급 처리 또는 보상 메커니즘이 없으면, opt-out은 미래에만 적용되는 반쪽짜리 보호다.<br><br>
+  <strong>창작자 보상 구조 병행:</strong> TDM 면책을 허용한다면, 그에 상응하는 보상 기금이나 집중 라이선스를 함께 설계해야 한다. 면책만 있고 보상이 없는 구조는 창작 생태계를 장기적으로 위협한다.</p>
+</div>
+
+<p>AI 학습 데이터 논쟁은 기술 문제가 아니다. 창작자와 사용자와 AI 기업 사이의 공정한 계약 구조 — 누가 무엇을 얼마에, 어떤 조건으로 쓸 수 있는가 — 를 사회가 합의하는 문제다. 한국이 어떤 선택을 하느냐는 창작 생태계와 AI 산업 경쟁력 모두에 영향을 미치는 분기점이다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-12">
+  <h2 class="section-title">참고 자료</h2>
+  <div class="prose">
+
+<h3>법령</h3>
+<ul>
+  <li>「저작권법」 제16조(복제권), 제18조(전송권), 제35조의5(공정이용), 제93조~제96조(데이터베이스 보호)</li>
+  <li>일본 저작권법 제30조의4 (2018년 개정 — 정보 해석을 위한 이용)</li>
+  <li>EU 저작권 지침 2019/790, 제3조·제4조 (TDM 면책)</li>
+  <li>EU AI Act, Regulation (EU) 2024/1689, 제53조 (GPAI 투명성 의무)</li>
+  <li>미국 저작권법 17 U.S.C. §107 (공정이용)</li>
+</ul>
+
+<h3>주요 판결 및 소송</h3>
+<ul>
+  <li>NYT v. OpenAI, Microsoft, 1:23-cv-11195 (S.D.N.Y., 2023년 12월 제기) — 진행 중</li>
+  <li>Getty Images v. Stability AI (D. Del. &amp; UK High Court) — 진행 중</li>
+  <li>Authors Guild v. Google, 804 F.3d 202 (2d Cir. 2015) — Google Books 공정이용 인정</li>
+  <li>hiQ Labs v. LinkedIn, 31 F.4th 1180 (9th Cir. 2022) — 퍼블릭 데이터 스크래핑 CFAA 미적용</li>
+</ul>
+
+<h3>국제 문헌 및 가이드라인</h3>
+<ul>
+  <li>WIPO, Artificial Intelligence and Intellectual Property (2023)</li>
+  <li>US Copyright Office, Copyright and Artificial Intelligence Report (2024)</li>
+  <li>일본 문화청, 生成AIと著作権に関する考え方について (2024)</li>
+  <li>EU EUIPO, AI and Intellectual Property: Patents, Trademarks, Copyright (2022)</li>
+  <li>OpenAI, GPTBot — robots.txt opt-out documentation (2023)</li>
+</ul>
+
+<h3>본 시리즈 관련 글</h3>
+<ul>
+  <li><a href="../06-ai-basic-act-korea/">글 #06 — AI 기본법 시대: 한국의 AI 규제와 디지털 권리 (AI 규제 프레임워크 배경)</a></li>
+  <li><a href="../17-facial-recognition-biometric-surveillance-korea/">글 #17 — 얼굴은 지울 수 없다: 생체정보 감시와 한국의 규제 공백 (AI 기술과 권리 충돌)</a></li>
+  <li><a href="../19-pipa-data-protection-korea/">글 #19 — 내 정보의 주인은 나인가: 한국 개인정보 자기결정권의 진화사 (데이터 자기결정권)</a></li>
+  <li><a href="../20-copyright-three-strikes-graduated-response-korea/">글 #20 — 세 번이면 계정을 끊는다: 저작권 삼진아웃제 (저작권 행정 집행 구조)</a></li>
+  <li><a href="../28-network-usage-fee-sending-party-pays-korea/">글 #28 — 망 사용료 분쟁: Sending-Party-Pays와 망 중립성의 한국적 충돌</a></li>
+</ul>
+
+<p style="margin-top:32px;font-size:13px;color:var(--text-muted);">본 글은 net.or.kr 시리즈의 일부로, 한국 디지털 권리 환경의 구조를 살피기 위한 자료로 작성되었다. 법령·판례·입법 상황은 빠르게 변화하는 영역이므로, 특히 한국 저작권법 TDM 면책 조항 및 관련 소송 결과는 최신 원문을 반드시 확인하기 바란다.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 27일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>클라우드 시대의 검열 — CDN·DoH·IPv6가 만든 새로운 차단 우회 구도와 한국의 대응 | net.or.kr</title>
+<meta name="description" content="CDN 집중화, DoH의 브라우저 기본 탑재, IPv6 확산이라는 세 기술 흐름이 한국 인터넷 차단 체계를 동시에 무력화하고 있다. IP 단위 차단의 부수 피해, DNS 변조 해체, IPv6 공백, CDN 사업자의 법적 회색지대, 그리고 개인 우회 도구의 진화를 심층 분석한다.">
+<meta property="og:title" content="클라우드 시대의 검열 — CDN·DoH·IPv6가 만든 새로운 차단 우회 구도와 한국의 대응">
+<meta property="og:description" content="\"차단 가능한 인터넷\"이라는 가정이 기술적으로 만료되고 있다">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .callout{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);
+    border-radius:10px;padding:18px 20px;margin:24px 0;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--amber);margin-bottom:8px;}
+  .callout p{margin:0;font-size:15px;color:#cbd5e1;line-height:1.7;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .scenario-box{display:grid;gap:16px;margin:24px 0;}
+  .scenario{background:var(--bg2);border-radius:10px;padding:18px;border-left:3px solid var(--amber-dark);}
+  .scenario h4{font-size:15px;color:var(--amber-light);margin:0 0 10px;}
+  .scenario p{font-size:14px;color:#cbd5e1;margin:0;line-height:1.6;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #26 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">클라우드 시대의 검열 — CDN·DoH·IPv6가 만든 새로운 차단 우회 구도와 한국의 대응</h1>
+    <p class="article-subtitle">"차단 가능한 인터넷"이라는 가정이 기술적으로 만료되고 있다</p>
+    <div class="article-meta">
+      <span>2026년 6월 20일 발행</span>
+      <span>약 35분 읽기</span>
+      <span class="tag">CDN</span><span class="tag">Cloudflare</span><span class="tag">DoH</span><span class="tag">IPv6</span><span class="tag">ECH</span><span class="tag">검열</span><span class="tag">방심위</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-0"><span>00</span> 인트로 — 균열의 신호들</a></li>
+      <li><a href="#sec-1"><span>01</span> CDN 검열의 딜레마</a></li>
+      <li><a href="#sec-2"><span>02</span> DoH — DNS 차단 시스템의 조용한 해체</a></li>
+      <li><a href="#sec-3"><span>03</span> IPv6 — 차단 목록이 들어가지 못하는 문</a></li>
+      <li><a href="#sec-4"><span>04</span> ISP와 국가의 대응 시나리오</a></li>
+      <li><a href="#sec-5"><span>05</span> 한국법의 회색지대 — CDN 사업자의 법적 지위</a></li>
+      <li><a href="#sec-6"><span>06</span> 개인 우회 도구의 진화</a></li>
+      <li><a href="#sec-7"><span>07</span> 결론 — "차단 가능한 인터넷"의 만료 기한</a></li>
+      <li><a href="#sec-8"><span>08</span> 참고 자료</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-0">
+  <h2 class="section-title">인트로 — 균열의 신호들</h2>
+  <div class="prose">
+<p>2024년 하반기, 한국 인터넷 검열 모니터링 커뮤니티에서 이상한 보고들이 조용히 퍼지기 시작했다. 방심위(방송통신심의위원회)가 차단 결정을 내린 사이트 중 일부에, VPN도 DNS 변경도 없이 그냥 접속이 된다는 것이었다. 브라우저를 최신 버전으로 업데이트하거나, 심지어 그것조차 없이. 네트워크에 특별한 조작을 하지 않았는데도.</p>
+<p>이 현상에는 설명이 있다. 세 가지 기술 흐름이 독립적으로, 그러나 서로를 강화하며 진행되고 있다.</p>
+<p>첫 번째는 <strong>CDN(콘텐츠 전송 네트워크, Content Delivery Network) 집중화</strong>다. 전 세계 웹 트래픽의 상당 부분이 소수의 CDN 사업자 — 특히 Cloudflare — 를 경유한다. CDN 구조에서는 수십만 개의 사이트가 동일한 IP 대역을 공유한다. 하나의 사이트를 IP로 차단하면 그 IP를 쓰는 수천 개의 다른 사이트가 함께 차단된다.</p>
+<p>두 번째는 <strong>DoH(DNS over HTTPS)</strong>의 브라우저 기본 탑재다. DNS 쿼리를 HTTPS 트래픽으로 암호화해 전송하므로, KT·SKT·LGU+의 DNS 서버를 거치지 않아도 된다. 한국 ISP의 DNS 변조에 기반한 1차 차단층이 보이지 않게 해체된다.</p>
+<p>세 번째는 <strong>IPv6</strong>의 점진적 확산이다. 방심위의 차단 목록은 IPv4를 기준으로 만들어졌다. IPv4와 IPv6를 동시에 지원하는 사이트에 IPv6로 접속하면, IPv4 차단 목록은 아무 역할을 하지 못한다.</p>
+<p><a href="../08-esni-ech-censorship-arms-race/">글#8</a>에서 우리는 ECH(Encrypted Client Hello)가 SNI 차단의 기술적 근거를 소거한다는 것을 확인했다. 이번 글은 그 이야기의 다음 장이다. SNI 차단이 흔들리는 것은 빙산의 일각이다. 더 깊은 층에서, <em>사이트 단위 차단이라는 행위 자체의 전제</em>가 흔들리고 있다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">CDN 검열의 딜레마 — 한 IP에 수만 개의 사이트</h2>
+  <div class="prose">
+
+<h3>클라우드플레어 위에 세워진 웹</h3>
+<p>Cloudflare는 2026년 현재 전 세계 웹 트래픽의 상당 비율을 중계하는 CDN이자 네트워크 보안 서비스 제공자다. W3Techs의 CDN 사용 통계에 따르면 2024년 기준 CDN을 사용하는 사이트 중 Cloudflare의 점유율이 80%에 근접한다. 한국에서 접속하는 해외 사이트 중에서도 Cloudflare CDN을 이용하는 비율은 매우 높다.</p>
+<p>CDN의 구조적 특성은 검열을 매우 복잡하게 만든다. CDN 사업자는 전 세계에 수백 개의 <strong>엣지 서버(edge server)</strong>를 운영하며, 클라이언트와 가장 가까운 서버에서 콘텐츠를 대신 제공한다. 사용자가 보는 것은 원본 서버의 IP가 아니라 CDN 서버의 IP다. 원본 서버는 CDN 뒤에 가려진다.</p>
+<p>핵심 문제는 <strong>IP 공유(IP collocation)</strong>다. Cloudflare의 경우, <code>104.21.x.x</code>, <code>172.67.x.x</code> 대역 등 소수의 IP 대역에 수십만 개의 사이트가 동시에 올라가 있다. 규제 당국이 특정 불법 사이트 하나를 차단하기 위해 해당 IP를 차단하면, 그 IP를 공유하는 모든 합법적 사이트가 함께 차단된다. 이것이 <strong>부수 피해(collateral blocking)</strong>의 구조다.</p>
+
+<h3>한국은 왜 아직 Cloudflare IP를 차단하지 않는가</h3>
+<p>한국의 방심위는 현재 Cloudflare 등 대형 CDN 사업자의 IP를 직접 차단하는 방식을 대규모로 사용하지 않는다. 차단 수단의 주력은 여전히 SNI 차단과 DNS 변조다. CDN IP 차단이 초래할 부수 피해 — 해당 IP를 쓰는 수천 개의 무고한 사이트 접속 불능 — 의 규모가 감당하기 어렵기 때문이다.</p>
+<p>그런데 SNI 차단이 ECH로 인해 효력을 잃어가는 지금, 딜레마는 심화된다. SNI를 볼 수 없다면, CDN의 IP를 차단하거나 CDN 사업자에게 직접 협력을 요청하는 것 외에 기술적 선택지가 점점 좁아진다. 이 딜레마의 압력은 앞으로 더 커질 것이다.</p>
+
+<h3>다른 나라들이 먼저 경험한 것들</h3>
+<p><strong>러시아:</strong> 2018년 로스콤나드조르(Roskomnadzor)는 텔레그램 차단을 시도하면서 AWS, Google Cloud, Cloudflare 등의 IP 약 1,600만~1,800만 개를 블랙리스트에 올렸다. 결과는 참담했다 — 은행, 전자상거래, 학교 포털 등 무관한 서비스가 함께 차단됐고, 정작 텔레그램은 계속 작동했다. 두 달 뒤 차단은 해제됐다.</p>
+<p><strong>이란:</strong> 2019~2022년 사이 CDN 관련 차단 조치를 강화했으며, Cloudflare 경유 사이트 중 일부에 선택적 접근 제한이 적용된 것으로 알려진다.</p>
+<p><strong>인도:</strong> IT Rules 2021에 근거한 다수의 차단 명령에서 CDN 부수 피해 문제가 실무적으로 반복 제기됐다.</p>
+
+<div class="callout">
+  <div class="callout-label">교훈</div>
+  <p>CDN IP 차단은 검열의 핵 옵션이다. 원하는 것 하나를 막으려다 원치 않는 수천 가지를 함께 막게 된다. 부수 피해의 규모가 너무 크면, 차단은 오히려 규제 당국의 신뢰를 손상시킨다.</p>
+</div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-2">
+  <h2 class="section-title">DoH — DNS 차단 시스템의 조용한 해체</h2>
+  <div class="prose">
+
+<h3>한국 차단 체계의 첫 번째 층: DNS 변조</h3>
+<p>한국 인터넷 차단 체계에서 DNS 변조는 역사적으로 가장 먼저 쓰인 수단이다. KT, SKT, LGU+의 DNS 서버는 방심위 차단 목록에 오른 도메인에 대해 실제 IP 대신 차단 안내 페이지 IP를 반환한다. 기술적으로는 <strong>DNS 스푸핑(DNS spoofing)</strong> 또는 <strong>NXDOMAIN 반환</strong> 방식으로 구현된다.</p>
+<p>이 방식의 한계는 오래전부터 알려져 있었다. DNS 설정에서 서버를 8.8.8.8(Google DNS)이나 1.1.1.1(Cloudflare DNS)로 바꾸면 우회가 됐다. 2019년 SNI 차단은 이 허점을 보완하기 위한 조치였다. DNS를 바꿔도, TLS ClientHello에 SNI가 평문으로 찍히면 차단이 됐다.</p>
+
+<h3>DoH가 DNS 변조 층을 우회한다</h3>
+<p><strong>DoH(DNS over HTTPS)</strong>는 DNS 쿼리를 일반 HTTPS 트래픽으로 포장해 전송하는 프로토콜이다. DNS 조회가 포트 443을 통해 암호화돼 전달되므로, ISP의 중간 장비는 그것이 DNS 조회인지 일반 웹 요청인지 구분할 수 없다.</p>
+<ul>
+  <li>Firefox는 2020년부터 단계적으로 DoH를 기본 활성화했으며, Cloudflare(1.1.1.1)와 NextDNS를 기본 DoH 제공자로 사용한다.</li>
+  <li>Google Chrome은 "Secure DNS(보안 DNS)" 기능을 통해 DoH를 지원하며, 사용자의 기존 DNS 서버가 DoH를 지원하지 않으면 대체 DoH 서버로 자동 이행할 수 있다.</li>
+  <li>Apple은 iOS 14부터 운영체제 수준에서 암호화 DNS API를 공개했고, iOS 15의 iCloud Private Relay는 DNS 쿼리와 초기 연결 자체를 분산시킨다.</li>
+</ul>
+<p>이 흐름의 의미는 분명하다. 특별한 우회 의도 없이 그냥 최신 브라우저를 쓰는 일반 사용자도 자동으로 DNS 암호화를 적용받는 구조가 이미 형성됐다.</p>
+
+<h3>국가들의 DoH 반격 — 한국의 선택지</h3>
+<p><strong>영국</strong>에서는 2019년 ISPA UK가 Mozilla를 "인터넷 악당(Internet Villain)"으로 지목했다. DoH가 ISP의 아동 보호 필터링을 우회한다는 이유였다. 실제 규제 조치로 이어지지는 않았으나, 업계의 반감이 공식화된 사례다.</p>
+<p><strong>중국</strong>의 GFW는 Google·Cloudflare 등 외국 공용 DNS 서버를 오래전부터 차단하며, DoH 엔드포인트도 차단 범위에 포함한다. 그러나 새로운 DoH 서버가 계속 등장하므로 고양이-쥐 게임이 반복된다.</p>
+<p>한국이 DoH에 대응하려면 Cloudflare 1.1.1.1이나 Google 8.8.8.8의 DoH 엔드포인트를 차단하거나, ISP가 자체 DoH 서버를 제공하는 방법이 있다. 어느 쪽이든, "DNS를 통한 차단"이라는 모델은 장기적으로 실효성을 잃어가고 있다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-3">
+  <h2 class="section-title">IPv6 — 차단 목록이 들어가지 못하는 문</h2>
+  <div class="prose">
+
+<h3>차단 목록은 IPv4 세계에서 만들어졌다</h3>
+<p>방심위의 차단 목록은 기본적으로 도메인명과 IPv4 주소 기반으로 작성돼 있다. 차단 집행 인프라 — ISP의 DNS 조작, SNI 차단 DPI 장비, IP 필터 — 도 IPv4를 기준으로 설계·운용됐다.</p>
+<p>여기에 구조적 허점이 있다. 차단된 사이트 중 일부는 IPv4 주소와 함께 <strong>IPv6 주소(AAAA 레코드)</strong>도 보유한다. 사용자 클라이언트와 서버 양쪽 모두 IPv6를 지원하는 환경이라면, 접속은 IPv6 경로를 통해 이루어진다. 차단 목록에 IPv6 주소가 없고 IPv6 SNI를 검사하는 DPI 인프라도 없다면 — 차단된 사이트에 차단 없이 접속이 가능해진다.</p>
+<p>현대 운영체제는 IPv4보다 IPv6 연결을 우선 시도하도록(Happy Eyeballs 알고리즘) 설계된 경우가 있어, IPv6 지원 환경에서는 IPv4 차단이 투명하게 우회될 수 있다. 앞서 언급한 "별다른 설정 없이 접속이 된다"는 보고 일부는 이 경로로 설명될 수 있다.</p>
+
+<h3>한국의 IPv6 보급률과 검열 인프라의 격차</h3>
+<p>APNIC(아시아태평양 인터넷 주소 관리 기구)의 통계에 따르면 한국의 IPv6 사용 비율은 2025년 기준 40% 수준에 근접하며, 이는 OECD 평균을 상회한다. KT, SKT, LGU+는 모두 IPv6 서비스를 제공하고 있다.</p>
+<p>그러나 이 통계는 단말·서비스 수준의 IPv6 지원이지, 검열 인프라의 IPv6 대응 여부를 뜻하지 않는다. 2019년 SNI 차단 도입 당시의 DPI 장비 사양이 IPv6 TLS ClientHello까지 처리하도록 갱신됐는지는 방통위나 통신사가 공개하지 않았다. 차단 목록의 IPv6 주소 포함 여부도 마찬가지다. 네트워크 측정 연구 — OONI 같은 독립 모니터링 도구 — 가 이 격차를 실증적으로 확인할 수 있는 방법이지만, 한국을 대상으로 한 체계적 측정 연구는 충분하지 않다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-4">
+  <h2 class="section-title">ISP와 국가의 대응 시나리오</h2>
+  <div class="prose">
+<p>기존 차단 수단의 효력이 하나씩 약화되는 상황에서, 규제 당국이 택할 수 있는 다음 단계는 무엇인가. 네 가지 시나리오를 기술적·법적 관점에서 검토한다.</p>
+
+<h3>1. 트래픽 패턴 분석과 머신러닝 기반 분류</h3>
+<p>DPI의 다음 단계는 패킷 "내용"이 아니라 "흐름의 통계적 특성"을 분석하는 것이다. 패킷 크기 분포, 방향별 바이트 비율, 패킷 간 도착 시간(inter-arrival time), 세션 지속 시간은 암호화된 트래픽도 구분할 수 있는 <strong>측면 채널(side channel)</strong>이다.</p>
+<p>머신러닝 기반 트래픽 분류 연구는 학술 수준에서 암호화된 Tor 트래픽을 높은 정확도로 식별할 수 있음을 보인다. 그러나 이를 실시간 고속 네트워크에서 저오탐율로 집행하는 것은 다른 차원의 기술·비용 문제다. 머신러닝 기반 차단은 오탐을 피할 수 없다. 오탐으로 인한 합법적 통신 차단은 이용자의 통신의 자유(헌법 제18조)를 침해하는 행정행위가 된다.</p>
+
+<h3>2. 인증서 인스펙션 강제 — 중간자 공격의 국가화</h3>
+<p>가장 극단적인 기술적 대응은 <strong>TLS 중간자(MITM, Man-in-the-Middle) 검사</strong>다. 사용자 기기에 국가가 발급한 루트 CA 인증서를 강제 설치하고, ISP가 모든 HTTPS 연결을 중간에서 복호화·재암호화하여 내용을 검사하는 방식이다.</p>
+<p>카자흐스탄은 2019년 이 방식을 실제로 시도했다. 정부가 자국민에게 특정 루트 인증서 설치를 강제했으나, Mozilla와 Google이 해당 인증서를 브라우저 신뢰 목록에서 즉시 제외하면서 실질적으로 실패했다. 한국에서 이 방식의 도입은 국내외 IT 기업의 강력한 반발, 헌법상 통신비밀 침해 논란, 국제 인터넷 보안 생태계와의 충돌로 인해 사실상 불가능하다.</p>
+
+<h3>3. 클라우드·CDN 사업자 직접 압박</h3>
+<p>방통위는 이미 국내에서 서비스하는 외국 플랫폼 사업자들에게 방심위의 차단·삭제 요청에 협력할 것을 요구하고 있다. CDN 사업자에게 같은 방식으로 협력을 요청할 경우, CDN이 방심위 차단 목록에 있는 사이트에 대한 서비스를 거부하는 구조가 된다.</p>
+<p>Cloudflare는 공개적으로 "법원 명령 없이는 콘텐츠를 차단하지 않는다"는 원칙을 표방해 왔다. 한국 방심위의 심의 결정은 법원 명령이 아닌 행정기관의 결정이다. Cloudflare가 이를 따를 법적 의무가 있는지는 불분명하다.</p>
+
+<h3>4. 허용 목록(화이트리스트) 모델의 유혹</h3>
+<p>가장 드라마틱한 시나리오는 차단 목록(블랙리스트) 방식이 아닌, <strong>허용 목록(화이트리스트)</strong> 방식으로의 전환이다. 이것은 현재 중국의 GFW와 북한의 광명망이 채택하는 방식이다. 한국이 이 경로를 택하려면, 헌법 제21조(표현의 자유)와의 충돌, 디지털 경제에 미치는 파국적 영향, 국제 무역 협정 위반 가능성을 모두 감수해야 한다. 현재 한국의 정치·사회적 합의 구조에서 실현 불가능에 가깝다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-5">
+  <h2 class="section-title">한국법의 회색지대 — CDN 사업자의 법적 지위</h2>
+  <div class="prose">
+
+<h3>현행 전기통신사업법과 CDN의 위치</h3>
+<p>「전기통신사업법」 제22조는 부가통신사업을 하려는 자는 과학기술정보통신부 장관에게 신고해야 한다고 규정한다(일정 규모 이상은 등록). 국내에서 서비스하는 외국 부가통신사업자도 이 의무의 적용 범위에 포함될 수 있다.</p>
+<p>Cloudflare 같은 글로벌 CDN 사업자가 한국 사용자에게 서비스를 제공하면서 전기통신사업법상 신고/등록 의무를 이행하는지는 공개 정보로 확인하기 어렵다. 이 의무가 없거나 이행되지 않으면, 방통위의 행정 요청이 CDN 사업자에게 법적 구속력을 가지기 어렵다.</p>
+
+<h3>정보통신망법과 차단 집행 구조</h3>
+<p>「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제44조의7은 방심위가 불법 정보에 대해 정보통신서비스 제공자에게 삭제 또는 접속 차단을 요청할 수 있도록 규정한다. 이 조항이 상정하는 집행 구조는 기본적으로 <strong>국내 ISP를 통한 접속 차단</strong>이다.</p>
+<p>현행 정보통신망법은 CDN 사업자를 주된 집행 대상으로 명시하지 않는다. 기술 환경 변화를 반영한 입법이 이루어지거나, 법원의 명확한 해석이 선행되지 않는 한, CDN 사업자에 대한 방심위의 차단 요청이 법적 구속력을 갖는 것으로 보기 어렵다.</p>
+
+<h3>Cloudflare-방통위의 잠재적 긴장</h3>
+<p>ECH 보급이 가속화됨에 따라, "SNI를 읽을 수 없다면 CDN 사업자에게 직접 요청할 수밖에 없다"는 방향의 압력은 커질 것이다. EU의 디지털서비스법(DSA)이 이 문제의 참고 모델이 될 수 있지만, DSA도 CDN을 직접 규율하지 않고 콘텐츠 제공자(플랫폼)를 주 대상으로 한다는 한계가 있다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-6">
+  <h2 class="section-title">개인 우회 도구의 진화 — 한국 사용자 관점의 실용 비교</h2>
+  <div class="prose">
+
+<blockquote>
+<p>이 절에서 소개하는 도구들은 정치적 망명자, 해외 거주 한국인, 언론인, 학술 연구자, 기업 네트워크 테스트 등 <strong>합법적 목적</strong>에서도 사용된다. 이 글은 음란물·저작권 침해 콘텐츠 접근 목적의 사용을 미화하거나 안내하지 않는다.</p>
+</blockquote>
+
+<h3>Tor와 브릿지(obfs4, meek, Snowflake)</h3>
+<p>Tor(The Onion Router)는 트래픽을 여러 중계 노드를 통해 여러 겹으로 암호화하여 전송하는 익명화 네트워크다. 정규 Tor 노드가 차단됐을 경우 <strong>브릿지(bridge)</strong> 노드를 통해 접속한다.</p>
+<ul>
+  <li><strong>obfs4:</strong> TLS처럼 보이지 않는 랜덤 바이트 스트림으로 Tor 트래픽을 변환하는 난독화 프로토콜.</li>
+  <li><strong>meek:</strong> CDN(Cloudflare, Amazon CloudFront 등)을 프록시로 이용한다. CDN IP를 차단하면 부수 피해가 너무 크기 때문에 차단이 어렵다. 속도는 느리다.</li>
+  <li><strong>Snowflake:</strong> WebRTC 프로토콜을 기반으로 자원봉사 프록시 네트워크를 통해 Tor에 접속한다.</li>
+</ul>
+<p>한국에서 Tor 브라우저 사용 자체는 현행법상 불법이 아니다. 법적 회색지대는 Tor를 통해 접속하는 <em>대상 콘텐츠</em>에 달려 있다.</p>
+
+<h3>V2Ray(VMess/VLESS)와 Xray</h3>
+<p>V2Ray는 중국의 인터넷 자유화 커뮤니티에서 개발된 프로토콜 체계로, 트래픽을 일반 HTTPS나 WebSocket 트래픽처럼 보이게 하는 난독화 능력이 핵심 특징이다. 중국 GFW를 우회하는 데 널리 쓰이며, 신뢰할 수 있는 서버에 접속해야 하는 진입 장벽이 있다.</p>
+
+<h3>Trojan</h3>
+<p><strong>Trojan</strong>은 트래픽을 일반 TLS HTTPS 트래픽과 구분하기 어렵도록 설계된 프로토콜이다. 서버는 실제 웹 서버처럼 운영되며, 인증되지 않은 요청에는 실제 웹 콘텐츠를 반환한다.</p>
+
+<h3>Hysteria — QUIC 기반의 새로운 접근</h3>
+<p><strong>Hysteria</strong>는 UDP 기반 전송 프로토콜인 <strong>QUIC</strong>를 이용하는 프록시 프로토콜이다. TCP가 아닌 UDP를 사용하므로, TCP 기반으로 설계된 DPI 규칙을 피할 수 있다. 단, ISP가 UDP 트래픽을 제한하거나 QUIC를 차단하는 환경에서는 효과가 감소한다.</p>
+
+<h3>도구 비교 요약</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>도구</th><th>탐지 저항성</th><th>속도</th><th>진입 장벽</th><th>한국 현실 적용성</th></tr></thead>
+<tbody>
+<tr><td><strong>Tor (기본)</strong></td><td>중간</td><td>느림</td><td>낮음</td><td>법적 명확성, 속도 낮음</td></tr>
+<tr><td><strong>Tor + obfs4</strong></td><td>높음</td><td>느림</td><td>낮음</td><td>패턴 기반 탐지 회피</td></tr>
+<tr><td><strong>Tor + meek</strong></td><td>매우 높음</td><td>매우 느림</td><td>낮음</td><td>CDN 차단 어려움</td></tr>
+<tr><td><strong>V2Ray/Xray</strong></td><td>높음</td><td>빠름</td><td>중간</td><td>GFW보다 느슨한 환경</td></tr>
+<tr><td><strong>Trojan</strong></td><td>높음</td><td>빠름</td><td>중간</td><td>HTTPS 위장 효과</td></tr>
+<tr><td><strong>Hysteria</strong></td><td>중간</td><td>매우 빠름</td><td>중간</td><td>UDP 차단 환경에서 취약</td></tr>
+</tbody>
+</table></div>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-7">
+  <h2 class="section-title">결론 — "차단 가능한 인터넷"이라는 가정의 만료 기한</h2>
+  <div class="prose">
+
+<p>이 글에서 살펴본 세 흐름은 각각 기존 차단 체계의 서로 다른 층을 무력화한다.</p>
+<ul>
+  <li><strong>CDN 집중화:</strong> IP 단위 차단의 부수 피해가 너무 커서, CDN 사업자에게 직접 집행을 위임하는 것 외에 선택지가 좁아진다.</li>
+  <li><strong>DoH 기본 탑재:</strong> DNS 변조 기반 차단이 일반 사용자에게도 자동으로 우회된다. 우회 "의도" 없이도.</li>
+  <li><strong>IPv6 확산:</strong> 차단 목록이 IPv6를 포함하도록 갱신되지 않는 한, IPv6를 지원하는 사이트·클라이언트 환경에서 차단은 자동으로 뚫린다.</li>
+</ul>
+<p>여기에 <a href="../08-esni-ech-censorship-arms-race/">글#8</a>의 ECH 보급을 더하면 SNI 차단마저 효력을 잃는다. 차단 가능한 기술적 도구는 하나씩 소거되고 있다.</p>
+
+<h3>한국이 선택할 미래 3가지 시나리오</h3>
+
+<div class="scenario-box">
+  <div class="scenario">
+    <h4>시나리오 A — 기술 군비경쟁의 심화 (현재 경로 지속)</h4>
+    <p>머신러닝 기반 트래픽 분류, IPv6 차단 인프라 갱신, CDN 사업자 대상 행정 압박을 통해 차단 체계를 유지. 실효성은 점점 낮아지지만 규제의 형식적 외피는 유지된다. 이 경로의 끝에 중국 GFW가 있다 — 그 수준의 인프라는 한국이 단기간에 도달하기 불가능하다.</p>
+  </div>
+  <div class="scenario">
+    <h4>시나리오 B — 플랫폼 책임 강화 모델 (법적 재편)</h4>
+    <p>네트워크 차단 대신, CDN 사업자에게 법적 책임을 부과하는 방향으로 전환. Cloudflare 같은 사업자가 한국법상 등록 의무를 진 부가통신사업자가 되고, 법원 명령에 따라 특정 도메인 서비스를 거부하는 구조. EU의 DSA가 참고 모델이 될 수 있지만, 글로벌 인터넷 사업자와의 외교적·법적 협상이 필요하다.</p>
+  </div>
+  <div class="scenario">
+    <h4>시나리오 C — 네트워크 계층 포기, 콘텐츠 계층 집중</h4>
+    <p>네트워크 수준의 차단 한계를 인정하고, 대신 콘텐츠 유통의 국내 사업자 단계에서 규율. 국내 검색 엔진의 불법 사이트 노출 제한, 국내 결제 수단의 사용 금지, 국내 광고 사업자의 광고 금지 등. 기술 발전과 싸우는 것이 아니라, 기술 발전을 수용하면서 규율 방식을 바꾸는 선택이다.</p>
+  </div>
+</div>
+
+<p>세 시나리오 중 어느 것도 "완전한 해결"이 아니다. "모든 사이트를 차단할 수 있다"는 전제가 소멸한 이후에도 정책 목표를 달성할 수 있는 경로를 찾는 것 — 그것이 다음 10년 동안 디지털 권리 논의의 핵심 의제가 될 것이다.</p>
+<p>차단 가능한 인터넷이라는 가정의 만료 기한이 다가오고 있다. 그 기한 이후를 어떻게 설계할지, 기술이 아닌 사회가 결정해야 한다.</p>
+  </div>
+</section>
+
+<hr class="sec-rule">
+
+<section class="section" id="sec-8">
+  <h2 class="section-title">참고 자료</h2>
+  <div class="prose">
+
+<h3>법령</h3>
+<ul>
+  <li>「전기통신사업법」 제22조 (부가통신사업 신고·등록)</li>
+  <li>「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제44조의7 (불법정보의 삭제요청 등)</li>
+  <li>「통신비밀보호법」 제2조, 제3조</li>
+</ul>
+
+<h3>국제 법령·정책</h3>
+<ul>
+  <li>Digital Services Act, Regulation (EU) 2022/2065</li>
+  <li>RFC 8484 (DNS over HTTPS), IETF 2018년 10월</li>
+  <li>RFC 9849 (Encrypted Client Hello, ECH), IETF 2026년 3월</li>
+</ul>
+
+<h3>국제 사례·기술 보고</h3>
+<ul>
+  <li>Cloudflare 투명성 보고서: cloudflare.com/transparency</li>
+  <li>러시아 텔레그램 차단 실패 관련 보도 (2018): Meduza, Reuters, EFF</li>
+  <li>카자흐스탄 루트 인증서 강제 설치 사건 (2019): EFF 공식 성명, Mozilla 블로그</li>
+  <li>ISPA UK의 Mozilla "Internet Villain" 지목 (2019): ISPA UK 성명, Ars Technica</li>
+  <li>APNIC IPv6 통계: stats.labs.apnic.net</li>
+  <li>OONI 한국 측정 보고: ooni.org</li>
+</ul>
+
+<h3>본 시리즈 관련 글</h3>
+<ul>
+  <li><a href="../08-esni-ech-censorship-arms-race/">글 #08 — ESNI에서 ECH로: 군비경쟁의 최신 전선</a></li>
+  <li><a href="../09-vpn-tor-proxy-legal-status-korea/">글 #09 — 우회의 합법성: VPN·Tor·프록시의 법적 지위</a></li>
+</ul>
+
+<p style="margin-top:32px;font-size:13px;color:var(--text-muted);">본 글은 net.or.kr 시리즈의 일부로, 한국 디지털 권리 환경의 구조를 살피기 위한 자료로 작성되었다. CDN·DoH·IPv6 관련 기술과 정책은 빠르게 변화하는 영역이므로, 본문의 통계 수치·법령 조항 등 세부 사항은 최신 원문을 반드시 확인하기 바란다.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 20일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

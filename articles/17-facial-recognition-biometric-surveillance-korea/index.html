@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>얼굴은 지울 수 없다 — 생체정보 감시와 한국의 규제 공백 | net.or.kr</title>
+<meta name="description" content="법무부가 출입국 안면데이터 1억 7천만 건을 동의 없이 AI 학습에 넘기고 과태료 100만 원을 받았다. 얼굴인식의 작동 원리, PIPA 생체정보 규정, EU AI Act와의 비교를 통해 한국 생체 감시의 규제 공백을 해부한다.">
+<meta property="og:title" content="얼굴은 지울 수 없다 — 생체정보 감시와 한국의 규제 공백">
+<meta property="og:description" content="1억 7천만 건의 출입국 안면데이터가 동의 없이 민간 AI 학습에 쓰였고, 처분은 과태료 100만 원이었다. 한국 생체 감시의 법적 구조와 EU AI Act와의 비교.">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
+    --cyan:#06b6d4;--cyan-light:#67e8f9;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#e2e8f0;--text-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  body{background-color:var(--bg);color:var(--text);
+    font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.7;margin:0;padding:0;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dark);}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.02em;}
+  a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;}
+
+  .site-header{background:var(--bg2);border-bottom:1px solid var(--bg3);
+    padding:12px 24px;position:sticky;top:0;z-index:100;display:flex;
+    align-items:center;justify-content:space-between;}
+  .site-logo{font-weight:800;font-size:14px;color:var(--amber);
+    text-decoration:none;letter-spacing:0.05em;}
+  .site-nav a{color:var(--text-muted);text-decoration:none;font-size:13px;
+    margin-left:20px;transition:color 0.2s;}
+  .site-nav a:hover{color:var(--text);}
+
+  .article-container{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  .article-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--bg3);}
+  .article-series{display:inline-block;background:rgba(245,158,11,0.15);color:var(--amber);
+    font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:4px;margin-bottom:16px;}
+  .article-title{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.2;margin:0 0 16px;
+    background:linear-gradient(135deg,#f8fafc 0%,var(--amber-light) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .article-subtitle{font-size:18px;color:var(--text-muted);margin:0 0 20px;font-weight:400;}
+  .article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--text-muted);align-items:center;}
+  .article-meta .tag{background:var(--bg3);color:var(--text-muted);padding:3px 10px;border-radius:20px;font-size:12px;}
+
+  .toc{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:20px;margin-bottom:48px;}
+  .toc-title{font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;}
+  .toc ul{list-style:none;padding:0;margin:0;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px;}
+  .toc li a{color:var(--text-muted);text-decoration:none;font-size:14px;display:flex;
+    align-items:center;gap:6px;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+  .toc li a:hover{color:var(--amber);background:rgba(245,158,11,0.05);}
+  .toc li a span{font-size:12px;color:var(--amber);font-weight:700;min-width:22px;}
+
+  .section{margin-bottom:56px;}
+  .section-title{font-size:22px;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--amber-dark),transparent);}
+
+  .prose{font-size:16px;line-height:1.85;color:#cbd5e1;}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--text);}
+  .prose em{color:var(--amber-light);font-style:normal;}
+  .prose a{color:var(--cyan-light);text-decoration:underline;text-underline-offset:3px;word-break:break-word;}
+  .prose h3{font-size:20px;color:var(--text);margin:32px 0 12px;}
+  .prose h4{font-size:16px;color:var(--amber-light);margin:24px 0 10px;}
+  .prose ul,.prose ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1;}
+  .prose li{margin-bottom:8px;line-height:1.7;}
+  .prose code{background:var(--bg3);color:var(--amber-light);padding:1px 6px;border-radius:4px;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:0.9em;}
+  .prose pre{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;margin:0 0 16px;}
+  .prose pre code{background:none;color:#cbd5e1;padding:0;font-size:13px;line-height:1.6;}
+
+  .prose blockquote{border-left:3px solid var(--amber);background:var(--bg2);
+    border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;color:var(--text-muted);}
+  .prose blockquote p{margin:0;}
+  .prose blockquote p+p{margin-top:10px;}
+
+  .prose .footnote-def{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 8px;}
+  .prose .footnote-def sup{color:var(--amber);font-weight:700;margin-right:4px;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--bg2);
+    border:1px solid var(--bg3);border-radius:10px;overflow:hidden;}
+  thead th{background:var(--bg3);color:var(--text);font-weight:700;text-align:left;
+    padding:10px 14px;font-size:13px;letter-spacing:0.02em;}
+  tbody td{padding:10px 14px;border-top:1px solid var(--bg3);color:#cbd5e1;vertical-align:top;line-height:1.6;}
+  tbody tr:hover{background:rgba(245,158,11,0.04);}
+  td strong{color:var(--text);}
+
+  hr.sec-rule{border:none;border-top:1px solid var(--bg3);margin:0;}
+
+  .site-footer{background:var(--bg2);border-top:1px solid var(--bg3);padding:32px 24px;
+    font-size:13px;color:var(--text-muted);}
+  .footer-inner{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;
+    justify-content:space-between;align-items:flex-start;}
+  .footer-brand .logo{color:var(--amber);font-weight:800;font-size:15px;}
+  .footer-brand p{margin:6px 0 0;line-height:1.5;}
+  .footer-right{text-align:right;}
+  .footer-right p{margin:0 0 4px;}
+  .license-badge{display:inline-block;background:var(--bg3);padding:4px 10px;border-radius:4px;
+    font-size:12px;color:var(--text-muted);margin-top:8px;}
+  .footer-brand a{color:var(--amber);}
+
+  @media (max-width:640px){
+    .article-container{padding:24px 16px 60px;}
+    .toc ul{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+    .footer-right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">net.or.kr</a>
+  <nav class="site-nav">
+    <a href="../../index.html">← 포털 홈으로</a>
+  </nav>
+</header>
+
+<main class="article-container">
+  <header class="article-header" id="top">
+    <div class="article-series">글 #17 · 디지털 권리 시리즈</div>
+    <h1 class="article-title">얼굴은 지울 수 없다 — 생체정보 감시와 한국의 규제 공백</h1>
+    <p class="article-subtitle">1억 7천만 건의 출입국 안면데이터, 과태료 100만 원, 그리고 EU AI Act와의 간극</p>
+    <div class="article-meta">
+      <span>2026년 6월 17일 발행</span>
+      <span>약 14분 읽기</span>
+      <span class="tag">얼굴인식</span><span class="tag">생체정보</span><span class="tag">PIPA</span><span class="tag">EU AI Act</span><span class="tag">지능형영상감시</span><span class="tag">프라이버시</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <div class="toc-title">목차</div>
+    <ul>
+      <li><a href="#sec-1"><span>01</span> 들어가며</a></li>
+      <li><a href="#sec-2"><span>02</span> 얼굴인식은 어떻게 작동하나</a></li>
+      <li><a href="#sec-3"><span>03</span> 한국 생체 감시의 현황</a></li>
+      <li><a href="#sec-4"><span>04</span> 법은 생체정보를 어떻게 다루나</a></li>
+      <li><a href="#sec-5"><span>05</span> 비교법 — EU는 선을 그었다</a></li>
+      <li><a href="#sec-6"><span>06</span> 앞으로의 과제</a></li>
+      <li><a href="#sec-7"><span>07</span> 마치며</a></li>
+      <li><a href="#sec-8"><span>08</span> 핵심 용어 간추리기</a></li>
+      <li><a href="#sec-9"><span>09</span> 참고문헌</a></li>
+    </ul>
+  </nav>
+
+<section class="section" id="sec-1">
+  <h2 class="section-title">들어가며</h2>
+  <div class="prose">
+<p>비밀번호가 유출되면 바꾸면 된다. 주민등록번호가 새면 — 번거롭지만 — 재발급이라도 받을 수 있다. 그런데 얼굴은 바꿀 수 없다. 지문도, 홍채도, 걸음걸이도 마찬가지다. 생체정보의 위험은 바로 여기서 출발한다. 한번 데이터베이스에 들어가면 평생 추적의 열쇠가 되고, 유출되어도 회수할 방법이 없다.</p>
+<p>2021년, 한 사건이 이 위험을 한국 사회에 구체적으로 들이밀었다. 법무부가 출입국 심사 과정에서 수집·보유해 온 내·외국인 안면 데이터 약 <strong>1억 7천만 건</strong>을, 정보주체의 동의 없이 민간 기업들에게 인공지능 학습·알고리즘 검증용으로 넘긴 사실이 드러난 것이다. 법무부와 과학기술정보통신부가 2019년부터 추진한 '인공지능 식별추적시스템 구축 및 실증 공모사업'의 일환이었다.<sup><a href="#fn1" id="fnref1">1</a></sup> 공항을 통과하며 무심코 카메라를 바라본 사람들의 얼굴이, 알지 못하는 사이에 안면인식 알고리즘을 훈련시키는 재료가 되어 있었다.</p>
+<p><a href="../02-wiretapping-and-privacy/">글#2 「감청과 프라이버시」</a>가 통신의 <em>내용</em>을, <a href="../22-telecom-data-provision-warrant-korea/">글#22 「통신자료 제공」</a>이 통신의 <em>주체</em>를 다뤘다면, 이 글은 더 근본적인 층위 — 통신 이전에, 사람의 <em>몸 그 자체</em>가 식별자가 되는 감시를 다룬다. <a href="../06-ai-basic-act-korea/">글#6 「AI 기본법」</a>이 고영향 AI의 일반 규율을 짚었다면, 여기서는 그중에서도 가장 논쟁적인 응용 하나 — 얼굴인식과 생체 감시 — 에 초점을 맞춘다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-2">
+  <h2 class="section-title">얼굴인식은 어떻게 작동하나</h2>
+  <div class="prose">
+
+<h3>식별과 인증은 다르다</h3>
+<p>먼저 자주 뒤섞이는 두 개념을 갈라야 한다.</p>
+<ul>
+  <li><strong>인증(verification, 1:1 대조):</strong> "이 사람이 본인이 맞는가"를 확인한다. 스마트폰 잠금 해제, 자동출입국 심사대(스마트패스)가 여기에 속한다. 미리 등록한 내 얼굴 하나와 지금 카메라 속 얼굴 하나를 비교한다.</li>
+  <li><strong>식별(identification, 1:N 대조):</strong> "이 사람이 누구인가"를 군중 속에서 찾아낸다. CCTV에 잡힌 얼굴 하나를 데이터베이스 속 수백만 명과 대조해 신원을 특정한다.</li>
+</ul>
+<p>권리의 관점에서 위험한 쪽은 압도적으로 후자다. 인증은 내가 동의하고 등록한 절차이지만, 식별은 동의 없이, 내가 모르는 사이에, 공개된 공간에서 작동할 수 있다. 특히 영상 스트림에서 실시간으로 다수의 얼굴을 동시에 찾아내는 <strong>실시간 원격 생체인식 식별(real-time remote biometric identification)</strong>은 감시의 성격이 질적으로 달라지는 분기점이다.</p>
+
+<h3>얼굴에서 숫자로</h3>
+<p>기술적으로 얼굴인식은 대략 네 단계를 거친다. ① <strong>검출(detection)</strong> — 영상 속에서 얼굴 영역을 찾는다. ② <strong>정렬·정규화</strong> — 각도·조명·표정의 차이를 보정한다. ③ <strong>특징 추출(embedding)</strong> — 심층신경망이 얼굴을 수백 차원의 벡터, 곧 '얼굴 지문'으로 변환한다. ④ <strong>대조(matching)</strong> — 이 벡터를 등록된 벡터들과 비교해 유사도가 임계값을 넘으면 동일인으로 판정한다.</p>
+<p>여기서 두 가지 함정이 생긴다. 첫째, <strong>임계값은 정책 선택이다.</strong> 임계값을 낮추면 놓치는 사람(미탐)은 줄지만 엉뚱한 사람을 지목하는 오탐이 늘고, 높이면 그 반대가 된다. 이 한 줄의 숫자를 누가 어떻게 정하는지에 따라 무고한 사람이 용의자로 지목될 확률이 달라진다.</p>
+<p>둘째, <strong>오차는 균등하지 않다.</strong> 다수의 국제 평가에서 얼굴인식 알고리즘은 인종·성별·연령에 따라 정확도가 체계적으로 달라지는 경향이 보고돼 왔다. 학습 데이터의 편향이 그대로 오차의 편향으로 이어지기 때문이다. 감시 시스템의 오류가 특정 집단에 더 무겁게 떨어진다는 것은, 단순한 기술적 결함을 넘어 차별의 문제가 된다.</p>
+
+<h3>CCTV에서 '지능형 영상감시'로</h3>
+<p>한국은 인구 대비 CCTV 밀도가 매우 높은 사회로 꼽힌다. 그러나 전통적 CCTV는 사람이 화면을 들여다봐야 의미를 갖는, 수동적 기록 장치였다. 결정적 변화는 그 위에 <strong>얼굴인식·행동분석 AI</strong>가 얹히면서 일어난다. 카메라가 단순히 '찍는' 단계에서, 잡힌 얼굴을 자동으로 신원과 연결하고 동선을 추적하는 '아는' 단계로 넘어가는 것이다. 같은 물리적 카메라라도, 뒤에 어떤 알고리즘이 붙느냐에 따라 기록 장치가 감시 인프라로 바뀐다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-3">
+  <h2 class="section-title">한국에서 생체 감시는 어디까지 와 있나</h2>
+  <div class="prose">
+
+<h3>법무부 안면데이터 사건 — '목적 외 이용'의 전형</h3>
+<p>앞서 든 2019~2021년 사건은 한국 생체 감시 논쟁의 분수령이다. 출입국 심사를 위해 수집된 안면 데이터는, 그 <em>목적</em>에 한해 처리될 수 있다. 그런데 법무부는 이 데이터를 AI 식별추적 알고리즘 개발이라는 <em>전혀 다른 목적</em>으로, 그것도 민간 기업에 위탁해 활용했다. 시민사회단체(진보네트워크센터, 민주사회를 위한 변호사모임 디지털정보위원회 등)는 이를 개인정보보호법상 <strong>목적 외 이용·제공</strong>에 해당한다고 보아 문제를 제기했다.<sup><a href="#fn1" id="fnref1b">1</a></sup> 더 나아가, 2021년부터는 '리얼 데이터' 확보를 명분으로 인천공항 내에 CCTV를 추가 설치해 내외국인의 영상을 취득하고 있다는 정황도 알려졌다.<sup><a href="#fn2" id="fnref2">2</a></sup></p>
+<p>개인정보보호위원회는 조사 끝에 법무부에 <strong>과태료 100만 원</strong>을 부과했다.<sup><a href="#fn2" id="fnref2b">2</a></sup> 시민사회는 1억 7천만 건 규모의 생체정보를 동의 없이 다룬 사안에 100만 원이라는 처분이 사실상 '면죄부'라며 강하게 반발했다. 이 사건이 드러낸 것은 단일한 위법성보다, <strong>국가가 보유한 대규모 생체 데이터가 별다른 외부 통제 없이 다른 목적으로 흘러갈 수 있다는 구조</strong>였다.</p>
+
+<h3>자동출입국·스마트패스 — 동의 기반의 인증</h3>
+<p>반대편에는 비교적 논란이 적은 영역이 있다. 인천공항의 자동출입국심사, 그리고 신분증·탑승권 대신 얼굴로 보안검색과 탑승을 통과하는 스마트패스 같은 서비스다. 이들은 원칙적으로 이용자가 사전에 등록하고 동의한 <strong>1:1 인증</strong>이라는 점에서, 동의 없는 1:N 식별과는 권리 위험의 결이 다르다. 다만 '편의'를 매개로 생체 등록이 일상화될수록, 등록된 데이터가 어디에 저장되고 누가 접근하며 다른 목적으로 재사용되지 않는다는 보장이 무엇인지 — 이 질문은 여전히 남는다.</p>
+
+<h3>경찰·법집행과 CCTV의 AI 결합</h3>
+<p>법집행기관의 얼굴인식 활용에 대해서는 국가인권위원회가 일찍이 "얼굴인식 기술 도입은 지나칠 만큼 신중해야 한다"는 취지의 의견을 내놓는 등 우려가 제기돼 왔다.<sup><a href="#fn3" id="fnref3">3</a></sup> 시민단체들도 실시간 얼굴인식 감시가 집회·시위의 자유를 위축시킬 수 있다는 점을 반복해 지적한다. 광장에서 내 얼굴이 자동으로 신원과 연결된다는 사실을 아는 것만으로, 사람들은 모이기를 주저하게 된다.</p>
+<p>여기에 최근의 흐름 하나가 더해진다. 2025년 말, 민간 기업이 지방자치단체의 CCTV 영상을 AI 학습에 활용할 수 있도록 하는 <strong>규제 특례</strong>가 지정됐다.<sup><a href="#fn4" id="fnref4">4</a></sup> 개인정보위는 "안전조치 준수"를 조건으로 달았지만, 공공장소에서 동의 없이 수집된 시민의 영상이 민간 AI의 학습 재료로 흘러가는 통로가 제도적으로 열렸다는 점에서 — 법무부 사건과 구조적으로 닮은 — 새로운 논쟁의 씨앗이 됐다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-4">
+  <h2 class="section-title">법은 생체정보를 어떻게 다루나</h2>
+  <div class="prose">
+
+<h3>민감정보라는 빗장 — 개인정보보호법 제23조</h3>
+<p>한국 법의 출발점은 <strong>개인정보보호법 제23조</strong>다. 이 조항은 사상·신념, 정치적 견해, 건강, 성생활 등과 함께 일정 범주의 정보를 '민감정보'로 묶고, 그 처리를 <strong>원칙적으로 금지</strong>한다. 예외는 둘뿐이다 — ① 정보주체로부터 <em>다른 개인정보와 구분된 별도의 동의</em>를 받거나, ② 법령에 처리 근거가 있는 경우.<sup><a href="#fn5" id="fnref5">5</a></sup></p>
+<p>2020년 개정으로, 시행령은 "특정 개인을 알아볼 목적으로 일정한 기술적 수단을 통해 생성한 신체적·생리적·행동적 특징 정보" — 곧 <strong>생체인식정보</strong> — 를 민감정보 범주에 명시적으로 포함했다.<sup><a href="#fn5" id="fnref5b">5</a></sup> 얼굴인식 벡터, 지문, 홍채 패턴이 여기에 해당한다. 개인정보보호위원회는 2024년 12월 「생체정보 보호 안내서」를 통해, 생체정보는 안전한 알고리즘으로 암호화해 저장하고 암호키를 별도 관리해야 한다는 등의 구체적 기준을 제시했다.<sup><a href="#fn6" id="fnref6">6</a></sup></p>
+<p>문언만 보면 한국의 생체정보 보호는 결코 약하지 않다. '원칙적 금지 + 별도 동의'라는 빗장은 EU GDPR의 특별범주 정보 보호와 골격이 비슷하다.</p>
+
+<h3>CCTV는 별도의 규율 — 제25조</h3>
+<p>공개된 장소의 영상 감시는 또 다른 조문, <strong>제25조(고정형 영상정보처리기기)</strong>가 다룬다. 범죄 예방, 시설 안전 등 법이 정한 목적에 한해 설치를 허용하고, 안내판 설치 의무, 임의 조작·다른 곳을 비추는 행위·녹음 기능 사용 금지 등을 규정한다.<sup><a href="#fn7" id="fnref7">7</a></sup> 그러나 이 조문은 <em>카메라의 설치·운영</em>을 전제로 만들어졌지, <em>영상에 얼굴인식 AI를 결합해 신원을 자동 식별하는</em> 상황을 정면으로 상정하지는 않았다. 기존 CCTV 규율과 생체정보 규율 사이의 이 틈이, 지능형 영상감시가 파고드는 회색지대다.</p>
+
+<h3>빗장은 있는데 문지기가 없다 — 동의와 영장의 공백</h3>
+<p>문제는 문언이 아니라 작동 방식에 있다.</p>
+<p>첫째, <strong>'별도 동의'는 공개 공간의 1:N 식별 앞에서 사실상 무력하다.</strong> 광장을 지나는 수천 명에게 일일이 동의를 받는다는 것은 불가능하다. 그렇다면 남는 근거는 '법령'인데, 바로 그 법령 — 어떤 기관이, 어떤 요건에서, 어떤 통제 아래 실시간 얼굴인식을 할 수 있는지를 구체적으로 정한 법 — 이 한국에는 충분히 정비돼 있지 않다.</p>
+<p>둘째, <strong>영장주의의 공백.</strong> <a href="../22-telecom-data-provision-warrant-korea/">글#22 「통신자료 제공」</a>에서 본 것과 닮은 구도다. 통신의 영역에서도 가입자 정보 취득이 영장 없는 '임의수사'로 운용됐듯, 생체 감시 역시 <em>수집·식별 단계에서 법원의 사전 통제가 닿지 않는</em> 경우가 많다. 얼굴은 통신 내용보다 더 직접적으로 한 사람의 존재 그 자체인데도, 그것을 실시간으로 대조·추적하는 행위를 사전에 통제하는 절차는 비어 있다.</p>
+<p>셋째, <strong>자동화 결정의 문제.</strong> 2026년 단계적으로 강화되는 개정 개인정보보호법은, 자동화된 결정 과정에서 민감정보를 처리할 경우 그 목적과 항목을 구체적으로 공개하도록 하고, 반복·대규모 위반에는 매출액의 최대 10%에 이르는 징벌적 과징금을 둔다.<sup><a href="#fn6" id="fnref6b">6</a></sup> 투명성과 제재라는 두 축을 강화한 진전이지만, 이는 <em>처리의 사후 공개</em>에 무게가 실린 장치이지, <em>공개 공간 실시간 식별 자체를 어디까지 허용할 것인가</em>라는 입구의 물음에 답하지는 않는다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-5">
+  <h2 class="section-title">비교법 — EU는 선을 그었다</h2>
+  <div class="prose">
+<p>같은 고민에 대해 유럽연합은 <strong>EU AI Act 제5조(금지된 AI 관행)</strong>로 명시적 선을 그었다. 핵심은 이렇다.<sup><a href="#fn8" id="fnref8">8</a></sup><sup><a href="#fn9" id="fnref9">9</a></sup></p>
+<ul>
+  <li><strong>법집행 목적의 공개 공간 실시간 원격 생체인식 식별을 원칙적으로 금지</strong>한다. 이 금지 조항은 2025년 2월부터 발효됐다.</li>
+  <li>예외는 좁고 열거적이다 — 납치·인신매매·실종자 등 특정 피해자의 표적 수색, 임박하고 구체적인 생명 위협이나 진정한 테러 위협의 방지, 중대 범죄 피의자의 특정에 <em>엄격히 필요한</em> 경우에 한한다.</li>
+  <li>인터넷이나 CCTV 영상을 <strong>무차별 수집(scraping)해 얼굴인식 데이터베이스를 구축</strong>하는 행위(이른바 Clearview식)와, 직장·교육기관에서의 <strong>감정인식</strong>도 금지된다.</li>
+  <li>다만 사후(post) 원격 생체식별 — 사건 뒤 녹화 영상을 분석하는 것 — 은 '금지'가 아니라 '고위험(high-risk)'으로 분류돼 강한 의무를 지는 데 그친다. 경찰 얼굴인식을 포함한 고위험 시스템 의무는 2026년 8월 전면 발효된다.</li>
+</ul>
+<p>EU 방식이 완벽한 것은 아니다. 예외 조항이 넓게 해석될 여지, 사후 식별의 '고위험' 분류가 남기는 구멍을 두고 시민사회의 비판이 이어진다. 그러나 핵심은 <strong>'무엇을 아예 해서는 안 되는가'를 법으로 먼저 정했다</strong>는 데 있다.</p>
+<p>한국은 이 입구의 금지선 자체가 없다. 생체정보를 '민감정보'로 두텁게 보호하는 출구 쪽 규율은 갖췄지만, <em>공개 공간 실시간 식별을 원칙적으로 금지하고 예외만 좁게 여는</em> 입구 쪽 설계는 비어 있는 셈이다. <a href="../06-ai-basic-act-korea/">글#6 「AI 기본법」</a>에서 본 대로, 한국 AI 기본법은 '고영향 AI'에 대한 일반 의무를 두되 특정 응용을 <em>금지</em>하는 방식은 택하지 않았다 — 진흥과 규율 사이에서 진흥에 무게를 둔 선택의 그림자가, 생체 감시 영역에서 가장 또렷하게 드러난다.</p>
+
+<div class="table-wrap"><table>
+<thead><tr>
+  <th>항목</th>
+  <th>한국</th>
+  <th>EU(AI Act §5)</th>
+</tr></thead>
+<tbody>
+<tr>
+  <td>공개 공간 실시간 1:N 얼굴인식</td>
+  <td>명시적 금지 없음 (회색지대)</td>
+  <td><strong>원칙적 금지</strong> (2025.2 발효)</td>
+</tr>
+<tr>
+  <td>무차별 얼굴 DB 구축</td>
+  <td>목적 외 이용 금지(§23) 적용 — 사후 제재 중심</td>
+  <td><strong>명시 금지</strong></td>
+</tr>
+<tr>
+  <td>감정인식 AI</td>
+  <td>규정 없음</td>
+  <td><strong>직장·교육기관 금지</strong></td>
+</tr>
+<tr>
+  <td>사후 얼굴 분석(녹화영상)</td>
+  <td>PIPA §23·§25 적용 — 구체적 기준 미비</td>
+  <td>'고위험' 분류 (2026.8 의무 발효)</td>
+</tr>
+<tr>
+  <td>생체정보 암호화 기준</td>
+  <td>2024 생체정보 보호 안내서 제시</td>
+  <td>GDPR 특별범주 + AI Act 중첩 적용</td>
+</tr>
+</tbody>
+</table></div>
+  </div>
+</section>
+
+<section class="section" id="sec-6">
+  <h2 class="section-title">앞으로의 과제</h2>
+  <div class="prose">
+<p>생체 감시를 둘러싼 진짜 물음은 "기술을 쓸 것인가 말 것인가"가 아니라 "<strong>어디에 선을 긋고, 누가 그 선을 지키는가</strong>"다. 한국의 구조에는 세 가지 공백이 있다.</p>
+<p><strong>① 금지선의 부재.</strong> 무엇을 <em>원칙적으로 해서는 안 되는지</em>를 정한 입구의 규범이 없다. 공개 공간 실시간 1:N 얼굴인식, 동의 없는 데이터베이스 구축, 공공 영상의 민간 AI 학습 전용 — 적어도 이 영역들에 대한 명시적 금지·제한선이 입법 차원에서 논의될 필요가 있다.</p>
+<p><strong>② 사전 통제의 결여.</strong> 수집과 식별이 행정 재량이나 포괄적 명분 위에서 먼저 작동하고 사후에 다퉈지는 구조에서는, 법원이나 독립 기구의 <em>사전</em> 승인·감독이 닿지 않는다. 생체 식별의 사법적·독립적 통제 절차를 제도화하는 일이 남는다.</p>
+<p><strong>③ 투명성과 책임의 비대칭.</strong> 법무부 사건과 지자체 CCTV 규제특례가 공통적으로 보여준 것은, 국가·민간이 보유한 대규모 생체 데이터가 <em>어디로 어떻게 흐르는지</em>를 시민이 알기 어렵다는 사실이다. 어떤 기관이 어떤 생체 시스템을 운용하는지, 데이터가 누구에게 제공되는지에 대한 정기 공개와 독립 감사가, 남용을 막는 최소 요건이다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-7">
+  <h2 class="section-title">마치며</h2>
+  <div class="prose">
+<p>얼굴은 가장 공개적인 신체이면서, 동시에 가장 바꿀 수 없는 식별자다. 우리는 매일 얼굴을 드러내고 살지만, 그것이 동의 없이 숫자로 변환되어 평생의 추적 열쇠가 되는 것에는 동의한 적이 없다. 한국은 생체정보를 '민감정보'로 묶어 두텁게 보호하는 빗장을 갖췄으면서도, 공개 공간의 실시간 식별이라는 가장 위험한 입구는 열어 둔 채다. 빗장은 있는데 문지기가 없는 셈이다.</p>
+<p>법무부의 1억 7천만 건은 이미 한번 흘러갔고, 처분은 100만 원이었다. 이 비대칭 — 회수 불가능한 위험과 가벼운 책임 사이의 거리 — 이 좁혀지지 않는 한, 다음 사건은 더 큰 규모로, 더 조용히 반복될 것이다. 검열이 보이지 않을수록 그것을 보이게 만드는 제도의 무게가 커진다. 감시가 사람의 몸 그 자체로 옮겨 온 지금, 그 무게는 더 무거워진다.</p>
+  </div>
+</section>
+
+<section class="section" id="sec-8">
+  <h2 class="section-title">핵심 용어 간추리기</h2>
+  <div class="prose">
+<div class="table-wrap"><table><thead><tr><th>용어</th><th>설명</th></tr></thead><tbody>
+<tr><td><strong>인증(1:1) / 식별(1:N)</strong></td><td>"본인 맞는가" 확인 vs. 군중 속 "누구인가" 특정. 권리 위험은 후자가 압도적</td></tr>
+<tr><td><strong>실시간 원격 생체인식 식별</strong></td><td>영상 스트림에서 다수의 얼굴을 동의 없이 실시간 신원 대조. 감시의 질적 분기점</td></tr>
+<tr><td><strong>생체인식정보</strong></td><td>얼굴·지문·홍채 등 특정 개인 식별 목적으로 생성한 신체·생리·행동 특징 정보. PIPA상 민감정보</td></tr>
+<tr><td><strong>개인정보보호법 §23</strong></td><td>민감정보 처리 원칙적 금지, 별도 동의 또는 법령 근거만 예외</td></tr>
+<tr><td><strong>개인정보보호법 §25</strong></td><td>고정형 영상정보처리기기(CCTV) 규율. 얼굴인식 AI 결합은 정면으로 상정 안 됨</td></tr>
+<tr><td><strong>목적 외 이용</strong></td><td>수집 목적과 다른 용도로 개인정보를 쓰는 것. 법무부 안면데이터 사건의 핵심 쟁점</td></tr>
+<tr><td><strong>EU AI Act §5</strong></td><td>법집행 목적 공개 공간 실시간 원격 생체식별 원칙 금지(2025.2 발효), 무차별 얼굴DB 구축·감정인식 금지</td></tr>
+</tbody></table></div>
+  </div>
+</section>
+
+<section class="section" id="sec-9">
+  <h2 class="section-title">참고문헌</h2>
+  <div class="prose">
+<p class="footnote-def"><sup><a href="#fnref1" id="fn1">1</a></sup> 법무부·과기정통부의 '인공지능 식별추적시스템 구축 및 실증 공모사업'(2019~)과 출입국 안면데이터 약 1.7억 건의 정보주체 동의 없는 민간 위탁 — 진보네트워크센터 「법무부·과기부의 얼굴인식 인공지능식별추적시스템 구축의 부당·위법성에 대한 공익감사청구」 https://idr.jinbo.net/936</p>
+<p class="footnote-def"><sup><a href="#fnref2" id="fn2">2</a></sup> 개인정보보호위원회의 법무부 과태료 100만 원 부과와 시민사회의 '면죄부' 반발, 2021년 이후 인천공항 CCTV 추가 설치를 통한 '리얼 데이터' 취득 정황 — 미디어오늘 「공항서 찍은 얼굴 넘기고 과태료 100만원? "면죄부 줬다"」 http://www.mediatoday.co.kr/news/articleView.html?idxno=303743</p>
+<p class="footnote-def"><sup><a href="#fnref3" id="fn3">3</a></sup> 국가인권위원회 「얼굴인식 기술 도입, 지나칠 만큼 신중해야 한다」(인권 웹진) https://www.humanrights.go.kr/webzine/webzineListAndDetail?issueNo=7608811&amp;boardNo=7608823 ; 진보네트워크센터 정보인권연구소 「경찰 등 법집행기관의 얼굴인식 감시기술 사용과 인권 문제」(이슈리포트, 2020) https://idr.jinbo.net/wordpress/wp-content/uploads/2020/12/</p>
+<p class="footnote-def"><sup><a href="#fnref4" id="fn4">4</a></sup> 지자체 CCTV 영상의 민간 AI 학습 활용 규제특례 지정과 개인정보위의 '안전조치 준수' 조건(2025.12) — 연합뉴스 「지자체 CCTV 영상 AI 학습에 활용된다…"안전조치 준수해야"」 https://v.daum.net/v/20251223180344170</p>
+<p class="footnote-def"><sup><a href="#fnref5" id="fn5">5</a></sup> 「개인정보 보호법」 제23조(민감정보의 처리 제한) 및 시행령상 생체인식정보의 민감정보 포함(2020 개정) — 국가법령정보센터 「개인정보 보호법」 https://www.law.go.kr/lsEfInfoP.do?lsiSeq=195062</p>
+<p class="footnote-def"><sup><a href="#fnref6" id="fn6">6</a></sup> 개인정보보호위원회 「생체정보 보호 안내서」(2024.12.30) — 암호화 저장·암호키 관리 등 안전조치 기준 https://www.data.go.kr/data/15142329/fileData.do ; 2026년 단계 시행 개정 PIPA의 자동화 결정 시 민감정보 처리 목적·항목 공개 의무 및 매출액 최대 10% 징벌적 과징금(2026.9 시행)</p>
+<p class="footnote-def"><sup><a href="#fnref7" id="fn7">7</a></sup> 「개인정보 보호법」 제25조(고정형 영상정보처리기기의 설치·운영 제한) — 안내판 의무, 임의 조작·녹음 금지 등. 찾기쉬운 생활법령정보 https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&amp;csmSeq=1257&amp;ccfNo=2&amp;cciNo=3&amp;cnpClsNo=3</p>
+<p class="footnote-def"><sup><a href="#fnref8" id="fn8">8</a></sup> EU AI Act 제5조 금지된 AI 관행 — 법집행 목적 공개 공간 실시간 원격 생체식별 원칙 금지(2025.2 발효)와 좁은 예외, 무차별 얼굴DB 스크래핑·감정인식 금지, 사후 식별의 '고위험' 분류 — Article 5: Prohibited AI Practices, EU Artificial Intelligence Act https://artificialintelligenceact.eu/article/5/</p>
+<p class="footnote-def"><sup><a href="#fnref9" id="fn9">9</a></sup> 고위험 시스템 의무의 2026년 8월 전면 발효 및 경찰 얼굴인식 규칙 — Future of Privacy Forum 「Red Lines under the EU AI Act: Restricting Real-time Remote Biometric Identification Systems for Law Enforcement Purposes」 https://fpf.org/blog/red-lines-under-the-eu-ai-act-restricting-real-time-remote-biometric-identification-systems-for-law-enforcement-purposes/</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">net.or.kr</div>
+      <p>한국 디지털 권리 포털 — 비영리 공익 목적으로 운영됩니다.<br>
+      콘텐츠는 <a href="https://creativecommons.org/licenses/by/4.0/deed.ko">CC BY 4.0</a> 라이선스로 배포됩니다.</p>
+    </div>
+    <div class="footer-right">
+      <p>최종 업데이트: 2026년 6월 17일</p>
+      <p><a href="../../index.html">← 포털 홈으로 돌아가기</a></p>
+      <span class="license-badge">CC BY 4.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

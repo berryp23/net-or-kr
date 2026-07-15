@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>net.or.kr — 디지털 권리 포털</title>
+<meta name="description" content="망 중립성·통신감청·표현의 자유를 다루는 비영리 디지털 권리 포털. 한국 인터넷 검열·감시·우회 이슈를 심층 해설합니다.">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #eef1f6;
+    --text: #1a1d24;
+    --text-soft: #4a5160;
+    --text-faint: #6b7280;
+    --border: #e2e6ee;
+    --accent: #2b5fb8;
+    --accent-soft: #e8f0fc;
+    --tag: #3a4a66;
+    --shadow: 0 1px 2px rgba(20,30,50,.06), 0 4px 16px rgba(20,30,50,.05);
+    --maxw: 1080px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1218;
+      --surface: #171b23;
+      --surface-2: #1e232d;
+      --text: #e7eaf0;
+      --text-soft: #aeb6c4;
+      --text-faint: #818b9c;
+      --border: #272d39;
+      --accent: #6fa3f0;
+      --accent-soft: #1a2a45;
+      --tag: #9fb0cc;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(180deg, var(--surface-2), var(--bg));
+    border-bottom: 1px solid var(--border);
+    padding: 72px 0 56px;
+  }
+  .hero .brand {
+    display: inline-flex; align-items: baseline; gap: 10px;
+    font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--text-faint); font-weight: 600; margin-bottom: 22px;
+  }
+  .hero .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .hero h1 {
+    font-size: clamp(1.9rem, 4.5vw, 3rem);
+    line-height: 1.18; margin: 0 0 18px; font-weight: 800; letter-spacing: -.02em;
+  }
+  .hero .mission {
+    font-size: clamp(1.02rem, 2vw, 1.22rem);
+    color: var(--text-soft); max-width: 660px; margin: 0 0 28px;
+  }
+  .hero .meta {
+    display: flex; flex-wrap: wrap; gap: 10px; font-size: .85rem;
+  }
+  .hero .meta span {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 14px; color: var(--text-soft);
+  }
+
+  /* Section */
+  main { padding: 16px 0 40px; }
+  section { padding: 38px 0 10px; }
+  .section-head { margin-bottom: 22px; }
+  .section-head h2 {
+    font-size: 1.4rem; margin: 0 0 6px; font-weight: 700; letter-spacing: -.01em;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-head h2 .count {
+    font-size: .72rem; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); border-radius: 999px; padding: 3px 10px;
+  }
+  .section-head p { margin: 0; color: var(--text-faint); font-size: .95rem; }
+
+  /* Card grid */
+  .grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  }
+  article.card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 20px 18px;
+    box-shadow: var(--shadow); display: flex; flex-direction: column;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  article.card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  article.card .num {
+    font-size: .72rem; font-weight: 700; color: var(--text-faint);
+    letter-spacing: .05em; margin-bottom: 8px;
+  }
+  article.card h3 { font-size: 1.06rem; line-height: 1.4; margin: 0 0 10px; font-weight: 700; }
+  article.card h3 a { color: var(--text); }
+  article.card h3 a:hover { color: var(--accent); text-decoration: none; }
+  article.card p { margin: 0 0 14px; color: var(--text-soft); font-size: .92rem; flex: 1; }
+  article.card .read {
+    font-size: .85rem; font-weight: 600; color: var(--accent);
+    display: inline-flex; align-items: center; gap: 5px; align-self: flex-start;
+  }
+  article.card .read::after { content: "→"; transition: transform .15s ease; }
+  article.card:hover .read::after { transform: translateX(3px); }
+
+  /* Reading paths */
+  .paths { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .path {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px; box-shadow: var(--shadow);
+  }
+  .path .label {
+    font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  .path h3 { margin: 0 0 6px; font-size: 1.12rem; font-weight: 700; }
+  .path .for { color: var(--text-faint); font-size: .88rem; margin: 0 0 16px; }
+  .path ol { margin: 0; padding-left: 0; list-style: none; counter-reset: step; }
+  .path ol li {
+    counter-increment: step; position: relative; padding: 8px 0 8px 38px;
+    border-top: 1px solid var(--border); font-size: .93rem;
+  }
+  .path ol li:first-child { border-top: none; }
+  .path ol li::before {
+    content: counter(step); position: absolute; left: 0; top: 8px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: .78rem; font-weight: 700; display: grid; place-items: center;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border); background: var(--surface-2);
+    padding: 36px 0; margin-top: 30px; color: var(--text-soft); font-size: .9rem;
+  }
+  footer h4 { margin: 0 0 8px; color: var(--text); font-size: .98rem; }
+  footer p { margin: 6px 0; max-width: 720px; }
+  footer .tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  footer .tags span { color: var(--text-faint); font-size: .82rem; }
+
+  @media (max-width: 560px) {
+    header.hero { padding: 52px 0 40px; }
+    section { padding: 30px 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><span class="dot" aria-hidden="true"></span> net.or.kr · 디지털 권리 포털</div>
+    <h1>인터넷에서의 권리를, 기술과 법으로 함께 읽다</h1>
+    <p class="mission">망 중립성 · 통신 감청 · 표현의 자유. 한국 인터넷의 검열과 감시, 그리고 우회의 군비경쟁을 사건 하나하나 심층으로 해부하는 비영리 디지털 권리 포털입니다.</p>
+    <div class="meta">
+      <span>심층 해설 28편</span>
+      <span>기술 × 정책 × 법</span>
+      <span>비영리 · .or.kr</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 검열·우회 -->
+  <section id="censorship" aria-labelledby="h-censorship">
+    <div class="section-head">
+      <h2 id="h-censorship">검열과 우회 <span class="count">6편</span></h2>
+      <p>DNS·SNI·DPI를 둘러싼 차단 기술과 ESNI/ECH·DoH·VPN 등 우회 기술의 군비경쟁.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="num">26</div>
+        <h3><a href="articles/26-cloud-cdn-doh-ipv6-censorship-korea/">클라우드 시대의 검열 — CDN·DoH·IPv6가 만든 새로운 차단 우회 구도와 한국의 대응</a></h3>
+        <p>CDN 집중화·DoH 기본 탑재·IPv6 확산이라는 세 기술 흐름이 한국 차단 체계를 동시에 무력화한다. IP 부수 피해, DNS 해체, IPv6 공백, CDN의 법적 회색지대를 심층 분석한다.</p>
+        <a class="read" href="articles/26-cloud-cdn-doh-ipv6-censorship-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">03</div>
+        <h3><a href="articles/01-spear-and-shield-history/">창과 방패의 역사 — 한국 인터넷 검열·우회 군비경쟁 연대기</a></h3>
+        <p>DNS 변조 → HTTP DPI → SNI 차단으로 점점 깊어진 한국 인터넷 검열과, 그에 맞선 우회의 연대기. 이 포털의 출발점.</p>
+        <a class="read" href="articles/01-spear-and-shield-history/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">08</div>
+        <h3><a href="articles/08-esni-ech-censorship-arms-race/">ESNI에서 ECH로 — 군비경쟁의 최신 전선</a></h3>
+        <p>평문으로 노출되던 SNI 차단의 기술적 한계, 그리고 ESNI→ECH(RFC 9849) 표준화가 한국 차단 체계에 던지는 질문.</p>
+        <a class="read" href="articles/08-esni-ech-censorship-arms-race/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">16</div>
+        <h3><a href="articles/16-doh-and-korea/">DNS over HTTPS(DoH)와 한국 — 우회 도구인가, 프라이버시 표준인가</a></h3>
+        <p>같은 기술이 어디서는 '프라이버시 향상', 어디서는 '검열 우회'로 불린다. DoH가 무엇을 가리고 가리지 못하는지 짚는다.</p>
+        <a class="read" href="articles/16-doh-and-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">12</div>
+        <h3><a href="articles/11-dpi-korea-technical-and-legal/">패킷을 들여다보는 기계 — DPI의 작동 원리와 영장 없는 검열의 구조</a></h3>
+        <p>심층패킷분석(DPI)은 어떻게 작동하며, 차단과 감청에 같은 장비가 쓰이는 한국적 구조의 법적 공백은 무엇인가.</p>
+        <a class="read" href="articles/11-dpi-korea-technical-and-legal/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">09</div>
+        <h3><a href="articles/09-vpn-tor-proxy-legal-status-korea/">우회의 합법성 — VPN·Tor·프록시는 한국에서 불법인가</a></h3>
+        <p>우회 도구를 쓰는 것은 위법인가? VPN·Tor·프록시의 법적 지위와 회색지대를 차분히 따져본다.</p>
+        <a class="read" href="articles/09-vpn-tor-proxy-legal-status-korea/">읽기</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 알고리즘·플랫폼 -->
+  <section id="algorithm" aria-labelledby="h-algorithm">
+    <div class="section-head">
+      <h2 id="h-algorithm">알고리즘 규제 <span class="count">1편</span></h2>
+      <p>추천 알고리즘의 권력과 투명성 규제, 플랫폼 자사우대·다크패턴 금지 — 정보 자기결정권의 알고리즘 시대적 전선.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="num">32</div>
+        <h3><a href="articles/32-algorithm-transparency-recommender-regulation-korea/">알고리즘 투명성과 추천시스템 규제 — 플랫폼 권력 vs 정보 자기결정권</a></h3>
+        <p>EU DSA 추천시스템 파라미터 공개·비프로파일링 선택권(제27·38조), 다크패턴 금지(제25조), 한국 네이버 검색 알고리즘 조작 제재(2021·267억 원), 필터버블·에코챔버와 민주주의, GDPR 22조 자동화 의사결정 이의권.</p>
+        <a class="read" href="articles/32-algorithm-transparency-recommender-regulation-korea/">읽기</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 프라이버시·감청 -->
+  <section id="privacy" aria-labelledby="h-privacy">
+    <div class="section-head">
+      <h2 id="h-privacy">프라이버시와 감청 <span class="count">6편</span></h2>
+      <p>내 통신을 누가, 어떤 근거로 들여다보는가 — 감청·통신자료 제공·메신저 암호화·개인정보 자기결정권의 법적 구조.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="num">02</div>
+        <h3><a href="articles/02-wiretapping-and-privacy/">통신 감청과 프라이버시 — 누가, 어떤 근거로 들여다보는가</a></h3>
+        <p>1993년 통비법부터 카카오톡 사찰, 헌재의 위치추적·패킷감청 헌법불합치, 메타데이터 사후통지 도입까지의 연대기.</p>
+        <a class="read" href="articles/02-wiretapping-and-privacy/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">11</div>
+        <h3><a href="articles/22-telecom-data-provision-warrant-korea/">공문 한 장의 무게 — 영장 없이 넘어가는 통신자료 제공 제도</a></h3>
+        <p>수사기관이 영장 없이 공문 한 장으로 가입자 정보를 받아가는 통신자료 제공 제도와, 그 통제·통지의 공백.</p>
+        <a class="read" href="articles/22-telecom-data-provision-warrant-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">18</div>
+        <h3><a href="articles/18-messenger-e2ee-korea/">사이버 망명, 10년 후 — 한국 메신저 E2EE의 현실</a></h3>
+        <p>2014년 카카오톡 사이버 망명에서 출발해 카카오톡·텔레그램·Signal의 종단간 암호화 구조와 법적 감청 경로, 그 실질적 한계를 짚는다.</p>
+        <a class="read" href="articles/18-messenger-e2ee-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">19</div>
+        <h3><a href="articles/19-pipa-data-protection-korea/">내 정보의 주인은 나인가 — 한국 '개인정보 자기결정권'의 진화사</a></h3>
+        <p>2011년 PIPA부터 데이터 3법·2023년 전면개정까지 15년의 진화사. 자기결정권 법리, 가명정보, 마이데이터, GDPR 적정성 결정을 짚는다.</p>
+        <a class="read" href="articles/19-pipa-data-protection-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">30</div>
+        <h3><a href="articles/30-telecom-surveillance-metadata-wiretapping-korea/">수사기관의 통신감시 — 통신자료·통신사실확인자료·감청과 한국의 통신비밀 논쟁</a></h3>
+        <p>영장 없이 공문 한 장으로 가입자 정보 수백만 건을 조회한 수사기관, 당사자는 몰랐다. 헌재 2022년 헌법불합치, 메타데이터의 민감성, 기지국 전수조회, Carpenter 판결·EU Digital Rights Ireland 비교 분석.</p>
+        <a class="read" href="articles/30-telecom-surveillance-metadata-wiretapping-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">31</div>
+        <h3><a href="articles/31-encryption-backdoor-debate-korea/">암호화 백도어 논쟁 — '합법적 접근'의 기술적 불가능성과 디지털 권리</a></h3>
+        <p>FBI vs Apple, EU Chat Control, 영국 IPA 기술 능력 통지(TCN), 클라이언트 사이드 스캐닝 — 안전한 백도어는 수학적으로 불가능하다는 전문가 공동체의 결론과 한국 E2EE 딜레마.</p>
+        <a class="read" href="articles/31-encryption-backdoor-debate-korea/">읽기</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 표현의 자유 -->
+  <section id="expression" aria-labelledby="h-expression">
+    <div class="section-head">
+      <h2 id="h-expression">표현의 자유 · 실명제 · 삭제 <span class="count">7편</span></h2>
+      <p>차단·처벌·삭제의 경계, 실명제의 흥망, 그리고 플랫폼 자기검열을 부르는 책임 구조.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="num">05</div>
+        <h3><a href="articles/04-online-free-expression-korea/">온라인 표현의 자유 — 차단·처벌·삭제, 그 경계는 어디인가</a></h3>
+        <p>한국 온라인 표현 규제의 지형도. 무엇이 차단·처벌·삭제의 대상이 되며, 그 헌법적 경계는 어디에 있는가.</p>
+        <a class="read" href="articles/04-online-free-expression-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">07</div>
+        <h3><a href="articles/07-takedown-and-free-expression/">임시조치 제도 — 게시물 삭제 메커니즘은 누구를 보호하는가</a></h3>
+        <p>신고 한 건에 먼저 내려가는 게시물. 정보통신망법 임시조치(notice-and-takedown)와 표현의 자유의 충돌.</p>
+        <a class="read" href="articles/07-takedown-and-free-expression/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">10</div>
+        <h3><a href="articles/10-real-name-system-korea/">인터넷 실명제의 흥망 — 주민번호로 댓글을 막으려 한 나라</a></h3>
+        <p>본인확인제 도입에서 2012년 위헌 결정까지. 주민번호로 온라인 발언을 통제하려 한 실험은 왜 무너졌나.</p>
+        <a class="read" href="articles/10-real-name-system-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">13</div>
+        <h3><a href="articles/14-intermediary-liability-korea/">먼저 자르고 나중에 따진다 — 면책특권 없는 플랫폼 자기검열의 구조</a></h3>
+        <p>한국에는 없는 중개자 면책특권. 플랫폼이 분쟁을 피하려 먼저 삭제하게 만드는 중개자 책임 구조를 해부한다.</p>
+        <a class="read" href="articles/14-intermediary-liability-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">20</div>
+        <h3><a href="articles/20-copyright-three-strikes-graduated-response-korea/">세 번이면 계정을 끊는다 — 세계 최초 저작권 '삼진아웃제'와 행정 차단의 구조</a></h3>
+        <p>2009년 세계 최초로 법제화된 저작권 삼진아웃제. 법원 없이 행정명령으로 계정을 정지·게시판을 폐쇄하는 구조와 적법절차 비판을 해부한다.</p>
+        <a class="read" href="articles/20-copyright-three-strikes-graduated-response-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">24</div>
+        <h3><a href="articles/24-kcsc-communication-review-system-korea/">방심위의 통신심의 — 거버넌스, 절차, 그리고 비판</a></h3>
+        <p>한국 인터넷 URL 차단의 일선 게이트키퍼, 방송통신심의위원회(KCSC). 그 법적 근거·9인 위원회 구조·시정요구의 법적 성격 논쟁·국제 비교·개혁 논의를 해부한다.</p>
+        <a class="read" href="articles/24-kcsc-communication-review-system-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">21</div>
+        <h3><a href="articles/21-temporary-takedown-online-expression-korea/">'잊힐 권리'와 검색결과 삭제 — 한국식 해법의 구조</a></h3>
+        <p>잊힐 권리(right to be forgotten)와 검색결과·게시물 삭제를 둘러싼 한국 제도의 구조, 그리고 표현의 자유·알 권리와의 긴장을 짚는다.</p>
+        <a class="read" href="articles/21-temporary-takedown-online-expression-korea/">읽기</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 플랫폼·앱마켓 -->
+  <section id="platform" aria-labelledby="h-platform">
+    <div class="section-head">
+      <h2 id="h-platform">플랫폼 · 앱마켓 규제 <span class="count">2편</span></h2>
+      <p>거대 플랫폼과 앱마켓 게이트키퍼를 둘러싼 한국·EU·미국의 규제 경쟁.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="num">14</div>
+        <h3><a href="articles/15-platform-regulation-comparison/">같은 플랫폼, 세 개의 답 — 한국 온플법·EU DSA·미국 KOSA 비교</a></h3>
+        <p>같은 플랫폼 문제에 한국 온플법, EU 디지털서비스법(DSA), 미국 KOSA가 내놓은 서로 다른 규제 철학을 비교한다.</p>
+        <a class="read" href="articles/15-platform-regulation-comparison/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">15</div>
+        <h3><a href="articles/05-app-store-inapp-payment-korea/">앱세(App Tax)에 칼을 댄 나라 — 세계 최초 인앱결제 강제 금지법</a></h3>
+        <p>세계 최초로 인앱결제 강제를 금지한 한국. 앱마켓 게이트키퍼 규제와 그 글로벌 파장을 짚는다.</p>
+        <a class="read" href="articles/05-app-store-inapp-payment-korea/">읽기</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 망 중립성 -->
+  <section id="neutrality" aria-labelledby="h-neutrality">
+    <div class="section-head">
+      <h2 id="h-neutrality">망 중립성 · 망사용료 <span class="count">2편</span></h2>
+      <p>인터넷의 '빠른 길과 느린 길'을 누가 정하는가 — 통신사·콘텐츠·이용자의 줄다리기.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="num">28</div>
+        <h3><a href="articles/28-network-usage-fee-sending-party-pays-korea/">망 사용료 분쟁 — 'Sending-Party-Pays'와 망 중립성의 한국적 충돌</a></h3>
+        <p>Netflix vs SK브로드밴드 소송이 점화한 CP 망 이용대가 논쟁. 이중과금·망 중립성·신생 서비스 진입장벽의 삼각 충돌을 심층 분석한다.</p>
+        <a class="read" href="articles/28-network-usage-fee-sending-party-pays-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">04</div>
+        <h3><a href="articles/03-net-neutrality-korea/">망 중립성 — 누가 인터넷의 빠른 길과 느린 길을 정하는가</a></h3>
+        <p>망 중립성 원칙과 망사용료 논쟁. 통신사·콘텐츠 기업·이용자 사이에서 인터넷의 길을 정하는 권한을 따진다.</p>
+        <a class="read" href="articles/03-net-neutrality-korea/">읽기</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- AI·생체인식 -->
+  <section id="ai-bio" aria-labelledby="h-aibio">
+    <div class="section-head">
+      <h2 id="h-aibio">AI · 생체인식 · 저작권 <span class="count">4편</span></h2>
+      <p>AI 규제 프레임, 얼굴인식·생체정보 감시, 그리고 생성형 AI 학습 데이터가 디지털 권리에 던지는 새로운 질문.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="num">29</div>
+        <h3><a href="articles/29-ai-training-data-crawling-copyright-korea/">AI 학습 데이터 크롤링과 저작권 — 한국의 TDM 예외 논쟁</a></h3>
+        <p>생성형 AI가 수십억 개의 저작물로 학습하는 동안 창작자는 동의도 보상도 받지 못했다. 한국 TDM 면책 입법 논쟁, 뉴스 퍼블리셔의 반격, robots.txt의 법적 공백, 일본·EU 비교를 심층 분석한다.</p>
+        <a class="read" href="articles/29-ai-training-data-crawling-copyright-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">06</div>
+        <h3><a href="articles/06-ai-basic-act-korea/">AI 기본법 시대 — 한국의 AI 규제와 디지털 권리</a></h3>
+        <p>2026년 시행 AI 기본법이 그리는 한국형 AI 규제. 고영향 AI 의무·딥페이크 표시와 디지털 권리에의 함의.</p>
+        <a class="read" href="articles/06-ai-basic-act-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">17</div>
+        <h3><a href="articles/17-facial-recognition-biometric-surveillance-korea/">얼굴은 지울 수 없다 — 생체정보 감시와 한국의 규제 공백</a></h3>
+        <p>얼굴인식·CCTV 지능형 감시의 기술과, PIPA 생체정보 규정·EU AI Act를 견주어 본 한국의 규제 공백.</p>
+        <a class="read" href="articles/17-facial-recognition-biometric-surveillance-korea/">읽기</a>
+      </article>
+      <article class="card">
+        <div class="num">25</div>
+        <h3><a href="articles/25-deepfake-ai-synthetic-content-korea/">딥페이크·AI 합성 콘텐츠 규제와 표현의 자유</a></h3>
+        <p>딥페이크·생성형 합성 콘텐츠를 겨눈 한국의 규제(AI 기본법 표시의무, 성적 딥페이크 처벌)와, 그것이 풍자·표현의 자유와 충돌하는 지점을 분석한다.</p>
+        <a class="read" href="articles/25-deepfake-ai-synthetic-content-korea/">읽기</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Reading paths -->
+  <section id="paths" aria-labelledby="h-paths">
+    <div class="section-head">
+      <h2 id="h-paths">추천 읽기 경로</h2>
+      <p>관심사에 따라 순서대로 따라가면 좋은 세 갈래 코스.</p>
+    </div>
+    <div class="paths">
+      <div class="path">
+        <div class="label">Path 1</div>
+        <h3>입문자를 위한 큰 그림</h3>
+        <p class="for">처음 디지털 권리를 접하는 분께</p>
+        <ol>
+          <li><a href="articles/01-spear-and-shield-history/">창과 방패의 역사 — 검열·우회 연대기</a></li>
+          <li><a href="articles/03-net-neutrality-korea/">망 중립성 — 인터넷의 길을 누가 정하나</a></li>
+          <li><a href="articles/04-online-free-expression-korea/">온라인 표현의 자유의 경계</a></li>
+          <li><a href="articles/02-wiretapping-and-privacy/">통신 감청과 프라이버시</a></li>
+        </ol>
+      </div>
+      <div class="path">
+        <div class="label">Path 2</div>
+        <h3>기술자를 위한 심층 코스</h3>
+        <p class="for">프로토콜·네트워크 레이어가 궁금한 분께</p>
+        <ol>
+          <li><a href="articles/01-spear-and-shield-history/">검열·우회 군비경쟁의 큰 흐름</a></li>
+          <li><a href="articles/08-esni-ech-censorship-arms-race/">ESNI에서 ECH로 — 최신 전선</a></li>
+          <li><a href="articles/16-doh-and-korea/">DNS over HTTPS(DoH)의 실제</a></li>
+          <li><a href="articles/11-dpi-korea-technical-and-legal/">DPI는 어떻게 패킷을 읽는가</a></li>
+          <li><a href="articles/09-vpn-tor-proxy-legal-status-korea/">VPN·Tor·프록시의 합법성</a></li>
+        </ol>
+      </div>
+      <div class="path">
+        <div class="label">Path 3</div>
+        <h3>정책·법률 관심자 코스</h3>
+        <p class="for">제도와 규제의 설계가 궁금한 분께</p>
+        <ol>
+          <li><a href="articles/22-telecom-data-provision-warrant-korea/">영장 없는 통신자료 제공 제도</a></li>
+          <li><a href="articles/07-takedown-and-free-expression/">임시조치와 게시물 삭제</a></li>
+          <li><a href="articles/14-intermediary-liability-korea/">중개자 책임과 자기검열 구조</a></li>
+          <li><a href="articles/15-platform-regulation-comparison/">한국·EU·미국 플랫폼 규제 비교</a></li>
+          <li><a href="articles/06-ai-basic-act-korea/">AI 기본법과 디지털 권리</a></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <h4>net.or.kr — 디지털 권리 포털</h4>
+    <p>망 중립성·통신 감청·표현의 자유를 다루는 <strong>비영리(.or.kr)</strong> 디지털 권리 포털입니다. 진단 도구나 기술 시연이 아니라, 한국 인터넷의 검열·감시·자유 이슈를 사건별로 심층 해설하는 콘텐츠 포털을 지향합니다.</p>
+    <p>모든 글은 출처와 함께 사실관계를 검증하려 노력하며, 특정 우회·차단 행위를 권유하지 않습니다. 기술과 법을 함께 읽어 시민이 스스로 판단할 토대를 만드는 것이 목표입니다.</p>
+    <div class="tags">
+      <span>검열·우회</span> · <span>프라이버시·감청</span> · <span>표현의 자유</span> · <span>플랫폼 규제</span> · <span>망 중립성</span> · <span>AI·생체인식</span>
+    </div>
+    <p style="margin-top:14px; color:var(--text-faint); font-size:.82rem;">이 포털의 글은 교육·공익 목적의 해설이며 법률 자문이 아닙니다. 사실관계에 오류가 있을 수 있으며, 발견 시 <a href="https://github.com/berryp23/net-or-kr/issues" target="_blank" rel="noopener">GitHub 이슈</a>로 제보해 주세요. 별도 표시가 없는 한 콘텐츠는 <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.ko" target="_blank" rel="noopener">CC BY-NC 4.0</a>으로 제공됩니다.</p>
+    <p style="margin-top:8px; color:var(--text-faint); font-size:.82rem;">© net.or.kr · 비영리 디지털 권리 포털 · 심층 해설 28편</p>
+  </div>
+</footer>
+
+</body>
+</html>
