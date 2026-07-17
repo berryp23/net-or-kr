@@ -3,11 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>패킷을 들여다보는 기계 — DPI의 작동 원리와 영장 없는 검열의 구조 | net.or.kr</title>
-<meta name="description" content="2019년 HTTPS SNI 차단 이후 한국의 DPI(심층 패킷 검사) 기술이 어떻게 작동하는지, 통신비밀보호법상 '감청'과의 경계는 어디인지, 그리고 ECH·QUIC 이후 검열의 다음 수는 무엇인지를 기술·법·제도 세 층위에서 분석한다.">
-<meta property="og:title" content="패킷을 들여다보는 기계 — DPI의 작동 원리와 영장 없는 검열의 구조">
-<meta property="og:description" content="'헤더만 본다'는 방통위 해명, 통비법상 감청 해당 여부, 미국 Smith/Carpenter 판례와의 비교, ECH 이후의 군비경쟁까지 DPI 논쟁 전체를 짚는다.">
+<title>DPI란 무엇인가 — HTTPS SNI 차단과 영장 없는 검열 | net.or.kr</title>
+<meta name="description" content="2019년 HTTPS SNI 차단 이후 한국에서 DPI(심층 패킷 검사)가 어떻게 쓰이는지, SNI를 읽는 행위가 통신비밀보호법상 감청인지, ECH·QUIC 이후 검열은 어디로 가는지를 기술·법·제도 세 층위에서 분석한다.">
+<link rel="canonical" href="https://net.or.kr/articles/11-dpi-korea-technical-and-legal/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:site_name" content="net.or.kr">
+<meta property="og:locale" content="ko_KR">
 <meta property="og:type" content="article">
+<meta property="og:url" content="https://net.or.kr/articles/11-dpi-korea-technical-and-legal/">
+<meta property="og:title" content="DPI란 무엇인가 — HTTPS SNI 차단의 원리와 영장 없는 검열">
+<meta property="og:description" content="&#x27;헤더만 본다&#x27;는 방통위 해명과 통신비밀보호법상 감청 논쟁, ECH 이후 검열의 다음 수까지 — 한국 DPI 논쟁의 기술과 법을 한 편에 정리했다.">
+<meta property="og:image" content="https://net.or.kr/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="net.or.kr — 디지털 권리 포털">
+<meta property="article:published_time" content="2026-07-16">
+<meta property="article:modified_time" content="2026-07-17">
+<meta property="article:section" content="검열과 차단">
+<meta property="article:tag" content="DPI">
+<meta property="article:tag" content="심층 패킷 검사">
+<meta property="article:tag" content="SNI 차단">
+<meta property="article:tag" content="HTTPS 차단">
+<meta property="article:tag" content="통신비밀보호법">
+<meta property="article:tag" content="감청">
+<meta property="article:tag" content="인터넷 검열">
+<meta property="article:tag" content="영장주의">
+<meta property="article:tag" content="ECH">
+<meta property="article:tag" content="트래픽 지문화">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DPI란 무엇인가 — HTTPS SNI 차단의 원리와 영장 없는 검열">
+<meta name="twitter:description" content="&#x27;헤더만 본다&#x27;는 방통위 해명과 통신비밀보호법상 감청 논쟁, ECH 이후 검열의 다음 수까지 — 한국 DPI 논쟁의 기술과 법을 한 편에 정리했다.">
+<meta name="twitter:image" content="https://net.or.kr/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://net.or.kr/articles/11-dpi-korea-technical-and-legal/#article","mainEntityOfPage":{"@type":"WebPage","@id":"https://net.or.kr/articles/11-dpi-korea-technical-and-legal/"},"url":"https://net.or.kr/articles/11-dpi-korea-technical-and-legal/","headline":"DPI란 무엇인가 — HTTPS SNI 차단의 원리와 영장 없는 검열","description":"2019년 HTTPS SNI 차단 이후 한국에서 DPI(심층 패킷 검사)가 어떻게 쓰이는지, SNI를 읽는 행위가 통신비밀보호법상 감청인지, ECH·QUIC 이후 검열은 어디로 가는지를 기술·법·제도 세 층위에서 분석한다.","inLanguage":"ko","datePublished":"2026-07-16","dateModified":"2026-07-17","author":{"@id":"https://net.or.kr/#org"},"publisher":{"@type":"Organization","@id":"https://net.or.kr/#org","name":"net.or.kr","url":"https://net.or.kr/","logo":{"@type":"ImageObject","url":"https://net.or.kr/og.png","width":1200,"height":630}},"image":"https://net.or.kr/og.png","articleSection":"검열과 차단","keywords":"DPI, 심층 패킷 검사, SNI 차단, HTTPS 차단, 통신비밀보호법, 감청, 인터넷 검열, 영장주의, ECH, 트래픽 지문화","isPartOf":{"@type":"WebSite","@id":"https://net.or.kr/#website","name":"net.or.kr","url":"https://net.or.kr/"},"license":"https://creativecommons.org/licenses/by-nc/4.0/"},{"@type":"BreadcrumbList","@id":"https://net.or.kr/articles/11-dpi-korea-technical-and-legal/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://net.or.kr/"},{"@type":"ListItem","position":2,"name":"DPI란 무엇인가 — HTTPS SNI 차단의 원리와 영장 없는 검열","item":"https://net.or.kr/articles/11-dpi-korea-technical-and-legal/"}]}]}</script>
 <style>
   :root{
     --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;

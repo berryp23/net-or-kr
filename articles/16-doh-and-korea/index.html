@@ -3,11 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DNS over HTTPS(DoH)와 한국 | net.or.kr</title>
-<meta name="description" content="검열 우회 도구인가, 프라이버시 표준인가">
-<meta property="og:title" content="DNS over HTTPS(DoH)와 한국">
-<meta property="og:description" content="검열 우회 도구인가, 프라이버시 표준인가">
+<title>DoH란 무엇인가 — DNS 암호화와 한국 인터넷 검열 | net.or.kr</title>
+<meta name="description" content="DNS 질의를 암호화하는 DoH가 한국의 DNS 차단을 어떻게 비껴가는지, 왜 SNI 차단까지는 막지 못하는지 해설합니다. 검열 우회 도구이자 글로벌 프라이버시 표준이라는 양면성과 중앙화의 역설, ECH와의 관계까지 짚습니다.">
+<link rel="canonical" href="https://net.or.kr/articles/16-doh-and-korea/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:site_name" content="net.or.kr">
+<meta property="og:locale" content="ko_KR">
 <meta property="og:type" content="article">
+<meta property="og:url" content="https://net.or.kr/articles/16-doh-and-korea/">
+<meta property="og:title" content="DoH와 한국 — 검열 우회 도구인가, 프라이버시 표준인가">
+<meta property="og:description" content="DNS를 암호화하는 DoH는 한국의 DNS 차단을 비껴가지만 SNI 차단은 막지 못합니다. 우회 도구와 프라이버시 표준 사이, DoH의 양면성을 해설합니다.">
+<meta property="og:image" content="https://net.or.kr/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="net.or.kr — 디지털 권리 포털">
+<meta property="article:published_time" content="2026-07-16">
+<meta property="article:modified_time" content="2026-07-17">
+<meta property="article:section" content="검열과 차단">
+<meta property="article:tag" content="DoH">
+<meta property="article:tag" content="DNS over HTTPS">
+<meta property="article:tag" content="DNS 암호화">
+<meta property="article:tag" content="DNS 차단">
+<meta property="article:tag" content="SNI 차단">
+<meta property="article:tag" content="ECH">
+<meta property="article:tag" content="DoT">
+<meta property="article:tag" content="인터넷 검열">
+<meta property="article:tag" content="검열 우회">
+<meta property="article:tag" content="프라이버시">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DoH와 한국 — 검열 우회 도구인가, 프라이버시 표준인가">
+<meta name="twitter:description" content="DNS를 암호화하는 DoH는 한국의 DNS 차단을 비껴가지만 SNI 차단은 막지 못합니다. 우회 도구와 프라이버시 표준 사이, DoH의 양면성을 해설합니다.">
+<meta name="twitter:image" content="https://net.or.kr/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://net.or.kr/articles/16-doh-and-korea/#article","mainEntityOfPage":{"@type":"WebPage","@id":"https://net.or.kr/articles/16-doh-and-korea/"},"url":"https://net.or.kr/articles/16-doh-and-korea/","headline":"DoH와 한국 — 검열 우회 도구인가, 프라이버시 표준인가","description":"DNS 질의를 암호화하는 DoH가 한국의 DNS 차단을 어떻게 비껴가는지, 왜 SNI 차단까지는 막지 못하는지 해설합니다. 검열 우회 도구이자 글로벌 프라이버시 표준이라는 양면성과 중앙화의 역설, ECH와의 관계까지 짚습니다.","inLanguage":"ko","datePublished":"2026-07-16","dateModified":"2026-07-17","author":{"@id":"https://net.or.kr/#org"},"publisher":{"@type":"Organization","@id":"https://net.or.kr/#org","name":"net.or.kr","url":"https://net.or.kr/","logo":{"@type":"ImageObject","url":"https://net.or.kr/og.png","width":1200,"height":630}},"image":"https://net.or.kr/og.png","articleSection":"검열과 차단","keywords":"DoH, DNS over HTTPS, DNS 암호화, DNS 차단, SNI 차단, ECH, DoT, 인터넷 검열, 검열 우회, 프라이버시","isPartOf":{"@type":"WebSite","@id":"https://net.or.kr/#website","name":"net.or.kr","url":"https://net.or.kr/"},"license":"https://creativecommons.org/licenses/by-nc/4.0/"},{"@type":"BreadcrumbList","@id":"https://net.or.kr/articles/16-doh-and-korea/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://net.or.kr/"},{"@type":"ListItem","position":2,"name":"DoH와 한국 — 검열 우회 도구인가, 프라이버시 표준인가","item":"https://net.or.kr/articles/16-doh-and-korea/"}]}]}</script>
 <style>
   :root{
     --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;

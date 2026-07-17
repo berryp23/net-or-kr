@@ -3,11 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>사이버 망명, 10년 후 — 한국 메신저 E2EE의 현실 | net.or.kr</title>
-<meta name="description" content="2014년 카카오톡 사이버 망명 사건을 출발점으로, 카카오톡·텔레그램·Signal의 종단간 암호화 구조와 실질적 한계, 법적 감청 경로, EU Chat Control 동향을 분석한다.">
-<meta property="og:title" content="사이버 망명, 10년 후 — 한국 메신저 E2EE의 현실">
-<meta property="og:description" content="2014년 카카오톡 사이버 망명 사건을 출발점으로, 카카오톡·텔레그램·Signal의 종단간 암호화 구조와 실질적 한계, 법적 감청 경로, EU Chat Control 동향을 분석한다.">
+<title>카카오톡 감청 가능할까 — 텔레그램·Signal E2EE의 현실 | net.or.kr</title>
+<meta name="description" content="2014년 카카오톡 사이버 망명에서 10년, 카카오톡·텔레그램·Signal의 종단간 암호화 구조와 실질적 한계를 비교한다. 통신비밀보호법상 감청 경로, 메타데이터 위험, EU Chat Control 논쟁, 위협 모델별 메신저 선택 가이드까지 짚는다.">
+<link rel="canonical" href="https://net.or.kr/articles/18-messenger-e2ee-korea/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:site_name" content="net.or.kr">
+<meta property="og:locale" content="ko_KR">
 <meta property="og:type" content="article">
+<meta property="og:url" content="https://net.or.kr/articles/18-messenger-e2ee-korea/">
+<meta property="og:title" content="카카오톡 감청 가능할까 — 텔레그램·Signal E2EE의 현실">
+<meta property="og:description" content="사이버 망명 10년, 카카오톡·텔레그램·Signal의 종단간 암호화는 무엇을 지키고 무엇을 지키지 못하는가. 감청 경로부터 메타데이터까지 짚었다.">
+<meta property="og:image" content="https://net.or.kr/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="net.or.kr — 디지털 권리 포털">
+<meta property="article:published_time" content="2026-07-16">
+<meta property="article:modified_time" content="2026-07-17">
+<meta property="article:section" content="암호화와 보안">
+<meta property="article:tag" content="종단간 암호화">
+<meta property="article:tag" content="E2EE">
+<meta property="article:tag" content="카카오톡 비밀채팅">
+<meta property="article:tag" content="텔레그램">
+<meta property="article:tag" content="Signal">
+<meta property="article:tag" content="사이버 망명">
+<meta property="article:tag" content="통신비밀보호법">
+<meta property="article:tag" content="감청">
+<meta property="article:tag" content="메타데이터">
+<meta property="article:tag" content="Chat Control">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="카카오톡 감청 가능할까 — 텔레그램·Signal E2EE의 현실">
+<meta name="twitter:description" content="사이버 망명 10년, 카카오톡·텔레그램·Signal의 종단간 암호화는 무엇을 지키고 무엇을 지키지 못하는가. 감청 경로부터 메타데이터까지 짚었다.">
+<meta name="twitter:image" content="https://net.or.kr/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://net.or.kr/articles/18-messenger-e2ee-korea/#article","mainEntityOfPage":{"@type":"WebPage","@id":"https://net.or.kr/articles/18-messenger-e2ee-korea/"},"url":"https://net.or.kr/articles/18-messenger-e2ee-korea/","headline":"카카오톡 감청 가능할까 — 텔레그램·Signal E2EE의 현실","description":"2014년 카카오톡 사이버 망명에서 10년, 카카오톡·텔레그램·Signal의 종단간 암호화 구조와 실질적 한계를 비교한다. 통신비밀보호법상 감청 경로, 메타데이터 위험, EU Chat Control 논쟁, 위협 모델별 메신저 선택 가이드까지 짚는다.","inLanguage":"ko","datePublished":"2026-07-16","dateModified":"2026-07-17","author":{"@id":"https://net.or.kr/#org"},"publisher":{"@type":"Organization","@id":"https://net.or.kr/#org","name":"net.or.kr","url":"https://net.or.kr/","logo":{"@type":"ImageObject","url":"https://net.or.kr/og.png","width":1200,"height":630}},"image":"https://net.or.kr/og.png","articleSection":"암호화와 보안","keywords":"종단간 암호화, E2EE, 카카오톡 비밀채팅, 텔레그램, Signal, 사이버 망명, 통신비밀보호법, 감청, 메타데이터, Chat Control","isPartOf":{"@type":"WebSite","@id":"https://net.or.kr/#website","name":"net.or.kr","url":"https://net.or.kr/"},"license":"https://creativecommons.org/licenses/by-nc/4.0/"},{"@type":"BreadcrumbList","@id":"https://net.or.kr/articles/18-messenger-e2ee-korea/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://net.or.kr/"},{"@type":"ListItem","position":2,"name":"카카오톡 감청 가능할까 — 텔레그램·Signal E2EE의 현실","item":"https://net.or.kr/articles/18-messenger-e2ee-korea/"}]}]}</script>
 <style>
   :root{
     --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
