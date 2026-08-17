@@ -18,7 +18,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="net.or.kr — 디지털 권리 포털">
 <meta property="article:published_time" content="2026-07-16">
-<meta property="article:modified_time" content="2026-07-17">
+<meta property="article:modified_time" content="2026-08-17">
 <meta property="article:section" content="검열과 차단">
 <meta property="article:tag" content="ECH">
 <meta property="article:tag" content="ESNI">
@@ -34,7 +34,7 @@
 <meta name="twitter:title" content="SNI 차단을 무력화하는 ECH — 검열과 우회의 군비경쟁">
 <meta name="twitter:description" content="ClientHello 전체를 암호화하는 ECH가 표준이 되면서 SNI 기반 HTTPS 차단은 기로에 섰습니다. 검열과 우회 기술 군비경쟁의 최신 전선을 해설합니다.">
 <meta name="twitter:image" content="https://net.or.kr/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/#article","mainEntityOfPage":{"@type":"WebPage","@id":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/"},"url":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/","headline":"SNI 차단을 무력화하는 ECH — 검열과 우회의 군비경쟁","description":"2019년 한국의 SNI 차단 사태부터 ClientHello 전체를 암호화하는 ECH 표준(RFC 9849)까지, 인터넷 검열과 우회 기술의 군비경쟁을 추적하고 ECH 보편화가 한국 HTTPS 차단 체계에 던지는 함의를 해설합니다.","inLanguage":"ko","datePublished":"2026-07-16","dateModified":"2026-07-17","author":{"@id":"https://net.or.kr/#org"},"publisher":{"@type":"Organization","@id":"https://net.or.kr/#org","name":"net.or.kr","url":"https://net.or.kr/","logo":{"@type":"ImageObject","url":"https://net.or.kr/og.png","width":1200,"height":630}},"image":"https://net.or.kr/og.png","articleSection":"검열과 차단","keywords":"ECH, ESNI, SNI 차단, HTTPS 차단, 인터넷 검열, 검열 우회, DPI, DoH, TLS, 암호화","isPartOf":{"@type":"WebSite","@id":"https://net.or.kr/#website","name":"net.or.kr","url":"https://net.or.kr/"},"license":"https://creativecommons.org/licenses/by-nc/4.0/"},{"@type":"BreadcrumbList","@id":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://net.or.kr/"},{"@type":"ListItem","position":2,"name":"SNI 차단을 무력화하는 ECH — 검열과 우회의 군비경쟁","item":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/#article","mainEntityOfPage":{"@type":"WebPage","@id":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/"},"url":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/","headline":"SNI 차단을 무력화하는 ECH — 검열과 우회의 군비경쟁","description":"2019년 한국의 SNI 차단 사태부터 ClientHello 전체를 암호화하는 ECH 표준(RFC 9849)까지, 인터넷 검열과 우회 기술의 군비경쟁을 추적하고 ECH 보편화가 한국 HTTPS 차단 체계에 던지는 함의를 해설합니다.","inLanguage":"ko","datePublished":"2026-07-16","dateModified":"2026-08-17","author":{"@id":"https://net.or.kr/#org"},"publisher":{"@type":"Organization","@id":"https://net.or.kr/#org","name":"net.or.kr","url":"https://net.or.kr/","logo":{"@type":"ImageObject","url":"https://net.or.kr/og.png","width":1200,"height":630}},"image":"https://net.or.kr/og.png","articleSection":"검열과 차단","keywords":"ECH, ESNI, SNI 차단, HTTPS 차단, 인터넷 검열, 검열 우회, DPI, DoH, TLS, 암호화","isPartOf":{"@type":"WebSite","@id":"https://net.or.kr/#website","name":"net.or.kr","url":"https://net.or.kr/"},"license":"https://creativecommons.org/licenses/by-nc/4.0/"},{"@type":"BreadcrumbList","@id":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://net.or.kr/"},{"@type":"ListItem","position":2,"name":"SNI 차단을 무력화하는 ECH — 검열과 우회의 군비경쟁","item":"https://net.or.kr/articles/08-esni-ech-censorship-arms-race/"}]}]}</script>
 <style>
   :root{
     --amber:#f59e0b;--amber-light:#fcd34d;--amber-dark:#d97706;
@@ -282,6 +282,15 @@
 
 </main>
 
+<section class="related-articles" style="max-width:960px;margin:48px auto 0;padding:28px 24px 20px;border-top:1px solid rgba(128,145,170,.35)">
+  <h2 style="font-size:1.05rem;margin:0 0 14px">함께 읽기</h2>
+  <ul style="list-style:none;margin:0;padding:0;line-height:1.6;font-size:.95rem">
+    <li style="margin:0 0 10px"><a href="/articles/01-spear-and-shield-history/" style="color:inherit">창과 방패의 역사 — 한국 인터넷 검열과 우회의 군비경쟁 연대기</a></li>
+    <li style="margin:0 0 10px"><a href="/articles/09-vpn-tor-proxy-legal-status-korea/" style="color:inherit">VPN·Tor·프록시는 한국에서 불법인가 — 우회의 합법성</a></li>
+    <li style="margin:0 0 10px"><a href="/articles/11-dpi-korea-technical-and-legal/" style="color:inherit">DPI란 무엇인가 — HTTPS SNI 차단의 원리와 영장 없는 검열</a></li>
+    <li style="margin:0 0 10px"><a href="/" style="color:inherit">net.or.kr 디지털 권리 포털 — 망 중립성·인터넷 검열·표현의 자유 전체 아티클</a></li>
+  </ul>
+</section>
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
